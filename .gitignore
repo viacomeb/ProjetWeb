@@ -1,0 +1,25 @@
+# Dossier contenant les packages Node installés via npm.
+node_modules/
+
+# Dossier des dépendances PHP gérées par Composer.
+/vendor/
+
+# ERépertoires de production ou de build, si on en génère.
+dist/
+build/
+
+# Fichiers de logs
+*.log
+
+# Variables d'environnement sensibles.
+.env
+
+# Tout .vscode sauf le fichier des règles de formattage et autres configurations communes à l’équipe.
+.vscode/*
+!.vscode/settings.json
+
+# Fichiers système
+Thumbs.db
+
+# Fichiers temporaires
+*.tmp

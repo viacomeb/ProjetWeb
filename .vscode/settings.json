@@ -1,0 +1,41 @@
+{
+    // Active le formatage automatique à chaque sauvegarde d'un fichier dans VS Code
+    "editor.formatOnSave": true,
+  
+    // Configuration spécifique pour les fichiers JavaScript
+    "[javascript]": {
+      // Définit Prettier comme formateur par défaut pour les fichiers JavaScript
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+  
+    // Configuration spécifique pour les fichiers HTML
+    "[html]": {
+      // Définit Prettier comme formateur par défaut pour les fichiers HTML
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+  
+    // Configuration spécifique pour les fichiers CSS
+    "[css]": {
+      // Définit Prettier comme formateur par défaut pour les fichiers CSS
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+  
+    // Configuration spécifique pour les fichiers PHP
+    "[php]": {
+      // Définit l'extension Intelephense comme formateur par défaut pour les fichiers PHP
+      "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
+    },
+  
+    // Configure Prettier pour utiliser des guillemets simples dans les chaînes de caractères
+    "prettier.singleQuote": true,
+  
+    // Configure Prettier pour ajouter des virgules finales là où c'est possible selon la norme ES5 (objets, tableaux, etc.)
+    "prettier.trailingComma": "es5",
+  
+    // Définit la largeur de l'indentation à 2 espaces pour Prettier
+    "prettier.tabWidth": 2,
+  
+    // S'assure qu'une ligne vide est insérée à la fin de chaque fichier lors de la sauvegarde
+    "files.insertFinalNewline": true
+  }
+  
