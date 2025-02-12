@@ -49,7 +49,7 @@
     </div>
 </footer>
 <!-- Inclusion du script JavaScript global -->
-<script src="/assets/js/main.js"></script>
+<script src="/public/assets/js/script.js"></script>
 </body>
 
 </html>

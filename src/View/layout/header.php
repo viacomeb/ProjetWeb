@@ -10,7 +10,7 @@
     <!-- Affichage dynamique du titre si défini, sinon "StageFlow" par défaut -->
     <title><?= isset($pageTitle) ? $pageTitle : "StageFlow" ?></title>
     <!-- Lien vers le fichier CSS global -->
-    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 
 <body>
