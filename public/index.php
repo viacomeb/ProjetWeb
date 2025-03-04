@@ -7,6 +7,7 @@ $page = isset($_GET['page']) && in_array($_GET['page'], $pages_valides) ? $_GET[
 ?>
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,23 +18,25 @@ $page = isset($_GET['page']) && in_array($_GET['page'], $pages_valides) ? $_GET[
     <link rel="stylesheet" href="../public/assets/css/style.css"> <!-- CSS général -->
     <link rel="stylesheet" href="css/<?php echo file_exists("css/$page.css") ? $page : 'style'; ?>.css">
 </head>
+
 <body>
 
-<?php include '../src/View/layout/header.php'; ?>
+    <?php include '../src/View/layout/header.php'; ?>
 
-<main>
-    <?php
-    // Inclusion sécurisée du fichier correspondant
-    $file = "../public/$page.php";
-    if (file_exists($file)) {
-        include $file;
-    } else {
-        echo "<p style='text-align: center; color: red; margin-top: 150px; margin-bottom: 120px;'>La page demandée n'existe pas.</p>";
-    }
-    ?>
-</main>
+    <main>
+        <?php
+        // Inclusion sécurisée du fichier correspondant
+        $file = "../public/$page.php";
+        if (file_exists($file)) {
+            include $file;
+        } else {
+            echo "<p style='text-align: center; color: red; margin-top: 150px; margin-bottom: 120px;'>La page demandée n'existe pas.</p>";
+        }
+        ?>
+    </main>
 
-<?php include '../src/View/layout/footer.php'; ?>
+    <?php include '../src/View/layout/footer.php'; ?>
 
 </body>
+
 </html>
