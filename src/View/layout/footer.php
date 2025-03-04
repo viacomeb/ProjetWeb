@@ -44,7 +44,7 @@
         </div>
         <div class="footer-bottom">
             <!-- Affichage dynamique de l'année en cours -->
-            <p>&copy; <?= date("Y") ?> StageFlow. Tous droits réservés.</p>
+            <p>&copy; <?= date("Y") ?> WorknGo. Tous droits réservés.</p>
         </div>
     </div>
 </footer>
