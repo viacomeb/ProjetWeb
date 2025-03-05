@@ -49,7 +49,7 @@ if (!in_array($page, $pages_valides)) {
         if (file_exists($file)) {
             include $file;
         } else {
-            echo "<p style='text-align: center; color: red; margin-top: 150px; margin-bottom: 120px;'>La page demandée n'existe pas.</p>";
+            include '../src/View/erreurs/maintenance.php';
         }
         ?>
     </main>
