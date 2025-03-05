@@ -20,11 +20,19 @@ if (!in_array($page, $pages_valides)) {
     <title>WorknGo - <?php echo ucfirst($page); ?></title>
     <link rel="icon" href="assets/images/WorknGo_logo.svg">
 
+    <!-- Toujours inclure le fichier CSS général -->
     <link rel="stylesheet" href="assets/css/style.css?v=<?= filemtime("assets/css/style.css") ?>">
+
     <?php
-    $page_css = "assets/css/$page.css";
-    if (file_exists($page_css)) {
-        echo '<link rel="stylesheet" href="assets/css/' . $page . '.css?v=' . filemtime($page_css) . '">';
+    // Extraire uniquement le nom du fichier après le "/"
+    $page_file = isset($page) ? basename($page) : '';
+
+    // Construire le chemin du fichier CSS spécifique
+    $page_css = "assets/css/$page_file.css";
+
+    // Vérifier si le fichier CSS spécifique existe et l'inclure
+    if (!empty($page_file) && file_exists($page_css)) {
+        echo '<link rel="stylesheet" href="' . $page_css . '?v=' . filemtime($page_css) . '">';
     }
     ?>
 </head>
