@@ -2,5 +2,5 @@
     <h1>Maintenance</h1>
     <p>La page que vous recherchez est actuellement en maintenance.</p>
     <br>
-    <button class="btn btn-outline" href="index.php?page=home">Retour à l'accueil</button>
+    <button onclick="window.location.href='index.php?page=pages/home'" class="btn btn-outline">Retour à l'accueil</button>
 </div>

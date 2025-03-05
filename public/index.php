@@ -1,6 +1,31 @@
 <?php
 // Liste des pages autorisées
-$pages_valides = ['pages/home', 'offres', 'entreprises', 'services']; // Ajoute les pages autorisées ici
+function getAllowedPages($directory = "../src/View")
+{
+    $pages_valides = [];
+
+    // Parcourir récursivement les fichiers dans le dossier view/
+    $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
+
+    foreach ($iterator as $file) {
+        // Ignorer les dossiers
+        if ($file->isDir()) continue;
+
+        // Récupérer le chemin relatif sans extension
+        $relativePath = str_replace([$directory . DIRECTORY_SEPARATOR, ".php"], "", $file->getPathname());
+
+        // Convertir les séparateurs de chemin en "/"
+        $relativePath = str_replace(DIRECTORY_SEPARATOR, "/", $relativePath);
+
+        // Ajouter à la liste des pages valides
+        $pages_valides[] = $relativePath;
+    }
+
+    return $pages_valides;
+}
+
+// Générer et stocker la liste des pages valides
+$pages_valides = getAllowedPages();
 
 // Vérification de la page demandée
 $page = isset($_GET['page']) ? $_GET['page'] : 'pages/home';
@@ -46,7 +71,7 @@ if (!in_array($page, $pages_valides)) {
         <?php
         // Inclusion sécurisée du fichier correspondant
         $file = "../src/View/$page.php";
-        if (file_exists($file)) {
+        if (file_exists($file) && filesize($file) > 0) {
             include $file;
         } else {
             include '../src/View/erreurs/maintenance.php';

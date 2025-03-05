@@ -1,6 +1,7 @@
 <?php
 // src/View/layout/footer.php
 ?>
+
 <!-- FOOTER -->
 <footer class="footer">
     <div class="container">
@@ -9,9 +10,9 @@
             <div class="footer-section">
                 <h3>À propos</h3>
                 <ul>
-                    <li><a href="#">Qui sommes-nous</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Carrières</a></li>
+                    <li><a href="index.php?page=a_propos/about">Qui sommes-nous</a></li>
+                    <li><a href="index.php?page=a_propos/blog">Blog</a></li>
+                    <li><a href="index.php?page=a_propos/carrieres">Carrières</a></li>
                 </ul>
             </div>
             <!-- Section "Ressources" -->
