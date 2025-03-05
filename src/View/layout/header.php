@@ -15,10 +15,10 @@
 
             <!-- Liens de navigation -->
             <div class="nav-links">
-                <a href="../public/index.php" class="nav-link">Accueil</a>
-                <a href="/offres" class="nav-link">Offres</a>
-                <a href="/entreprises" class="nav-link">Entreprises</a>
-                <a href="/contact" class="nav-link">Contact</a>
+                <a href="index.php?page=home" class="nav-link">Accueil</a>
+                <a href="index.php?page=offres" class="nav-link">Offres</a>
+                <a href="index.php?page=entreprises" class="nav-link">Entreprises</a>
+                <a href="index.php?page=contact" class="nav-link">Contact</a>
             </div>
 
             <!-- Boutons d'authentification -->
