@@ -13,6 +13,7 @@ if (!in_array($page, $pages_valides)) {
 <!DOCTYPE html>
 <html lang="fr">
 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,8 +29,10 @@ if (!in_array($page, $pages_valides)) {
     ?>
 </head>
 
+
 <body>
 
+    <?php include '../src/View/layout/header.php'; ?>
     <?php include '../src/View/layout/header.php'; ?>
 
     <main>
@@ -45,7 +48,9 @@ if (!in_array($page, $pages_valides)) {
     </main>
 
     <?php include '../src/View/layout/footer.php'; ?>
+    <?php include '../src/View/layout/footer.php'; ?>
 
 </body>
+
 
 </html>
