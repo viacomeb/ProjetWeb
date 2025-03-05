@@ -1,13 +1,13 @@
 <?php
 // Liste des pages autorisées
-$pages_valides = ['home', 'offres', 'entreprises', 'services']; // Ajoute les pages autorisées ici
+$pages_valides = ['pages/home', 'offres', 'entreprises', 'services']; // Ajoute les pages autorisées ici
 
 // Vérification de la page demandée
-$page = isset($_GET['page']) ? $_GET['page'] : 'home';
+$page = isset($_GET['page']) ? $_GET['page'] : 'pages/home';
 
 // Si la page n'est pas valide, afficher un message d'erreur
 if (!in_array($page, $pages_valides)) {
-    $page = '404'; // Définition d'une page 404
+    $page = 'erreurs/404'; // Définition d'une page 404
 }
 ?>
 <!DOCTYPE html>
@@ -32,13 +32,12 @@ if (!in_array($page, $pages_valides)) {
 
 <body>
 
-    <?php include '../src/View/layout/header.php'; ?>
-    <?php include '../src/View/layout/header.php'; ?>
+    <?php include '../src/View/templates/header.php'; ?>
 
     <main>
         <?php
         // Inclusion sécurisée du fichier correspondant
-        $file = "../public/pages/$page.php";
+        $file = "../src/View/$page.php";
         if (file_exists($file)) {
             include $file;
         } else {
@@ -47,8 +46,7 @@ if (!in_array($page, $pages_valides)) {
         ?>
     </main>
 
-    <?php include '../src/View/layout/footer.php'; ?>
-    <?php include '../src/View/layout/footer.php'; ?>
+    <?php include '../src/View/templates/footer.php'; ?>
 
 </body>
 

@@ -15,7 +15,7 @@
 
             <!-- Liens de navigation -->
             <div class="nav-links">
-                <a href="index.php?page=home" class="nav-link">Accueil</a>
+                <a href="index.php?page=pages/home" class="nav-link">Accueil</a>
                 <a href="index.php?page=offres" class="nav-link">Offres</a>
                 <a href="index.php?page=entreprises" class="nav-link">Entreprises</a>
                 <a href="index.php?page=contact" class="nav-link">Contact</a>
