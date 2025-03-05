@@ -142,7 +142,7 @@ $pageTitle = "StageFlow - Trouvez votre stage comme jamais auparavant";
             <!-- Testimonial 3 -->
             <div class="testimonial-card">
                 <div class="testimonial-header">
-                    <img src="https://ibb.co/jvfQLhx6" alt="Antoine Roure">
+                    <img src="https://media.licdn.com/dms/image/v2/D4D03AQFILDusl0KreA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1728811932003?e=1746662400&v=beta&t=Zhf4udqCaqp_R6GPRCwmD7qMtvULpebvIIa6feF_7eM" alt="Antoine Roure">
                     <div>
                         <h3>Antoine Roure</h3>
                         <p>Gros neuille</p>
