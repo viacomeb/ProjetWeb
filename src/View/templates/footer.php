@@ -50,7 +50,7 @@
     </div>
 </footer>
 <!-- Inclusion du script JavaScript global -->
-<script src="/public/assets/js/script.js"></script>
+<script src="assets/js/script.js"></script>
 </body>
 
 </html>

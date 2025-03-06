@@ -6,44 +6,23 @@ mobileMenuBtn?.addEventListener('click', () => {
   navLinks?.classList.toggle('active');
 });
 
-// Smooth Scroll
-document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-  anchor.addEventListener('click', function (e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) {
-      target.scrollIntoView({
-        behavior: 'smooth',
-      });
-    }
-  });
-});
-
-// Intersection Observer for animations
-const observerOptions = {
-  root: null,
-  rootMargin: '0px',
-  threshold: 0.1,
-};
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('animate-in');
-    }
-  });
-}, observerOptions);
-
-// Observe elements
-document
-  .querySelectorAll('.feature-card, .stat-card, .testimonial-card')
-  .forEach((el) => {
-    observer.observe(el);
-  });
 
 // Chatbot Button
 const chatbotButton = document.querySelector('.chatbot-button');
 chatbotButton?.addEventListener('click', () => {
   // Add chatbot functionality here
   console.log('Chatbot clicked');
+});
+
+// Login Form
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  // Check if email and password are correct
+  if (email === 'admin@example.com' && password === 'password') {
+      alert('Connexion réussie !');
+  } else {
+      alert('Identifiants incorrects');
+  }
 });
