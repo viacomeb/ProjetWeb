@@ -1,11 +1,17 @@
 <?php
 // src/View/layout/header.php
+
+include_once '../config/security.php'; // Inclure la sécurité
+
+$home = encryptPage("pages/home");
+$offres_liste = encryptPage("offres/liste");
+$entreprises_liste = encryptPage("entreprises/liste");
 ?>
 <!-- HEADER -->
 <header class="header">
     <nav class="container">
         <!-- Logo -->
-        <a href="index.php?page=pages/home" class="logo-link">
+        <a href="index.php?page=<?= $home; ?>" class="logo-link">
             <div class="logo">
                 <img src="../public/assets/images/WorknGo_logo.svg" alt="Logo" class="logo-icon">
                 <span>WorknGo</span>
@@ -14,9 +20,9 @@
 
         <!-- Liens de navigation -->
         <div class="nav-links">
-            <a href="index.php?page=pages/home" class="nav-link">Accueil</a>
-            <a href="index.php?page=offres/liste" class="nav-link">Offres</a>
-            <a href="index.php?page=entreprises/liste" class="nav-link">Entreprises</a>
+            <a href="index.php?page=<?= $home; ?>" class="nav-link">Accueil</a>
+            <a href="index.php?page=<?= $offres_liste; ?>" class="nav-link">Offres</a>
+            <a href="index.php?page=<?= $entreprises_liste; ?>" class="nav-link">Entreprises</a>
             <a href="index.php?page=contact" class="nav-link">Contact</a>
         </div>
 
