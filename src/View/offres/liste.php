@@ -22,46 +22,30 @@ $stmt->execute();
 $entreprises = $stmt->fetchAll();
 ?>
 
-<!DOCTYPE html>
-<html lang="fr">
 
-<head>
-    <meta charset="UTF-8">
-    <title>Entreprises partenaires</title>
-    <link rel="stylesheet" href="css/styles.css">
-</head>
+<br>
+<br>
+<table>
+    <tr>
+        <th>Nom</th>
+        <th>Code Postal</th>
+        <th>Type</th>
+    </tr>
+    <?php foreach ($entreprises as $entreprise): ?>
+        <tr>
+            <td><?= $entreprise['nom']; ?></td>
+            <td><?= $entreprise['code_postal']; ?></td>
+            <td><?= $entreprise['type']; ?></td>
+        </tr>
+    <?php endforeach; ?>
+</table>
 
-<body>
-    <div class="container">
-        <h2>Entreprises partenaires</h2>
-        <nav>
-            <a href="upload.php">Uploader un fichier</a>
-        </nav>
-        <table>
-            <tr>
-                <th>Nom</th>
-                <th>Code Postal</th>
-                <th>Type</th>
-            </tr>
-            <?php foreach ($entreprises as $entreprise): ?>
-                <tr>
-                    <td><?= $entreprise['nom']; ?></td>
-                    <td><?= $entreprise['code_postal']; ?></td>
-                    <td><?= $entreprise['type']; ?></td>
-                </tr>
-            <?php endforeach; ?>
-        </table>
-
-        <div class="pagination">
-            <?php if ($page > 1): ?>
-                <a class="pagination-button" href="?page=<?= $page - 1; ?>">⬅ Précédent</a>
-            <?php endif; ?>
-            <span> Page <?= $page; ?> sur <?= $totalPages; ?> </span>
-            <?php if ($page < $totalPages): ?>
-                <a class="pagination-button" href="?page=<?= $page + 1; ?>">Suivant ➡</a>
-            <?php endif; ?>
-        </div>
-    </div>
-</body>
-
-</html>
+<div class="pagination">
+    <?php if ($page > 1): ?>
+        <a class="pagination-button" href="?page=<?= $page - 1; ?>">⬅ Précédent</a>
+    <?php endif; ?>
+    <span> Page <?= $page; ?> sur <?= $totalPages; ?> </span>
+    <?php if ($page < $totalPages): ?>
+        <a class="pagination-button" href="?page=<?= $page + 1; ?>">Suivant ➡</a>
+    <?php endif; ?>
+</div>

@@ -1,5 +1,8 @@
 <?php
 // Liste des pages autorisées
+
+include_once '../config/security.php';
+
 function getAllowedPages($directory = "../src/View")
 {
     $pages_valides = [];
@@ -28,16 +31,20 @@ function getAllowedPages($directory = "../src/View")
 $pages_valides = getAllowedPages();
 
 // Vérification de la page demandée
-$page = isset($_GET['page']) ? $_GET['page'] : 'pages/home';
+$page = isset($_GET['page']) ? decryptPage($_GET['page']) : 'home';
 
-// Si la page n'est pas valide, afficher un message d'erreur
-if (!in_array($page, $pages_valides)) {
-    $page = 'erreurs/404'; // Définition d'une page 404
+if ($page) {
+    $file = "../src/View/" . $page . ".php";
+    if (!in_array($page, $pages_valides) || !file_exists($file)) {
+        $file = '../src/View/erreurs/404.php'; // Définition d'une page 404
+    }
+} else {
+    $file = '../src/View/erreurs/404.php'; // Définition d'une page 404
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
-
 
 <head>
     <meta charset="UTF-8">
@@ -62,7 +69,6 @@ if (!in_array($page, $pages_valides)) {
     ?>
 </head>
 
-
 <body>
 
     <?php include '../src/View/templates/header.php'; ?>
@@ -70,7 +76,6 @@ if (!in_array($page, $pages_valides)) {
     <main>
         <?php
         // Inclusion sécurisée du fichier correspondant
-        $file = "../src/View/$page.php";
         if (file_exists($file) && filesize($file) > 0) {
             include $file;
         } else {
@@ -82,6 +87,5 @@ if (!in_array($page, $pages_valides)) {
     <?php include '../src/View/templates/footer.php'; ?>
 
 </body>
-
 
 </html>
