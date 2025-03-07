@@ -22,7 +22,7 @@
 
         <!-- Boutons d'authentification -->
         <div class="auth-buttons">
-            <button onclick="window.location.href='index.php?page=auth/connexion'" class="btn btn-text">Se connecter</button>
+            <button onclick="window.location.href='../src/view/auth/connexion.php'" class="btn btn-text">Se connecter</button>
             <button onclick="window.location.href='index.php?page=auth/inscription'" class="btn btn-primary">Créer un compte</button>
         </div>
 
