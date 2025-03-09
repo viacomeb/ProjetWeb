@@ -57,10 +57,10 @@
   border-radius: 0.5rem;
   transition: border-color 0.2s;
 }
-
+/*
 .feature-card:hover {
   border-color: var(--color-primary);
-}
+}*/
 
 .feature-card svg {
   color: var(--color-primary);
@@ -136,9 +136,10 @@
   transition: border-color 0.2s;
 }
 
+/*
 .testimonial-card:hover {
   border-color: var(--color-primary);
-}
+}*/
 
 .testimonial-header {
   display: flex;
