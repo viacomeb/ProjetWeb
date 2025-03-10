@@ -62,13 +62,18 @@ $badges = [
     <!-- Header -->
     <header class="bg-gray-800 border-b border-gray-700 p-4">
         <div class="container mx-auto flex items-center justify-between">
-            <div class="text-2xl font-bold gradient-text">
-                StageFlow
-            </div>
+            <!-- Logo -->
+            <a href="dashboard.php" class="logo-link">
+                <div class="text-2xl font-bold gradient-text logo flex items-center">
+                    <img src="../../../public/assets/images/WorknGo_logo.svg" alt="Logo" class="logo-icon h-8 w-8 mr-2">
+                    <span>WorknGo</span>
+                </div>
+            </a>
 
+            <!-- Barre de recherche -->
             <div class="flex-1 mx-8">
                 <div class="relative">
-                    <i data-lucide="search" class="search-icon"></i>
+                    <i data-lucide="search" class="search-icon absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                     <input
                         type="text"
                         placeholder="Rechercher un stage..."
@@ -77,10 +82,11 @@ $badges = [
                 </div>
             </div>
 
+            <!-- Notifications et Profil -->
             <div class="flex items-center space-x-4">
                 <button class="relative p-2 hover:bg-gray-700 rounded-lg">
                     <i data-lucide="bell"></i>
-                    <span class="notification-dot"></span>
+                    <span class="notification-dot absolute top-1 right-1 bg-red-500 w-2 h-2 rounded-full"></span>
                 </button>
                 <button class="flex items-center space-x-2 p-2 hover:bg-gray-700 rounded-lg">
                     <i data-lucide="user"></i>
