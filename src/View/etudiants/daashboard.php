@@ -51,8 +51,10 @@ $badges = [
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StageFlow - Dashboard</title>
-    <link rel="stylesheet" href="../../../public/assets/css/dashboard.css">
+    <title>WorknGo - Dashboard</title>
+    <link rel="stylesheet" href="../../../public/assets/css/dashboard.css?v=<?= filemtime('../../../public/assets/css/dashboard.css'); ?>">
+    <link rel="stylesheet" href="../../../public/assets/css/style.css?v=<?= filemtime('../../../public/assets/css/style.css'); ?>">
+    <link rel="icon" href="../../../public/assets/images/WorknGo_logo.svg">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 

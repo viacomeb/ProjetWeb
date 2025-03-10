@@ -153,14 +153,14 @@
 }
 
 .btn-secondary {
-  background: #34d399;
+  background: #10b981;
   color: #fff;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ajout d'une ombre de base */
   transition: all 0.3s ease; /* Assure-toi que toutes les propriétés sont animées */
 }
 
 .btn-secondary:hover {
-  background: #10b981;
+  background: rgba(8, 185, 126, 0.856);
   transform: translateY(-2px); /* Déplacement vers le haut */
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Ombre plus forte pour l'effet de survol */
 }

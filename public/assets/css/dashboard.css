@@ -1,13 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-/* Base styles */
-:root {
-  --color-primary: #3b82f6;
-  --color-primary-light: #60a5fa;
-  --color-border: #374151;
-  --color-text-secondary: #9ca3af;
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -230,7 +222,8 @@ input {
 }
 
 input:focus {
-  box-shadow: 0 0 0 2px var(--color-primary);
+  border-color: rgb(47, 0, 255); /* Vert pour fort */
+  box-shadow: 0 0 5px rgba(0, 26, 255, 0.6);
 }
 
 /* Notification dot */
@@ -293,7 +286,7 @@ input:focus {
 }
 
 .internship-card:hover {
-  border-color: var(--color-primary);
+  border-color: var(--color-primary-dark);
   transform: translateY(-2px);
 }
 
@@ -321,7 +314,7 @@ input:focus {
 }
 
 .apply-button:hover {
-  background-color: #2563eb;
+  background-color: var(--color-primary-dark);
 }
 
 /* Badge cards */
