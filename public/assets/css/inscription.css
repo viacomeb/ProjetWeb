@@ -1,0 +1,229 @@
+/* Auth Pages Styles */
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.auth-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 4rem;
+}
+
+.auth-card h2 {
+  color: #fff;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.auth-form .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.auth-form label {
+  display: block;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.auth-form input[type='text'],
+.auth-form input[type='email'],
+.auth-form input[type='password'] {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.auth-form input:focus {
+  outline: none;
+  border-color: #059669;
+  box-shadow: 0 0 0 2px rgba(100, 108, 255, 0.2);
+}
+
+.password-input {
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 0;
+}
+
+.password-strength {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+}
+
+.password-input input {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.password-input.weak input {
+  border-color: rgb(255, 77, 77); /* Rouge pour faible */
+  box-shadow: 0 0 5px rgba(255, 77, 77, 0.6);
+}
+
+.password-input.medium input {
+  border-color: rgb(255, 165, 0); /* Orange pour moyen */
+  box-shadow: 0 0 5px rgba(255, 165, 0, 0.6);
+}
+
+.password-input.strong input {
+  border-color: rgb(0, 255, 0); /* Vert pour fort */
+  box-shadow: 0 0 5px rgba(0, 255, 0, 0.6);
+}
+
+.password-strength.weak {
+  color: #ff4d4d;
+}
+.password-strength.medium {
+  color: #ffd700;
+}
+.password-strength.strong {
+  color: #00ff00;
+}
+
+.form-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.terms-link {
+  color: #9ca3af;
+  text-decoration: underline;
+}
+
+.remember-me,
+.terms-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.forgot-password {
+  color: #646cff;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+
+.btn-secondary {
+  background: #10b981;
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ajout d'une ombre de base */
+  transition: all 0.3s ease; /* Assure-toi que toutes les propriétés sont animées */
+}
+
+.btn-secondary:hover {
+  background: rgba(8, 185, 126, 0.856);
+  transform: translateY(-2px); /* Déplacement vers le haut */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Ombre plus forte pour l'effet de survol */
+}
+
+.auth-separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  margin: 1.5rem 0;
+}
+
+.auth-separator::before,
+.auth-separator::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.auth-separator span {
+  padding: 0 1rem;
+}
+
+.auth-redirect {
+  text-align: center;
+  color: #fff;
+  margin: 0;
+}
+
+.auth-redirect a {
+  color: #646cff;
+  text-decoration: none;
+}
+
+.auth-redirect a:hover {
+  text-decoration: underline;
+}
+
+.user-type-toggle {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.user-type-toggle input[type='radio'] {
+  display: none;
+}
+
+.user-type-toggle label {
+  flex: 1;
+  padding: 0.75rem;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.user-type-toggle input[type='radio']:checked + label {
+  background: #34d399;
+  border-color: #34d399;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.auth-card {
+  animation: fadeIn 0.5s ease-out;
+}

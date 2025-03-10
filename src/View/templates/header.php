@@ -3,9 +3,6 @@
 
 include_once '../config/security.php'; // Inclure la sécurité
 
-$home = encryptPage("pages/home");
-$offres_liste = encryptPage("offres/liste");
-$entreprises_liste = encryptPage("entreprises/liste");
 ?>
 <!-- HEADER -->
 <header class="header">
@@ -20,16 +17,16 @@ $entreprises_liste = encryptPage("entreprises/liste");
 
         <!-- Liens de navigation -->
         <div class="nav-links">
-            <a href="index.php?page=<?= $home; ?>" class="nav-link">Accueil</a>
-            <a href="index.php?page=<?= $offres_liste; ?>" class="nav-link">Offres</a>
-            <a href="index.php?page=<?= $entreprises_liste; ?>" class="nav-link">Entreprises</a>
-            <a href="index.php?page=contact" class="nav-link">Contact</a>
+            <a href="index.php?page=<?= encryptPage("pages/home"); ?>" class="nav-link">Accueil</a>
+            <a href="index.php?page=<?= encryptPage("offres/liste"); ?>" class="nav-link">Offres</a>
+            <a href="index.php?page=<?= encryptPage("entreprises/liste"); ?>" class="nav-link">Entreprises</a>
+            <a href="index.php?page=<?= encryptPage("pages/contact"); ?>" class="nav-link">Contact</a>
         </div>
 
         <!-- Boutons d'authentification -->
         <div class="auth-buttons">
-            <button onclick="window.location.href='../src/view/auth/connexion.php'" class="btn btn-text">Se connecter</button>
-            <button onclick="window.location.href='../src/view/auth/inscription.php'" class="btn btn-primary">Créer un compte</button>
+            <button onclick="window.location.href='index.php?page=<?= encryptPage('auth/connexion'); ?>'" class="btn btn-text">Se connecter</button>
+            <button onclick="window.location.href='index.php?page=<?= encryptPage('auth/inscription'); ?>'" class="btn btn-primary">Créer un compte</button>
         </div>
 
         <!-- Bouton pour le menu mobile -->

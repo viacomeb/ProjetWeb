@@ -1,64 +1,50 @@
 <?php
 $pageTitle = "StageFlow - Connexion";
 ?>
-<!DOCTYPE html>
-<html lang="fr">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WorknGo - <?php echo ucfirst($page); ?></title>
-    <link rel="icon" href="../../../public/assets/images/WorknGo_logo.svg">
-
-    <!-- Toujours inclure le fichier CSS général -->
-    <link rel="stylesheet" href="../../../public/assets/css/connection.css">
-    <link rel="stylesheet" href="../../../public/assets/css/style.css">
-</head>
-
-<body>
-    <div class="auth-container">
-        <div class="auth-card">
-            <h2>Connexion</h2>
-            <form id="loginForm" class="auth-form">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Mot de passe</label>
-                    <div class="password-input">
-                        <input type="password" id="password" name="password" required>
-                        <button type="button" class="toggle-password">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                                <circle cx="12" cy="12" r="3" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-                <div class="form-footer">
-                    <label class="remember-me">
-                        <input type="checkbox" name="remember">
-                        <span>Se souvenir de moi</span>
-                    </label>
-                    <a href="#" class="forgot-password">Mot de passe oublié ?</a>
-                </div>
-                <button type="submit" class="btn btn-secondary">
-                    Se connecter
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
-                </button>
-            </form>
-            <div class="auth-separator">
-                <span>ou</span>
+<div class="auth-container">
+    <div class="auth-card">
+        <h2>Connexion</h2>
+        <form id="loginForm" class="auth-form">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
             </div>
-            <p class="auth-redirect">
-                Pas encore de compte ? <a href="inscription.php">Inscrivez-vous</a>
-            </p>
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <div class="password-input">
+                    <input type="password" id="password" name="password" required>
+                    <button type="button" class="toggle-password">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                            <circle cx="12" cy="12" r="3" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="form-footer">
+                <label class="remember-me">
+                    <input type="checkbox" name="remember">
+                    <span>Se souvenir de moi</span>
+                </label>
+                <a href="#" class="forgot-password">Mot de passe oublié ?</a>
+            </div>
+            <button type="submit" class="btn btn-secondary">
+                Se connecter
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+            </button>
+        </form>
+        <div class="auth-separator">
+            <span>ou</span>
         </div>
+        <p class="auth-redirect">
+            Pas encore de compte ? <a href="inscription.php">Inscrivez-vous</a>
+        </p>
     </div>
-</body>
+</div>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -81,5 +67,3 @@ $pageTitle = "StageFlow - Connexion";
         });
     });
 </script>
-
-</html>
