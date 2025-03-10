@@ -1,68 +1,63 @@
 <?php
-// Liste des pages autorisées
-
+// Inclusion de la sécurité
 include_once '../config/security.php';
 
+// Fonction pour récupérer les pages valides
 function getAllowedPages($directory = "../src/View")
 {
     $pages_valides = [];
 
-    // Parcourir récursivement les fichiers dans le dossier view/
+    // Parcourir récursivement les fichiers dans le dossier View/
     $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
 
     foreach ($iterator as $file) {
-        // Ignorer les dossiers
         if ($file->isDir()) continue;
 
         // Récupérer le chemin relatif sans extension
         $relativePath = str_replace([$directory . DIRECTORY_SEPARATOR, ".php"], "", $file->getPathname());
-
-        // Convertir les séparateurs de chemin en "/"
         $relativePath = str_replace(DIRECTORY_SEPARATOR, "/", $relativePath);
 
         // Ajouter à la liste des pages valides
         $pages_valides[] = $relativePath;
     }
-
     return $pages_valides;
 }
 
-// Générer et stocker la liste des pages valides
+// Liste des pages autorisées
 $pages_valides = getAllowedPages();
 
-// Vérification de la page demandée
-$page = isset($_GET['page']) ? decryptPage($_GET['page']) : 'home';
+// Récupération et déchiffrement de la page demandée
+$page = isset($_GET['page']) ? decryptPage($_GET['page']) : 'pages/home';
 
-if ($page) {
-    $file = "../src/View/" . $page . ".php";
-    if (!in_array($page, $pages_valides) || !file_exists($file)) {
-        $file = '../src/View/erreurs/404.php'; // Définition d'une page 404
-    }
-} else {
-    $file = '../src/View/erreurs/404.php'; // Définition d'une page 404
+$file = "../src/View/" . $page . ".php";
+
+// Vérification si la page est valide
+$isValidPage = in_array($page, $pages_valides);
+
+// Déterminer quelle page inclure
+if (!$isValidPage) {
+    $file = '../src/View/erreurs/404.php'; // Page 404 si la page n'est pas autorisée
+} elseif (!file_exists($file) || filesize($file) == 0) {
+    $file = '../src/View/erreurs/maintenance.php'; // Page maintenance si vide ou manquante
 }
-
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WorknGo - <?php echo ucfirst($page); ?></title>
+    <title>WorknGo - <?= ucfirst($page); ?></title>
     <link rel="icon" href="assets/images/WorknGo_logo.svg">
 
     <!-- Toujours inclure le fichier CSS général -->
     <link rel="stylesheet" href="assets/css/style.css?v=<?= filemtime("assets/css/style.css") ?>">
 
     <?php
-    // Extraire uniquement le nom du fichier après le "/"
-    $page_file = isset($page) ? basename($page) : '';
-
-    // Construire le chemin du fichier CSS spécifique
+    $page_file = basename($page);
     $page_css = "assets/css/$page_file.css";
 
-    // Vérifier si le fichier CSS spécifique existe et l'inclure
     if (!empty($page_file) && file_exists($page_css)) {
         echo '<link rel="stylesheet" href="' . $page_css . '?v=' . filemtime($page_css) . '">';
     }
@@ -71,20 +66,15 @@ if ($page) {
 
 <body>
 
-    <?php include '../src/View/templates/header.php'; ?>
+    <?php include '../src/View/templates/header.php';
+    ?>
 
     <main>
-        <?php
-        // Inclusion sécurisée du fichier correspondant
-        if (file_exists($file) && filesize($file) > 0) {
-            include $file;
-        } else {
-            include '../src/View/erreurs/maintenance.php';
-        }
-        ?>
+        <?php include $file; ?>
     </main>
 
-    <?php include '../src/View/templates/footer.php'; ?>
+    <?php include '../src/View/templates/footer.php';
+    ?>
 
 </body>
 
