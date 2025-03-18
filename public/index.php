@@ -1,5 +1,5 @@
 <?php
-// Inclusion de la sécurité
+// Inclusion de la sécurité et des fonctions
 include_once '../config/security.php';
 
 // Fonction pour récupérer les pages valides
