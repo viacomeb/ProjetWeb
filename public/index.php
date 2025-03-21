@@ -49,7 +49,7 @@ if (!$isValidPage) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WorknGo - <?= ucfirst($page); ?></title>
-    <link rel="icon" href="assets/images/WorknGo_logo.svg">
+    <link rel="icon" href="assets/images/WorknGo_logo.png">
 
     <!-- Toujours inclure le fichier CSS général -->
     <link rel="stylesheet" href="assets/css/style.css?v=<?= filemtime("assets/css/style.css") ?>">
