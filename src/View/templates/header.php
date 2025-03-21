@@ -10,7 +10,7 @@ include_once '../config/security.php'; // Inclure la sécurité
         <!-- Logo -->
         <a href="index.php?page=<?= $home; ?>" class="logo-link">
             <div class="logo">
-                <img src="../public/assets/images/WorknGo_logo.svg" alt="Logo" class="logo-icon">
+                <img src="/ProjetWeb/public/assets/images/WorknGo_logo.svg" alt="Logo" class="logo-icon">
                 <span>WorknGo</span>
             </div>
         </a>
