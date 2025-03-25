@@ -12,8 +12,12 @@ require_once __DIR__ . '/../../../config/database.php';
 echo "Fichier database.php inclus avec succès.<br>";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    echo "Formulaire soumis.<br>";
     $email = $_POST['email'];
     $password = $_POST['mot_de_pass'];
+
+    echo "Email soumis : " . htmlspecialchars($email) . "<br>";
+    echo "Mot de passe soumis : " . htmlspecialchars($password) . "<br>";
 
     // Préparer et exécuter la requête SQL
     try {
