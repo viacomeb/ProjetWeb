@@ -160,6 +160,34 @@ body {
   color: var(--color-primary);
 }
 
+.btn-danger {
+  background: linear-gradient(
+    to right,
+    var(--color-danger),
+    var(--color-danger-light)
+  );
+  color: white;
+}
+
+.btn-danger:hover {
+  opacity: 0.9;
+}
+
+.btn-outline-danger {
+  border: 1px solid var(--color-danger);
+  background: transparent;
+  color: var(--color-text);
+}
+
+.btn-outline-danger:hover {
+  background-color: rgba(
+    239,
+    68,
+    68,
+    0.1
+  ); /* Une légère couleur rouge pâle au survol */
+}
+
 /* Footer Styles */
 .footer {
   background-color: rgba(31, 41, 55, 0.5);

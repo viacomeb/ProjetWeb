@@ -6,6 +6,7 @@ use App\Http\Controllers\EntrepriseController;
 use App\Http\Controllers\OffreController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\EtudiantController;
+use App\Http\Controllers\ErrorController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 

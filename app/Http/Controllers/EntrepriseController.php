@@ -18,14 +18,14 @@ class EntrepriseController extends Controller
     {
         // Récupérer toutes les entreprises
         $entreprises = Entreprise::all();
-        return view('entreprises.liste', compact('entreprises', 'page'));
+        return view('entreprises.liste', ['entreprises' => $entreprises, 'page' => $this->page]);
     }
 
     public function show($id)
     {
         // Récupérer une entreprise spécifique
         $entreprise = Entreprise::findOrFail($id);
-        return view('entreprises.show', compact('entreprise', 'page'));
+        return view('entreprises.show', ['entreprises' => $entreprise, 'page' => $this->page]);
     }
 
     public function dashboard()

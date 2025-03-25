@@ -16,7 +16,7 @@
 
 
 <body>
-    @stack('styles')
+
     </head>
     <header class="header">
         <nav class="container">

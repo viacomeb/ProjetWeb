@@ -1,10 +1,6 @@
 @extends('layout.app')
 
-@section('title', ucfirst($page))
-
-@push('styles')
-    @vite(['file' => "resources/css/{$page}.css"])
-@endpush
+@section('title', 403)
 
 @section('content')
     <div style="text-align: center; padding: 100px;">
