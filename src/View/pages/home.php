@@ -14,7 +14,7 @@ $pageTitle = "StageFlow - Trouvez votre stage comme jamais auparavant";
             <button class="btn btn-primary">
                 Je suis étudiant
                 <!-- Icône fléchée dans le bouton -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="m9 18 6-6-6-6" />
                 </svg>
             </button>
