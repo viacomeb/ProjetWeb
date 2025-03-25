@@ -1,81 +1,20 @@
 <?php
-// Inclusion de la sécurité
-include_once '../config/security.php';
 
-// Fonction pour récupérer les pages valides
-function getAllowedPages($directory = "../src/View")
-{
-    $pages_valides = [];
+use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 
-    // Parcourir récursivement les fichiers dans le dossier View/
-    $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
+define('LARAVEL_START', microtime(true));
 
-    foreach ($iterator as $file) {
-        if ($file->isDir()) continue;
-
-        // Récupérer le chemin relatif sans extension
-        $relativePath = str_replace([$directory . DIRECTORY_SEPARATOR, ".php"], "", $file->getPathname());
-        $relativePath = str_replace(DIRECTORY_SEPARATOR, "/", $relativePath);
-
-        // Ajouter à la liste des pages valides
-        $pages_valides[] = $relativePath;
-    }
-    return $pages_valides;
+// Determine if the application is in maintenance mode...
+if (file_exists($maintenance = __DIR__ . '/../storage/framework/maintenance.php')) {
+    require $maintenance;
 }
 
-// Liste des pages autorisées
-$pages_valides = getAllowedPages();
+// Register the Composer autoloader...
+require __DIR__ . '/../vendor/autoload.php';
 
-// Récupération et déchiffrement de la page demandée
-$page = isset($_GET['page']) ? decryptPage($_GET['page']) : 'pages/home';
+// Bootstrap Laravel and handle the request...
+/** @var Application $app */
+$app = require_once __DIR__ . '/../bootstrap/app.php';
 
-$file = "../src/View/" . $page . ".php";
-
-// Vérification si la page est valide
-$isValidPage = in_array($page, $pages_valides);
-
-// Déterminer quelle page inclure
-if (!$isValidPage) {
-    $file = '../src/View/erreurs/404.php'; // Page 404 si la page n'est pas autorisée
-} elseif (!file_exists($file) || filesize($file) == 0) {
-    $file = '../src/View/erreurs/maintenance.php'; // Page maintenance si vide ou manquante
-}
-?>
-
-<!DOCTYPE html>
-<html lang="fr">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WorknGo - <?= ucfirst($page); ?></title>
-    <link rel="icon" href="assets/images/WorknGo_logo.png">
-
-    <!-- Toujours inclure le fichier CSS général -->
-    <link rel="stylesheet" href="assets/css/style.css?v=<?= filemtime("assets/css/style.css") ?>">
-
-    <?php
-    $page_file = basename($page);
-    $page_css = "assets/css/$page_file.css";
-
-    if (!empty($page_file) && file_exists($page_css)) {
-        echo '<link rel="stylesheet" href="' . $page_css . '?v=' . filemtime($page_css) . '">';
-    }
-    ?>
-</head>
-
-<body class="site-container">
-
-    <?php include '../src/View/templates/header.php';
-    ?>
-
-    <main>
-        <?php include $file; ?>
-    </main>
-
-    <?php include '../src/View/templates/footer.php';
-    ?>
-
-</body>
-
-</html>
+$app->handleRequest(Request::capture());
