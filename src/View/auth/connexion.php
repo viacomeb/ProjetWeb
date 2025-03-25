@@ -1,8 +1,15 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+session_start();
 $pageTitle = "StageFlow - Connexion";
 
 // Inclure le fichier de connexion à la base de données
+echo "Tentative d'inclusion de database.php...<br>";
 require_once __DIR__ . '/../../../config/database.php';
+echo "Fichier database.php inclus avec succès.<br>";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
@@ -141,3 +148,6 @@ Résultat de la requête : <?php print_r($user); ?>
             });
         });
     </script>
+</body>
+
+</html>
