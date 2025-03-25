@@ -11,7 +11,7 @@ echo "Tentative d'inclusion de database.php...<br>";
 require_once __DIR__ . '/../../../config/database.php';
 echo "Fichier database.php inclus avec succès.<br>";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     echo "Formulaire soumis.<br>";
     $email = $_POST['email'];
     $password = $_POST['mot_de_pass'];
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Préparer et exécuter la requête SQL
     try {
         echo "Préparation de la requête SQL...<br>";
-        $stmt = $pdo->prepare('SELECT * FROM users WHERE email = :email');
+        $stmt = $pdo->prepare('SELECT * FROM user WHERE email = :email');
         $stmt->execute(['email' => $email]);
         $user = $stmt->fetch();
 
