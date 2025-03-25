@@ -64,7 +64,7 @@ if (!$isValidPage) {
     ?>
 </head>
 
-<body>
+<body class="site-container">
 
     <?php include '../src/View/templates/header.php';
     ?>

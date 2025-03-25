@@ -20,7 +20,7 @@
 }
 
 /* Base Styles */
-body {
+.site-container {
   font-family: system-ui, -apple-system, sans-serif;
   background-color: var(--color-background);
   color: var(--color-text);
@@ -28,14 +28,14 @@ body {
   text-align: center;
 }
 
-.container {
+.site-container .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
 
-/* Header Styles */
-.header {
+/* Header Styles*/
+.site-container .header {
   position: fixed;
   top: 0;
   left: 0;
@@ -46,20 +46,20 @@ body {
   z-index: 1000;
 }
 
-.header nav {
+.site-container .header nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 4rem;
 }
 
-.logo-link {
+.site-container .logo-link {
   text-decoration: none;
   color: inherit;
   display: inline-block;
 }
 
-.logo {
+.site-container .logo {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -68,31 +68,31 @@ body {
   color: var(--color-primary);
 }
 
-.logo-icon {
+.site-container .logo-icon {
   width: 2rem;
   height: 2rem;
 }
 
-.nav-links {
+.site-container .nav-links {
   display: none;
 }
 
-.nav-link {
+.site-container .nav-link {
   color: var(--color-text);
   text-decoration: none;
   padding: 0.5rem 1rem;
   transition: color 0.2s;
 }
 
-.nav-link:hover {
+.site-container .nav-link:hover {
   color: var(--color-primary);
 }
 
-.auth-buttons {
+.site-container .auth-buttons {
   display: none;
 }
 
-.mobile-menu-btn {
+.site-container .mobile-menu-btn {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -104,7 +104,7 @@ body {
   padding: 0;
 }
 
-.mobile-menu-btn span {
+.site-container .mobile-menu-btn span {
   width: 100%;
   height: 2px;
   background-color: var(--color-text);
@@ -112,7 +112,7 @@ body {
 }
 
 /* Button Styles */
-.btn {
+.site-container .btn {
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -127,7 +127,7 @@ body {
   text-align: center;
 }
 
-.btn-primary {
+.site-container .btn-primary {
   background: linear-gradient(
     to right,
     var(--color-primary),
@@ -136,51 +136,51 @@ body {
   color: white;
 }
 
-.btn-primary:hover {
+.site-container .btn-primary:hover {
   opacity: 0.9;
 }
 
-.btn-outline {
+.site-container .btn-outline {
   border: 1px solid var(--color-primary);
   background: transparent;
   color: var(--color-text);
 }
 
-.btn-outline:hover {
+.site-container .btn-outline:hover {
   background-color: rgba(16, 185, 129, 0.1);
 }
 
-.btn-text {
+.site-container .btn-text {
   background: none;
   color: var(--color-text);
   padding: 0.5rem 1rem;
 }
 
-.btn-text:hover {
+.site-container .btn-text:hover {
   color: var(--color-primary);
 }
 
 /* Footer Styles */
-.footer {
+.site-container .footer {
   background-color: rgba(31, 41, 55, 0.5);
   padding: 4rem 0 2rem;
 }
 
-.footer-grid {
+.site-container .footer-grid {
   display: grid;
   gap: 2rem;
 }
 
-.footer-section h3 {
+.site-container .footer-section h3 {
   font-weight: bold;
   margin-bottom: 1rem;
 }
 
-.footer-section ul {
+.site-container .footer-section ul {
   list-style: none;
 }
 
-.footer-section a {
+.site-container .footer-section a {
   color: var(--color-text-secondary);
   text-decoration: none;
   display: block;
@@ -188,11 +188,11 @@ body {
   transition: color 0.2s;
 }
 
-.footer-section a:hover {
+.site-container .footer-section a:hover {
   color: var(--color-primary);
 }
 
-.footer-bottom {
+.site-container .footer-bottom {
   margin-top: 3rem;
   padding-top: 2rem;
   border-top: 1px solid var(--color-border);
@@ -201,7 +201,7 @@ body {
 }
 
 /* Chatbot Button */
-.chatbot-button {
+.site-container .chatbot-button {
   position: fixed;
   bottom: 2rem;
   right: 2rem;
@@ -222,27 +222,27 @@ body {
   transition: opacity 0.2s;
 }
 
-.chatbot-button:hover {
+.site-container .chatbot-button:hover {
   opacity: 0.9;
 }
 
 /* Media Queries */
 @media (min-width: 768px) {
-  .nav-links {
+  .site-container .nav-links {
     display: flex;
     gap: 2rem;
   }
 
-  .auth-buttons {
+  .site-container .auth-buttons {
     display: flex;
     gap: 1rem;
   }
 
-  .mobile-menu-btn {
+  .site-container .mobile-menu-btn {
     display: none;
   }
 
-  .footer-grid {
+  .site-container .footer-grid {
     grid-template-columns: repeat(4, 1fr);
   }
 }
