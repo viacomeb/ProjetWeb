@@ -1,5 +1,5 @@
 <?php
-$host = '108.143.45.255'; // Remplacez par l'hôte de votre serveur de base de données
+$host = '127.0.0.1'; // Remplacez par l'hôte de votre serveur de base de données
 $db = 'workngo'; // Remplacez par le nom de votre base de données
 $user = 'tiago'; // Remplacez par votre nom d'utilisateur de base de données
 $pass = 'Tiag0***'; // Remplacez par votre mot de passe de base de données
