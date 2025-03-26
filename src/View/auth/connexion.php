@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['role'] = $user['role'];
 
             // Rediriger en fonction du rôle de l'utilisateur
-            if ($user['role'] === 'companies') {
+            if ($user['role'] === 'company') {
                 header('Location: ../../../index.php?page=' . urlencode(encryptPage("entreprises/dashboard")));
                 exit;
             } elseif ($user['role'] === 'pilote') {
