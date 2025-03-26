@@ -1,51 +1,62 @@
 /* Global Styles: Site-Wide Design, Header, and Footer */
 
-/* Reset and Root Variables */
+/* ------------------------
+   Variables globales
+   - Gèrent les couleurs principales
+------------------------- */
 :root {
-  --color-primary: #10b981;
-  --color-primary-dark: #059669;
-  --color-primary-light: #34d399;
-  --color-background: #111827;
-  --color-surface: #1f2937;
-  --color-text: #f9fafb;
-  --color-text-secondary: #9ca3af;
-  --color-border: #374151;
+  --color-primary: #10b981; /* Couleur principale */
+  --color-primary-dark: #059669; /* Variante plus sombre */
+  --color-primary-light: #34d399; /* Variante plus claire */
+  --color-background: #111827; /* Couleur de fond générale */
+  --color-surface: #1f2937; /* Couleur de surface (sections) */
+  --color-text: #f9fafb; /* Couleur de texte */
+  --color-text-secondary: #9ca3af; /* Texte secondaire */
+  --color-border: #374151; /* Couleur de bordure */
 }
 
-/* Reset */
+/* ------------------------
+   Réinitialisation
+------------------------- */
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  box-sizing: border-box; /* Meilleure gestion des largeurs */
 }
 
-/* Base Styles */
+/* ------------------------
+   Style de base
+------------------------- */
 body {
   font-family: system-ui, -apple-system, sans-serif;
   background-color: var(--color-background);
   color: var(--color-text);
   line-height: 1.5;
-  text-align: center;
+  text-align: center; /* Centrage global */
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 1.5rem; /* Pour laisser un espace sur les côtés */
 }
 
-/* Header Styles */
+/* ------------------------
+   En-tête (Header)
+------------------------- */
 .header {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  background-color: rgba(17, 24, 39, 0.95);
-  backdrop-filter: blur(8px);
+  background-color: rgba(17, 24, 39, 0.95); /* Légère transparence */
+  backdrop-filter: blur(8px); /* Effet de flou */
   border-bottom: 1px solid var(--color-border);
   z-index: 1000;
+  padding: 0 1rem;
 }
 
+/* Menu principal aligné horizontalement */
 .header nav {
   display: flex;
   align-items: center;
@@ -53,6 +64,7 @@ body {
   height: 4rem;
 }
 
+/* Logo à gauche */
 .logo-link {
   text-decoration: none;
   color: inherit;
@@ -73,31 +85,42 @@ body {
   height: 2rem;
 }
 
+/* ------------------------
+   Liens de navigation
+------------------------- */
 .nav-links {
-  display: none;
+  display: flex;
+  gap: 2rem;
 }
 
 .nav-link {
   color: var(--color-text);
   text-decoration: none;
   padding: 0.5rem 1rem;
-  transition: color 0.2s;
+  transition: color 0.2s; /* Effet de survol */
 }
 
 .nav-link:hover {
   color: var(--color-primary);
 }
 
+/* ------------------------
+   Boutons Auth
+------------------------- */
 .auth-buttons {
-  display: none;
+  display: flex;
+  gap: 1rem;
 }
 
+/* ------------------------
+   Menu mobile (icône Burger)
+------------------------- */
 .mobile-menu-btn {
-  display: flex;
+  display: none; /* Masqué par défaut sur desktop */
   flex-direction: column;
   justify-content: space-between;
-  width: 24px;
-  height: 20px;
+  width: 30px;
+  height: 25px;
   background: none;
   border: none;
   cursor: pointer;
@@ -106,12 +129,39 @@ body {
 
 .mobile-menu-btn span {
   width: 100%;
-  height: 2px;
+  height: 3px;
   background-color: var(--color-text);
   transition: 0.3s;
 }
 
-/* Button Styles */
+/* ------------------------
+   Menu mobile déroulant
+------------------------- */
+.mobile-menu {
+  display: none; /* Masqué par défaut */
+  flex-direction: column;
+  position: absolute;
+  top: 4rem;
+  left: 0;
+  right: 0;
+  background-color: var(--color-surface);
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-border);
+  text-align: center;
+}
+
+.mobile-menu.active {
+  display: flex; /* Affiché si actif */
+}
+
+.mobile-menu .nav-link {
+  padding: 1rem;
+  width: 100%;
+}
+
+/* ------------------------
+   Boutons génériques
+------------------------- */
 .btn {
   display: inline-flex;
   justify-content: center;
@@ -124,9 +174,9 @@ body {
   transition: all 0.2s;
   border: none;
   font-size: 0.875rem;
-  text-align: center;
 }
 
+/* Bouton principal à dégradé */
 .btn-primary {
   background: linear-gradient(
     to right,
@@ -140,6 +190,7 @@ body {
   opacity: 0.9;
 }
 
+/* Bouton contour */
 .btn-outline {
   border: 1px solid var(--color-primary);
   background: transparent;
@@ -150,6 +201,7 @@ body {
   background-color: rgba(16, 185, 129, 0.1);
 }
 
+/* Bouton textuel */
 .btn-text {
   background: none;
   color: var(--color-text);
@@ -160,7 +212,9 @@ body {
   color: var(--color-primary);
 }
 
-/* Footer Styles */
+/* ------------------------
+   Pied de page (Footer)
+------------------------- */
 .footer {
   background-color: rgba(31, 41, 55, 0.5);
   padding: 4rem 0 2rem;
@@ -168,6 +222,7 @@ body {
 
 .footer-grid {
   display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 colonnes horizontales */
   gap: 2rem;
 }
 
@@ -180,6 +235,7 @@ body {
   list-style: none;
 }
 
+/* Liens du footer */
 .footer-section a {
   color: var(--color-text-secondary);
   text-decoration: none;
@@ -192,6 +248,7 @@ body {
   color: var(--color-primary);
 }
 
+/* Bas du footer */
 .footer-bottom {
   margin-top: 3rem;
   padding-top: 2rem;
@@ -200,14 +257,16 @@ body {
   color: var(--color-text-secondary);
 }
 
-/* Chatbot Button */
+/* ------------------------
+   Bouton du Chatbot
+------------------------- */
 .chatbot-button {
-  position: fixed;
+  position: fixed; /* Toujours en bas à droite */
   bottom: 2rem;
   right: 2rem;
   width: 3.5rem;
   height: 3.5rem;
-  border-radius: 50%;
+  border-radius: 50%; /* Forme circulaire */
   background: linear-gradient(
     to right,
     var(--color-primary),
@@ -226,23 +285,16 @@ body {
   opacity: 0.9;
 }
 
-/* Media Queries */
-@media (min-width: 768px) {
-  .nav-links {
-    display: flex;
-    gap: 2rem;
-  }
-
+/* ------------------------
+   Media Queries: Mobile
+------------------------- */
+@media (max-width: 767px) {
+  .nav-links,
   .auth-buttons {
-    display: flex;
-    gap: 1rem;
+    display: none; /* On masque les liens et boutons sur mobile */
   }
 
   .mobile-menu-btn {
-    display: none;
-  }
-
-  .footer-grid {
-    grid-template-columns: repeat(4, 1fr);
+    display: flex; /* Icône burger visible sur mobile */
   }
 }

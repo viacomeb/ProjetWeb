@@ -1,10 +1,18 @@
 // Mobile Menu
 const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-const navLinks = document.querySelector('.nav-links');
+const mobileMenu = document.querySelector('.mobile-menu');
 
-mobileMenuBtn?.addEventListener('click', () => {
-  navLinks?.classList.toggle('active');
+mobileMenuBtn.addEventListener('click', () => {
+  mobileMenu.classList.toggle('active');
 });
+
+// Fermer le menu si on clique ailleurs sur la page
+document.addEventListener('click', (event) => {
+  if (!mobileMenu.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
+    mobileMenu.classList.remove('active');
+  }
+});
+
 
 
 // Chatbot Button

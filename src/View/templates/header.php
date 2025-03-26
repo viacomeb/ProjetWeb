@@ -35,5 +35,16 @@ include_once '../config/security.php'; // Inclure la sécurité
             <span></span>
             <span></span>
         </button>
+
+        <!-- Menu Mobile -->
+        <div class="mobile-menu">
+            <a href="index.php?page=<?= encryptPage("pages/home"); ?>" class="nav-link">Accueil</a>
+            <a href="index.php?page=<?= encryptPage("offres/liste"); ?>" class="nav-link">Offres</a>
+            <a href="index.php?page=<?= encryptPage("entreprises/liste"); ?>" class="nav-link">Entreprises</a>
+            <a href="index.php?page=<?= encryptPage("pages/contact"); ?>" class="nav-link">Contact</a>
+
+            <button onclick="window.location.href='index.php?page=<?= encryptPage('auth/connexion'); ?>'" class="btn btn-text">Se connecter</button>
+            <button onclick="window.location.href='index.php?page=<?= encryptPage('auth/inscription'); ?>'" class="btn btn-primary">Créer un compte</button>
+        </div>
     </nav>
 </header>
