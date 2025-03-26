@@ -27,14 +27,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['role'] = $user['role'];
 
             // Rediriger en fonction du rôle de l'utilisateur
-            if ($user['role'] === 'companies') {
-                header('Location: ../src/View/entreprises/dashboard.php');
+            if ($user['role'] === 'company') {
+                header('Location: ../../../index.php?page=' . urlencode(encryptPage("entreprises/dashboard")));
                 exit;
             } elseif ($user['role'] === 'pilote') {
-                header('Location: ../src/View/pilotes/dashboard.php');
+                header('Location: ../../../index.php?page=' . urlencode(encryptPage("pilotes/dashboard")));
                 exit;
             } else {
-                header('Location: ../src/View/etudiants/dashboard.php');
+                header('Location: ../../../index.php?page=' . urlencode(encryptPage("etudiants/dashboard")));
                 exit;
             }
         } else {
