@@ -74,7 +74,7 @@ $activeTab = $_GET['tab'] ?? 'overview';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RecrutPro - Dashboard</title>
-    <link rel="stylesheet" href="../../../public/assets/css/companies_dashboard.css">
+    <link rel="stylesheet" href="../../..//public/assets/css/companies_dashboard.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
@@ -85,7 +85,7 @@ $activeTab = $_GET['tab'] ?? 'overview';
             <div class="container header-content">
                 <div class="logo">
                     <i data-lucide="building-2" class="logo-icon"></i>
-                    <span class="logo-text">RecrutPro</span>
+                    <span class="logo-text">workngo</span>
                 </div>
 
                 <div class="header-actions">
