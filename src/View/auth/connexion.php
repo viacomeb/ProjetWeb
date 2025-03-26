@@ -31,10 +31,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header('Location: ../../../index.php?page=' . urlencode(encryptPage("entreprises/dashboard")));
                 exit;
             } elseif ($user['role'] === 'pilote') {
-                header('Location: ../src/View/pilotes/dashboard.php');
+                header('Location: ../../../index.php?page=' . urlencode(encryptPage("pilotes/dashboard")));
                 exit;
             } else {
-                header('Location: ../src/View/etudiants/dashboard.php');
+                header('Location: ../../../index.php?page=' . urlencode(encryptPage("etudiants/dashboard")));
                 exit;
             }
         } else {
