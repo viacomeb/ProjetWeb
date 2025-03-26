@@ -9,7 +9,7 @@ require_once __DIR__ . '/../../../config/database.php';
 
 $error = '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') { // Changer GET en POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $password = $_POST['mot_de_pass'];
     // Préparer et exécuter la requête SQL
@@ -106,7 +106,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') { // Changer GET en POST
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Toggle password visibility
             const togglePassword = document.querySelector('.toggle-password');
             const passwordInput = document.querySelector('#password');
 
