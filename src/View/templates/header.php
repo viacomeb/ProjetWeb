@@ -25,8 +25,7 @@ include_once '../config/security.php'; // Inclure la sécurité
 
         <!-- Boutons d'authentification -->
         <div class="auth-buttons">
-            <button onclick="window.location.href='index.php?page=<?= encryptPage('auth/connexion'); ?>'" class="btn btn-text">Se connecter</button>
-            <button onclick="window.location.href='index.php?page=<?= encryptPage('auth/inscription'); ?>'" class="btn btn-primary">Créer un compte</button>
+            <button onclick="window.location.href='index.php?page=<?= encryptPage('auth/connexion'); ?>'" class="btn btn-primary">Se connecter</button>
         </div>
 
         <!-- Bouton pour le menu mobile -->
