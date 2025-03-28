@@ -1,258 +1,415 @@
-<?php
-session_start();
-// Simuler des données utilisateur (à remplacer par des vraies données de base de données)
-$userData = [
-    'streak' => 5,
-    'applications' => [
-        'sent' => 12,
-        'pending' => 5,
-        'interviews' => 2
-    ],
-    'level' => 5,
-    'xp' => [
-        'current' => 450,
-        'max' => 500
-    ],
-    'title' => 'Chercheur Prometteur'
-];
-
-$recommendedInternships = [
-    [
-        'title' => 'Stage Développeur Full-Stack',
-        'company' => 'TechCorp',
-        'location' => 'Paris, France',
-        'match' => 95
-    ],
-    [
-        'title' => 'Stage Marketing Digital',
-        'company' => 'DigitalFlow',
-        'location' => 'Lyon, France',
-        'match' => 88
-    ],
-    [
-        'title' => 'Stage Data Analyst',
-        'company' => 'DataTech',
-        'location' => 'Bordeaux, France',
-        'match' => 92
-    ]
-];
-
-$badges = [
-    ['name' => 'Premier Pas', 'icon' => 'award', 'color' => 'green'],
-    ['name' => 'Super Actif', 'icon' => 'flame', 'color' => 'orange'],
-    ['name' => 'Networker', 'icon' => 'users', 'color' => 'purple'],
-    ['name' => 'Expert', 'icon' => 'trophy', 'color' => 'yellow']
-];
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WorknGo - Dashboard</title>
-    <link rel="stylesheet" href="../../../public/assets/css/style.css?v=<?= filemtime('../../../public/assets/css/style.css'); ?>">
-    <link rel="stylesheet" href="../../../public/assets/css/dashboard.css?v=<?= filemtime('../../../public/assets/css/dashboard.css'); ?>">
-    <link rel="icon" href="../../../public/assets/images/WorknGo_logo.svg">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <title>Dashboard Étudiant - StageManager</title>
+    <link rel="stylesheet" href="../../../public/assets/css/student-dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
-<body class="min-h-screen bg-gray-900 text-white">
+<body class="light-mode">
     <!-- Header -->
-    <header class="bg-gray-800 border-b border-gray-700 p-4">
-        <div class="container mx-auto flex items-center justify-between">
-            <!-- Logo -->
-            <a href="dashboard.php" class="logo-link">
-                <div class="text-2xl font-bold gradient-text logo flex items-center">
-                    <img src="../../../public/assets/images/WorknGo_logo.svg" alt="Logo" class="logo-icon h-8 w-8 mr-2">
-                    <span>WorknGo</span>
-                </div>
-            </a>
-
-            <!-- Barre de recherche -->
-            <div class="flex-1 mx-8">
-                <div class="relative">
-                    <i data-lucide="search" class="search-icon absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                    <input
-                        type="text"
-                        placeholder="Rechercher un stage..."
-                        class="w-full bg-gray-700 rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        id="searchInput">
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>StageManager</span>
+            </div>
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Rechercher une offre de stage...">
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="theme-toggle">
+                <i class="fas fa-moon"></i>
+            </div>
+            <div class="music-player">
+                <i class="fas fa-music"></i>
+                <div class="music-popup">
+                    <h4>Ambiance sonore</h4>
+                    <div class="music-options">
+                        <button class="music-option">🎵 Lo-Fi</button>
+                        <button class="music-option">🌧️ Pluie</button>
+                        <button class="music-option">🌊 Vagues</button>
+                    </div>
                 </div>
             </div>
-
-            <!-- Notifications et Profil -->
-            <div class="flex items-center space-x-4">
-                <button class="relative p-2 hover:bg-gray-700 rounded-lg">
-                    <i data-lucide="bell"></i>
-                    <span class="notification-dot absolute top-1 right-1 bg-red-500 w-2 h-2 rounded-full"></span>
-                </button>
-                <button class="flex items-center space-x-2 p-2 hover:bg-gray-700 rounded-lg">
-                    <i data-lucide="user"></i>
-                </button>
+            <div class="notifications">
+                <i class="fas fa-bell"></i>
+                <span class="badge">3</span>
+                <div class="notifications-popup">
+                    <div class="notification-item">
+                        <i class="fas fa-eye"></i>
+                        <div class="notification-content">
+                            <p>TechCorp a consulté votre profil</p>
+                            <span>Il y a 1 heure</span>
+                        </div>
+                    </div>
+                    <div class="notification-item">
+                        <i class="fas fa-briefcase"></i>
+                        <div class="notification-content">
+                            <p>Nouvelle offre qui correspond à votre profil</p>
+                            <span>Il y a 2 heures</span>
+                        </div>
+                    </div>
+                    <div class="notification-item">
+                        <i class="fas fa-trophy"></i>
+                        <div class="notification-content">
+                            <p>Badge "Candidat actif" débloqué !</p>
+                            <span>Il y a 3 heures</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="profile">
+                <img src="https://ui-avatars.com/api/?name=Marie+Martin" alt="Profile">
+                <span>Marie Martin</span>
+                <div class="profile-menu">
+                    <div class="profile-header">
+                        <img src="https://ui-avatars.com/api/?name=Marie+Martin" alt="Profile">
+                        <div class="profile-info">
+                            <h4>Marie Martin</h4>
+                            <p>Niveau 5 - Expert en recherche</p>
+                        </div>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="stat">
+                            <span class="value">1250</span>
+                            <span class="label">XP Points</span>
+                        </div>
+                        <div class="stat">
+                            <span class="value">8</span>
+                            <span class="label">Badges</span>
+                        </div>
+                    </div>
+                    <div class="profile-menu-items">
+                        <a href="#"><i class="fas fa-user"></i> Mon profil</a>
+                        <a href="#"><i class="fas fa-history"></i> Historique</a>
+                        <a href="#"><i class="fas fa-cog"></i> Paramètres</a>
+                        <a href="#"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="container mx-auto py-8 px-4">
+    <main class="main-content">
         <!-- Progress Section -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <!-- Progression Card -->
-            <div class="bg-gray-800 p-6 rounded-xl border border-gray-700">
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-xl font-semibold">Progression</h2>
-                    <i data-lucide="flame" class="text-orange-500"></i>
-                </div>
-                <div class="space-y-4">
-                    <div>
-                        <div class="flex justify-between mb-2">
-                            <span>Streak actif</span>
-                            <span class="text-orange-500"><?php echo $userData['streak']; ?> jours 🔥</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: <?php echo ($userData['streak'] / 7 * 100); ?>%"></div>
+        <section class="progress-section">
+            <div class="progress-cards">
+                <div class="progress-card">
+                    <div class="progress-header">
+                        <h3>Progression de recherche</h3>
+                        <div class="streak">
+                            <i class="fas fa-fire"></i>
+                            <span>5 jours</span>
                         </div>
                     </div>
-                    <div class="grid grid-cols-3 gap-4 text-center">
-                        <div class="stat-card">
-                            <div class="text-xl font-bold text-green-500"><?php echo $userData['applications']['sent']; ?></div>
-                            <div class="text-sm text-gray-400">Envoyées</div>
+                    <div class="progress-stats">
+                        <div class="stat-item">
+                            <div class="stat-header">
+                                <span>Candidatures envoyées</span>
+                                <span>15/20</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 75%"></div>
+                            </div>
                         </div>
-                        <div class="stat-card">
-                            <div class="text-xl font-bold text-yellow-500"><?php echo $userData['applications']['pending']; ?></div>
-                            <div class="text-sm text-gray-400">En attente</div>
+                        <div class="stat-item">
+                            <div class="stat-header">
+                                <span>Entretiens passés</span>
+                                <span>3/5</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 60%"></div>
+                            </div>
                         </div>
-                        <div class="stat-card">
-                            <div class="text-xl font-bold text-blue-500"><?php echo $userData['applications']['interviews']; ?></div>
-                            <div class="text-sm text-gray-400">Entretiens</div>
+                        <div class="stat-item">
+                            <div class="stat-header">
+                                <span>Niveau d'expérience</span>
+                                <span>1250 XP</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="progress-footer">
+                        <p>🎯 Prochain palier : Débloquer la visualisation des visiteurs de profil</p>
+                    </div>
+                </div>
+                <div class="progress-card">
+                    <div class="progress-header">
+                        <h3>Challenges du jour</h3>
+                        <div class="points">
+                            <i class="fas fa-star"></i>
+                            <span>150 pts</span>
+                        </div>
+                    </div>
+                    <div class="challenges-list">
+                        <div class="challenge-item">
+                            <div class="challenge-info">
+                                <i class="fas fa-paper-plane"></i>
+                                <div class="challenge-text">
+                                    <h4>Postule à 3 offres</h4>
+                                    <p>2/3 complétés</p>
+                                </div>
+                            </div>
+                            <div class="challenge-progress">
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 66%"></div>
+                                </div>
+                                <span>50 pts</span>
+                            </div>
+                        </div>
+                        <div class="challenge-item completed">
+                            <div class="challenge-info">
+                                <i class="fas fa-book"></i>
+                                <div class="challenge-text">
+                                    <h4>Mets à jour ton CV</h4>
+                                    <p>Complété !</p>
+                                </div>
+                            </div>
+                            <div class="challenge-progress">
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 100%"></div>
+                                </div>
+                                <span>30 pts</span>
+                            </div>
+                        </div>
+                        <div class="challenge-item">
+                            <div class="challenge-info">
+                                <i class="fas fa-users"></i>
+                                <div class="challenge-text">
+                                    <h4>Participe au forum</h4>
+                                    <p>0/1 complété</p>
+                                </div>
+                            </div>
+                            <div class="challenge-progress">
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 0%"></div>
+                                </div>
+                                <span>70 pts</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Level Card -->
-            <div class="bg-gray-800 p-6 rounded-xl border border-gray-700">
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-xl font-semibold">Niveau actuel</h2>
-                    <i data-lucide="trophy" class="text-yellow-500"></i>
+        <!-- Recommended Offers Section -->
+        <section class="offers-section">
+            <div class="section-header">
+                <h2>Offres recommandées</h2>
+                <div class="filters">
+                    <button class="filter-btn active">Tous</button>
+                    <button class="filter-btn">Tech</button>
+                    <button class="filter-btn">Design</button>
+                    <button class="filter-btn">Marketing</button>
                 </div>
-                <div class="space-y-4">
-                    <div class="text-center">
-                        <div class="text-3xl font-bold text-yellow-500">Niveau <?php echo $userData['level']; ?></div>
-                        <div class="text-gray-400"><?php echo $userData['title']; ?></div>
+            </div>
+            <div class="offers-grid">
+                <div class="offer-card">
+                    <div class="offer-match">
+                        <span>95% match</span>
                     </div>
-                    <div>
-                        <div class="flex justify-between mb-2">
-                            <span>XP</span>
-                            <span><?php echo $userData['xp']['current']; ?>/<?php echo $userData['xp']['max']; ?></span>
+                    <div class="offer-header">
+                        <img src="https://ui-avatars.com/api/?name=Tech+Corp" alt="Company">
+                        <div class="offer-company">
+                            <h3>Développeur Full-Stack</h3>
+                            <p>TechCorp</p>
                         </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill-yellow" style="width: <?php echo ($userData['xp']['current'] / $userData['xp']['max'] * 100); ?>%"></div>
+                    </div>
+                    <div class="offer-details">
+                        <div class="offer-tags">
+                            <span class="tag">React</span>
+                            <span class="tag">Node.js</span>
+                            <span class="tag">6 mois</span>
                         </div>
+                        <p class="offer-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Paris (Hybride)
+                        </p>
+                        <p class="offer-salary">
+                            <i class="fas fa-euro-sign"></i>
+                            1000€ - 1200€
+                        </p>
+                    </div>
+                    <div class="offer-actions">
+                        <button class="btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            Postuler en 1 clic
+                        </button>
+                        <button class="btn-secondary">
+                            <i class="fas fa-bookmark"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="offer-card">
+                    <div class="offer-match">
+                        <span>88% match</span>
+                    </div>
+                    <div class="offer-header">
+                        <img src="https://ui-avatars.com/api/?name=Data+Insight" alt="Company">
+                        <div class="offer-company">
+                            <h3>Data Analyst</h3>
+                            <p>DataInsight</p>
+                        </div>
+                    </div>
+                    <div class="offer-details">
+                        <div class="offer-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">SQL</span>
+                            <span class="tag">4 mois</span>
+                        </div>
+                        <p class="offer-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Lyon (Remote)
+                        </p>
+                        <p class="offer-salary">
+                            <i class="fas fa-euro-sign"></i>
+                            800€ - 1000€
+                        </p>
+                    </div>
+                    <div class="offer-actions">
+                        <button class="btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            Postuler en 1 clic
+                        </button>
+                        <button class="btn-secondary">
+                            <i class="fas fa-bookmark"></i>
+                        </button>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Objectives Card -->
-            <div class="bg-gray-800 p-6 rounded-xl border border-gray-700">
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-xl font-semibold">Objectifs du jour</h2>
-                    <i data-lucide="target" class="text-blue-500"></i>
-                </div>
-                <div class="space-y-4">
-                    <div class="objective-card">
-                        <div class="flex items-center space-x-3">
-                            <i data-lucide="briefcase" class="text-blue-500"></i>
-                            <span>Postuler à 3 offres</span>
-                        </div>
-                        <div class="text-sm">1/3</div>
-                    </div>
-                    <div class="objective-card">
-                        <div class="flex items-center space-x-3">
-                            <i data-lucide="star" class="text-yellow-500"></i>
-                            <span>Compléter votre profil</span>
-                        </div>
-                        <div class="text-sm">80%</div>
-                    </div>
-                    <div class="objective-card">
-                        <div class="flex items-center space-x-3">
-                            <i data-lucide="users" class="text-purple-500"></i>
-                            <span>Rejoindre la communauté</span>
-                        </div>
-                        <div class="text-green-500">✓</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Recommended Internships -->
-        <div class="mb-8">
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-2xl font-semibold">Stages recommandés</h2>
-                <button class="text-blue-500 hover:text-blue-400 flex items-center">
-                    Voir tout <i data-lucide="chevron-right"></i>
+        <!-- Community Section -->
+        <section class="community-section">
+            <div class="community-header">
+                <h2>Espace communauté</h2>
+                <button class="btn-primary">
+                    <i class="fas fa-plus"></i>
+                    Nouvelle discussion
                 </button>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <?php foreach ($recommendedInternships as $internship): ?>
-                    <div class="internship-card">
-                        <div class="p-6">
-                            <div class="flex items-start justify-between mb-4">
-                                <div class="flex items-center space-x-3">
-                                    <div class="company-logo">
-                                        <i data-lucide="building-2" class="text-blue-500"></i>
-                                    </div>
-                                    <div>
-                                        <h3 class="font-semibold"><?php echo $internship['title']; ?></h3>
-                                        <div class="text-gray-400"><?php echo $internship['company']; ?></div>
-                                    </div>
-                                </div>
-                                <button class="text-blue-500 hover:text-blue-400 favorite-button">
-                                    <i data-lucide="star"></i>
-                                </button>
+            <div class="community-content">
+                <div class="forum-posts">
+                    <div class="forum-post">
+                        <div class="post-author">
+                            <img src="https://ui-avatars.com/api/?name=Lucas+Dubois" alt="Author">
+                            <div class="author-info">
+                                <h4>Lucas Dubois</h4>
+                                <span>Il y a 2h</span>
                             </div>
-                            <div class="space-y-3">
-                                <div class="flex items-center text-gray-400">
-                                    <i data-lucide="map-pin" class="mr-2"></i>
-                                    <?php echo $internship['location']; ?>
-                                </div>
-                                <div class="flex items-center text-gray-400">
-                                    <i data-lucide="trending-up" class="mr-2"></i>
-                                    Match <?php echo $internship['match']; ?>%
-                                </div>
+                        </div>
+                        <div class="post-content">
+                            <h3>Conseils pour un entretien tech ?</h3>
+                            <p>Je passe un entretien chez TechCorp la semaine prochaine, des conseils ?</p>
+                            <div class="post-stats">
+                                <span><i class="fas fa-comment"></i> 12 réponses</span>
+                                <span><i class="fas fa-heart"></i> 5 likes</span>
                             </div>
-                            <button class="apply-button">
-                                Postuler en 1 clic
-                            </button>
                         </div>
                     </div>
-                <?php endforeach; ?>
+                    <div class="forum-post">
+                        <div class="post-author">
+                            <img src="https://ui-avatars.com/api/?name=Emma+Bernard" alt="Author">
+                            <div class="author-info">
+                                <h4>Emma Bernard</h4>
+                                <span>Il y a 4h</span>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            <h3>Retour d'expérience : Stage Data Science</h3>
+                            <p>Je viens de terminer mon stage chez DataInsight, je partage mon expérience !</p>
+                            <div class="post-stats">
+                                <span><i class="fas fa-comment"></i> 8 réponses</span>
+                                <span><i class="fas fa-heart"></i> 15 likes</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mentors-section">
+                    <h3>Mentors disponibles</h3>
+                    <div class="mentors-list">
+                        <div class="mentor-card">
+                            <img src="https://ui-avatars.com/api/?name=Sophie+Martin" alt="Mentor">
+                            <div class="mentor-info">
+                                <h4>Sophie Martin</h4>
+                                <p>Lead Dev chez TechCorp</p>
+                                <div class="mentor-stats">
+                                    <span><i class="fas fa-star"></i> 4.9/5</span>
+                                    <span><i class="fas fa-user"></i> 12 mentorés</span>
+                                </div>
+                            </div>
+                            <button class="btn-primary">Contacter</button>
+                        </div>
+                        <div class="mentor-card">
+                            <img src="https://ui-avatars.com/api/?name=Marc+Dubois" alt="Mentor">
+                            <div class="mentor-info">
+                                <h4>Marc Dubois</h4>
+                                <p>Data Scientist chez DataInsight</p>
+                                <div class="mentor-stats">
+                                    <span><i class="fas fa-star"></i> 4.7/5</span>
+                                    <span><i class="fas fa-user"></i> 8 mentorés</span>
+                                </div>
+                            </div>
+                            <button class="btn-primary">Contacter</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Achievements -->
-        <div>
-            <h2 class="text-2xl font-semibold mb-6">Badges débloqués</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                <?php foreach ($badges as $badge): ?>
-                    <div class="badge-card">
-                        <div class="text-<?php echo $badge['color']; ?>-500 flex justify-center mb-2">
-                            <i data-lucide="<?php echo $badge['icon']; ?>"></i>
-                        </div>
-                        <div class="font-medium"><?php echo $badge['name']; ?></div>
+        <!-- Leaderboard Section -->
+        <section class="leaderboard-section">
+            <h2>Top Candidats</h2>
+            <div class="leaderboard">
+                <div class="leaderboard-item top">
+                    <div class="rank">1</div>
+                    <img src="https://ui-avatars.com/api/?name=Thomas+Laurent" alt="User">
+                    <div class="user-info">
+                        <h4>Thomas Laurent</h4>
+                        <p>2500 XP</p>
                     </div>
-                <?php endforeach; ?>
+                    <div class="badges">
+                        <i class="fas fa-medal" style="color: gold;"></i>
+                        <i class="fas fa-trophy" style="color: gold;"></i>
+                    </div>
+                </div>
+                <div class="leaderboard-item">
+                    <div class="rank">2</div>
+                    <img src="https://ui-avatars.com/api/?name=Marie+Martin" alt="User">
+                    <div class="user-info">
+                        <h4>Marie Martin</h4>
+                        <p>2250 XP</p>
+                    </div>
+                    <div class="badges">
+                        <i class="fas fa-medal" style="color: silver;"></i>
+                    </div>
+                </div>
+                <div class="leaderboard-item">
+                    <div class="rank">3</div>
+                    <img src="https://ui-avatars.com/api/?name=Lucas+Dubois" alt="User">
+                    <div class="user-info">
+                        <h4>Lucas Dubois</h4>
+                        <p>2100 XP</p>
+                    </div>
+                    <div class="badges">
+                        <i class="fas fa-medal" style="color: #cd7f32;"></i>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
     </main>
 
-    <script src="../../../public/assets/js/dashboard.js"></script>
-    <script>
-        // Initialize Lucide icons
-        lucide.createIcons();
-    </script>
+    <script src="../../../public/assets/js/student_dashboard.js"></script>
 </body>
 
 </html>

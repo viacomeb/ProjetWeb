@@ -11,7 +11,7 @@ $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
-    $password = $_POST['mot_de_pass'];
+    $password = $_POST['mot_de_passe'];
     // Préparer et exécuter la requête SQL
     try {
         $stmt = $pdo->prepare('SELECT * FROM user WHERE email = :email');
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
         // Comparer les mots de passe en clair (non recommandé)
-        if ($user && $password === $user['mot_de_pass']) {
+        if ($user && $password === $user['mot_de_passe']) {
 
             // Stocker les informations de l'utilisateur dans la session
             $_SESSION['id'] = $user['id'];
