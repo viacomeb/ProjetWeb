@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Activer le mode debug pour PDO
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $stmt = $pdo->prepare('SELECT * FROM Users WHERE email = :email');
+        $stmt = $pdo->prepare('SELECT * FROM user WHERE email = :email');
         $stmt->execute(['email' => $email]);
         $user = $stmt->fetch();
 
