@@ -4,24 +4,30 @@ session_start();
 $pageTitle = "StageFlow - Connexion";
 
 // Inclure le fichier de connexion à la base de données
-
 require_once __DIR__ . '/../../../config/database.php';
 
 $error = '';
+$debug = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $password = $_POST['mot_de_passe'];
+
     // Préparer et exécuter la requête SQL
     try {
-        $stmt = $pdo->prepare('SELECT * FROM user WHERE email = :email');
+        // Activer le mode debug pour PDO
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $stmt = $pdo->prepare('SELECT * FROM Users WHERE email = :email');
         $stmt->execute(['email' => $email]);
         $user = $stmt->fetch();
 
+        // Debug : Afficher la requête exécutée
+        $debug .= "<p>Requête SQL exécutée : SELECT * FROM Users WHERE email = :email</p>";
+        $debug .= "<p>Paramètres : " . htmlspecialchars(json_encode(['email' => $email])) . "</p>";
 
         // Comparer les mots de passe en clair (non recommandé)
         if ($user && $password === $user['mot_de_passe']) {
-
             // Stocker les informations de l'utilisateur dans la session
             $_SESSION['id'] = $user['id'];
             $_SESSION['role'] = $user['role'];
@@ -42,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     } catch (PDOException $e) {
         $error = "Erreur lors de l'exécution de la requête : " . $e->getMessage();
+        $debug .= "<p>Erreur SQL : " . htmlspecialchars($e->getMessage()) . "</p>";
     }
 }
 ?>
@@ -69,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="form-group">
                     <label for="password">Mot de passe</label>
                     <div class="password-input">
-                        <input type="password" id="password" name="mot_de_pass" required>
+                        <input type="password" id="password" name="mot_de_passe" required>
                         <button type="button" class="toggle-password">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
@@ -103,6 +110,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </p>
         </div>
     </div>
+
+    <?php if (!empty($debug)): ?>
+        <div class="debug">
+            <h3>Debug SQL</h3>
+            <?php echo $debug; ?>
+        </div>
+    <?php endif; ?>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
