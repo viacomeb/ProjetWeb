@@ -11,6 +11,50 @@
 </head>
 
 <body class="light-mode">
+    <!-- Sidebar Menu -->
+    <aside class="sidebar">
+        <nav class="menu">
+            <ul>
+                <li class="menu-item active">
+                    <a href="#">
+                        <i class="fas fa-home"></i>
+                        <span>Vue d'ensemble</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#">
+                        <i class="fas fa-briefcase"></i>
+                        <span>Offres de stage</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Progression</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#">
+                        <i class="fas fa-users"></i>
+                        <span>Communauté</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#">
+                        <i class="fas fa-comments"></i>
+                        <span>Chat</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#">
+                        <i class="fas fa-trophy"></i>
+                        <span>Top Candidats</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
     <!-- Header -->
     <header class="header">
         <div class="header-left">
