@@ -2,27 +2,24 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\EntrepriseController;
-use App\Http\Controllers\OffreController;
+use App\Http\Controllers\CompaniesController;
+use App\Http\Controllers\OffersController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\EtudiantController;
-use App\Http\Controllers\ErrorController;
+use App\Http\Controllers\StudentsController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
-
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/blog', [HomeController::class, 'blog'])->name('blog');
-Route::get('/carrieres', [HomeController::class, 'carrieres'])->name('carrieres');
+Route::get('/careers', [HomeController::class, 'careers'])->name('careers');
 
-Route::get('/connexion', [AuthController::class, 'connexion'])->name('auth.connexion');
-Route::get('/inscription', [AuthController::class, 'inscription'])->name('auth.inscription');
+Route::match(['get', 'post'], '/login', [AuthController::class, 'login'])->name('login');
+Route::match(['get', 'post'], '/sign_in', [AuthController::class, 'sign_in'])->name('sign_in');
 
-Route::get('/entreprises', [EntrepriseController::class, 'liste'])->name('entreprises.liste');
-Route::get('/entreprises/{id}', [EntrepriseController::class, 'show'])->name('entreprises.show');
+Route::get('/students/dashboard', [StudentsController::class, 'dashboard'])->name('students.dashboard');
 
-Route::get('/offres', [OffreController::class, 'liste'])->name('offres.liste');
-Route::get('/offres/{id}', [OffreController::class, 'show'])->name('offres.show');
+Route::get('/companies', [CompaniesController::class, 'list'])->name('companies.list');
+Route::get('/companies/{id}', [CompaniesController::class, 'show'])->name('companies.show');
 
-Route::get('/etudiants', [EtudiantController::class, 'dashboard'])->name('etudiants.dashboard');
+Route::get('/offers', [OffersController::class, 'list'])->name('offers.list');
+Route::get('/offers/{id}', [OffersController::class, 'show'])->name('offers.show');

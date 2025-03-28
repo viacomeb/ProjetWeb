@@ -3,29 +3,29 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Offre;
+use App\Models\Offer;
 
-class OffreController extends Controller
+class OffersController extends Controller
 {
     protected $page;
 
     public function __construct()
     {
-        $this->page = 'offres';
+        $this->page = 'offers';
     }
 
     public function liste()
     {
         // Récupérer toutes les offres
-        $offres = Offre::all();
-        return view('offres.liste', compact('offres', 'page'));
+        $offers = Offer::all();
+        return view('offers.list', compact('offers', 'page'));
     }
 
     public function show($id)
     {
         // Récupérer une offre spécifique
-        $offre = Offre::findOrFail($id);
-        return view('offres.show', compact('offre', 'page'));
+        $offer = Offer::findOrFail($id);
+        return view('offers.show', compact('offer', 'page'));
     }
 
     // Autres méthodes pour créer, mettre à jour, supprimer des offres

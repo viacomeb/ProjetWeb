@@ -34,11 +34,10 @@ class HomeController extends Controller
         return view('about.blog', compact('page'));
     }
 
-    public function carrieres()
+    public function careers()
     {
         // Logique pour la page de carrières
-        $page = 'carrieres';
-        return view('about.carrieres', compact('page'));
+        $page = 'careers';
+        return view('about.careers', compact('page'));
     }
-
-}  
+}

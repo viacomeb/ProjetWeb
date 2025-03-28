@@ -15,7 +15,7 @@
         <h1>Liste des Entreprises</h1>
 
         <!-- Vérifier si des entreprises existent -->
-        @if ($entreprises->isEmpty())
+        @if ($companies->isEmpty())
             <div class="alert alert-warning">
                 Aucune entreprise trouvée.
             </div>
@@ -33,11 +33,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($entreprises as $entreprise)
+                    @foreach ($companies as $company)
                         <tr>
                             <td>{{ $loop->iteration }}</td> <!-- Affiche le numéro d'ordre de l'entreprise -->
-                            <td>{{ $entreprise->nom }}</td>
-                            <td>{{ Str::limit($entreprise->description, 50) }}
+                            <td>{{ $company->name }}</td>
+                            <td>{{ Str::limit($company->description, 50) }}
                                 <!-- Limite la description à 50 caractères -->
                             </td>
                             <td>{{ $entreprise->telephone }}</td>

@@ -10,18 +10,18 @@ use Illuminate\Support\Facades\Route;
 class CheckPage
 {
     protected $validPages = [
-        'home',
-        'about',
-        'blog',
-        'contact',
-        'carrieres',
-        'auth.connexion',
-        'auth.inscription',
-        'entreprises.liste',
-        'entreprises.show',
-        'offres.liste',
-        'offres.show',
-        'etudiants.dashboard',
+        'page.home',
+        'about.about',
+        'about.blog',
+        'page.contact',
+        'about.careers',
+        'auth.login',
+        'auth.sign_in',
+        'company.list',
+        'company.show',
+        'offer.list',
+        'offer.show',
+        'student.dashboard',
     ];
 
     /**

@@ -31,16 +31,16 @@
             <!-- Liens de navigation -->
             <div class="nav-links">
                 <a href="{{ route('home') }}" class="nav-link">Accueil</a>
-                <a href="{{ route('offres.liste') }}" class="nav-link">Offres</a>
-                <a href="{{ route('entreprises.liste') }}" class="nav-link">Entreprises</a>
+                <a href="{{ route('offers.list') }}" class="nav-link">Offres</a>
+                <a href="{{ route('companies.list') }}" class="nav-link">Entreprises</a>
                 <a href="{{ route('contact') }}" class="nav-link">Contact</a>
             </div>
 
             <!-- Boutons d'authentification -->
             <div class="auth-buttons">
-                <button onclick="window.location.href='{{ route('auth.connexion') }}'" class="btn btn-text">Se
+                <button onclick="window.location.href='{{ route('login') }}'" class="btn btn-text">Se
                     connecter</button>
-                <button onclick="window.location.href='{{ route('auth.inscription') }}'" class="btn btn-primary">Créer
+                <button onclick="window.location.href='{{ route('sign_in') }}'" class="btn btn-primary">Créer
                     un compte</button>
             </div>
 
@@ -68,7 +68,7 @@
                     <ul>
                         <li><a href="{{ route('about') }}">Qui sommes-nous</a></li>
                         <li><a href="{{ route('blog') }}">Blog</a></li>
-                        <li><a href="{{ route('carrieres') }}">Carrières</a></li>
+                        <li><a href="{{ route('careers') }}">Carrières</a></li>
                     </ul>
                 </div>
                 <!-- Section "Ressources" -->
