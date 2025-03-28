@@ -16,37 +16,37 @@
         <nav class="menu">
             <ul>
                 <li class="menu-item active">
-                    <a href="#">
+                    <a href="#overview">
                         <i class="fas fa-home"></i>
                         <span>Vue d'ensemble</span>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="#">
+                    <a href="#offers">
                         <i class="fas fa-briefcase"></i>
                         <span>Offres de stage</span>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="#">
+                    <a href="#progress">
                         <i class="fas fa-chart-line"></i>
                         <span>Progression</span>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="#">
+                    <a href="#community">
                         <i class="fas fa-users"></i>
                         <span>Communauté</span>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="#">
+                    <a href="#chat">
                         <i class="fas fa-comments"></i>
                         <span>Chat</span>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="#">
+                    <a href="#top-candidates">
                         <i class="fas fa-trophy"></i>
                         <span>Top Candidats</span>
                     </a>
@@ -454,6 +454,7 @@
     </main>
 
     <script src="../../../public/assets/js/student_dashboard.js"></script>
+    <script src="../../../public/assets/js/sidebar.js"></script>
 </body>
 
 </html>
