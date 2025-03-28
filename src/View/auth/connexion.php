@@ -18,13 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Activer le mode debug pour PDO
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $stmt = $pdo->prepare('SELECT * FROM user WHERE email = :email');
+        $stmt = $pdo->prepare('SELECT * FROM Users WHERE email = :email');
         $stmt->execute(['email' => $email]);
         $user = $stmt->fetch();
 
-        // Debug : Afficher la requête exécutée
-        $debug .= "<p>Requête SQL exécutée : SELECT * FROM Users WHERE email = :email</p>";
-        $debug .= "<p>Paramètres : " . htmlspecialchars(json_encode(['email' => $email])) . "</p>";
 
         // Comparer les mots de passe en clair (non recommandé)
         if ($user && $password === $user['mot_de_passe']) {
@@ -40,15 +37,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header('Location: ../../../index.php?page=' . urlencode(encryptPage("pilotes/dashboard")));
                 exit;
             } else {
-                header('Location: ../../../index.php?page=' . urlencode(encryptPage("etudiants/dashboard")));
+                header('Location: ../etudiants/dashboard.php');
                 exit;
             }
         } else {
             $error = "Email ou mot de passe incorrect.";
         }
     } catch (PDOException $e) {
-        $error = "Erreur lors de l'exécution de la requête : " . $e->getMessage();
-        $debug .= "<p>Erreur SQL : " . htmlspecialchars($e->getMessage()) . "</p>";
     }
 }
 ?>
