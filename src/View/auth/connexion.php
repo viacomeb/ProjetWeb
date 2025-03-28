@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header('Location: ../../../index.php?page=' . urlencode(encryptPage("pilotes/dashboard")));
                 exit;
             } else {
-                header('Location: ../etudiants/dashboard.php');
+                header('Location: ../src/View/etudiants/dashboard.php');
                 exit;
             }
         } else {
