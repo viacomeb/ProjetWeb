@@ -17,7 +17,6 @@
 
 <body>
 
-    </head>
     <header class="header">
         <nav class="container">
             <!-- Logo -->

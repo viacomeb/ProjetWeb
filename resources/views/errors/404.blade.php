@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 404)
+@section('title', content: 404)
 
 @section('content')
     <div style="text-align: center; padding: 100px;">
