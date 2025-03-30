@@ -25,4 +25,15 @@ class Skill extends Model
     {
         return $this->belongsToMany(Student::class, 'student_skills', 'skill_id', 'student_id');
     }
+
+    // Relations
+    public function offerSkills()
+    {
+        return $this->hasMany(OfferSkill::class, 'skill_id');
+    }
+
+    public function studentSkills()
+    {
+        return $this->hasMany(StudentSkill::class, 'skill_id');
+    }
 }

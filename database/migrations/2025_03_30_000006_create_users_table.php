@@ -18,13 +18,24 @@ return new class extends Migration
             $table->integer('street_number')->nullable();
             $table->foreignId('city_id')->constrained('Cities', 'city_id')->cascadeOnDelete();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('remember_token', 100)->nullable();
+            $table->rememberToken();
             $table->timestamps();
+        });
+
+        Schema::create('sessions', function (Blueprint $table) {
+            $table->string('id')->primary();
+            $table->foreignId('user_id')->nullable()->index();
+            $table->string('ip_address', 45)->nullable();
+            $table->text('user_agent')->nullable();
+            $table->longText('payload');
+            $table->integer('last_activity')->index();
         });
     }
 
     public function down(): void
     {
         Schema::dropIfExists('Users');
+        Schema::dropIfExists('password_reset_tokens');
+        Schema::dropIfExists('sessions');
     }
 };

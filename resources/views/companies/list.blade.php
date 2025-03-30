@@ -7,10 +7,6 @@
 @endpush
 
 @section('content')
-    <br />
-    <br />
-    <br />
-    <br />
     <div class="container">
         <h1>Liste des Entreprises</h1>
 
@@ -36,16 +32,16 @@
                     @foreach ($companies as $company)
                         <tr>
                             <td>{{ $loop->iteration }}</td> <!-- Affiche le numéro d'ordre de l'entreprise -->
-                            <td>{{ $company->name }}</td>
+                            <td>{{ $company->company_name }}</td>
                             <td>{{ Str::limit($company->description, 50) }}
                                 <!-- Limite la description à 50 caractères -->
                             </td>
-                            <td>{{ $entreprise->telephone }}</td>
-                            <td>{{ $entreprise->email }}</td>
-                            <td>{{ $entreprise->candidatures }}</td>
+                            <td>{{ $company->phone }}</td>
+                            <td>{{ $company->email }}</td>
+                            <td>{{ $company->candidatures }}</td>
                             <td>
                                 <!-- Lien vers la page de détails de l'entreprise -->
-                                <a href="{{ route('entreprises.show', ['id' => $entreprise->Id_Entreprise]) }}"
+                                <a href="{{ route('companies.show', ['id' => $company->company_id]) }}"
                                     class="btn btn-outline">Voir</a>
 
 

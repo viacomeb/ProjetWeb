@@ -16,11 +16,6 @@ class Status extends Model
     protected $primaryKey = 'status_id';
     protected $fillable = ['status_name'];
 
-    public function students()
-    {
-        return $this->hasMany(Student::class, 'status_id');
-    }
-
     public function applications()
     {
         return $this->hasMany(Application::class, 'status_id');

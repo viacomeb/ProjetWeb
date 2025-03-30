@@ -63,7 +63,7 @@
                 <span>ou</span>
             </div>
             <p class="auth-redirect">
-                Déjà inscrit ? <a href="connexion.php">Connectez-vous</a>
+                Déjà inscrit ? <a href="{{ route('login') }}">Connectez-vous</a>
             </p>
         </div>
     </div>

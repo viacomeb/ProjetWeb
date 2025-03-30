@@ -14,18 +14,18 @@ class OffersController extends Controller
         $this->page = 'offers';
     }
 
-    public function liste()
+    public function list()
     {
         // Récupérer toutes les offres
         $offers = Offer::all();
-        return view('offers.list', compact('offers', 'page'));
+        return view('offers.list', ['offers' => $offers, 'page' => $this->page]);
     }
 
     public function show($id)
     {
         // Récupérer une offre spécifique
         $offer = Offer::findOrFail($id);
-        return view('offers.show', compact('offer', 'page'));
+        return view('offers.show', ['offer' => $offer, 'page' => $this->page]);
     }
 
     // Autres méthodes pour créer, mettre à jour, supprimer des offres

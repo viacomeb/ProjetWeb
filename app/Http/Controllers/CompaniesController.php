@@ -14,7 +14,7 @@ class CompaniesController extends Controller
         $this->page = 'companies';
     }
 
-    public function liste()
+    public function list()
     {
         // Récupérer toutes les entreprises
         $companies = Company::all();

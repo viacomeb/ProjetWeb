@@ -13,7 +13,7 @@ class ApplicationFactory extends Factory
     {
         return [
             'cover_letter_path' => $this->faker->filePath(),
-            'application_date' => $this->faker->date(),
+            'application_date' => $this->faker->dateTimeBetween('2024-12-01', 'now'),
             'offer_id' => \App\Models\Offer::factory(),
             'student_id' => \App\Models\Student::factory(),
             'status_id' => \App\Models\Status::factory(),

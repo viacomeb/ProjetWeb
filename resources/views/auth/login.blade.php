@@ -49,7 +49,7 @@
                 <span>ou</span>
             </div>
             <p class="auth-redirect">
-                Pas encore de compte ? <a href="inscription.php">Inscrivez-vous</a>
+                Pas encore de compte ? <a href="{{ route('register') }}">Inscrivez-vous</a>
             </p>
         </div>
     </div>

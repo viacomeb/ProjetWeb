@@ -14,7 +14,7 @@ Route::get('/blog', [HomeController::class, 'blog'])->name('blog');
 Route::get('/careers', [HomeController::class, 'careers'])->name('careers');
 
 Route::match(['get', 'post'], '/login', [AuthController::class, 'login'])->name('login');
-Route::match(['get', 'post'], '/sign_in', [AuthController::class, 'sign_in'])->name('sign_in');
+Route::match(['get', 'post'], '/register', [AuthController::class, 'register'])->name('register');
 
 Route::get('/students/dashboard', [StudentsController::class, 'dashboard'])->name('students.dashboard');
 

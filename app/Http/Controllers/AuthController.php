@@ -23,10 +23,10 @@ class AuthController extends Controller
         return view('auth.login', compact('page'));
     }
 
-    public function sign_in(Request $request)
+    public function register(Request $request)
     {
         // Logique pour la page d'inscription
-        $page = 'sign_in';
+        $page = 'register';
 
         if ($request->isMethod('post')) {
             $data = $request->validate([
@@ -42,7 +42,7 @@ class AuthController extends Controller
             return redirect()->route('login');
         }
 
-        return view('auth.sign_in', compact('page'));
+        return view('auth.register', compact('page'));
     }
 
     // Autres méthodes pour gérer l'authentification

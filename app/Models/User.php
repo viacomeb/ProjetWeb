@@ -43,21 +43,6 @@ class User extends Authenticatable
         return $this->belongsTo(City::class, 'city_id');
     }
 
-    public function admin()
-    {
-        return $this->hasOne(Admin::class, 'user_id');
-    }
-
-    public function student()
-    {
-        return $this->hasOne(Student::class, 'user_id');
-    }
-
-    public function pilot()
-    {
-        return $this->hasOne(Pilot::class, 'user_id');
-    }
-
     public function ratings()
     {
         return $this->hasMany(Rating::class, 'user_id');

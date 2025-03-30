@@ -12,7 +12,10 @@ class StatusFactory extends Factory
     public function definition(): array
     {
         return [
-            'status_name' => $this->faker->word(),
+            'status_name' => $this->faker->randomElement([
+                'En recherche active',
+                'Pas en recherche',
+            ]),
         ];
     }
 }

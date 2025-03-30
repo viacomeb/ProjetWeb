@@ -30,4 +30,19 @@ class Offer extends Model
     {
         return $this->hasMany(Application::class, 'offer_id');
     }
+
+    public function offerSkills()
+    {
+        return $this->hasMany(OfferSkill::class, 'offer_id');
+    }
+
+    public function wishlists()
+    {
+        return $this->hasMany(Wishlist::class, 'offer_id');
+    }
+
+    public function interns()
+    {
+        return $this->hasMany(Intern::class, 'offer_id');
+    }
 }

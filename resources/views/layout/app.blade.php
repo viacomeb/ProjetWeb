@@ -40,7 +40,7 @@
             <div class="auth-buttons">
                 <button onclick="window.location.href='{{ route('login') }}'" class="btn btn-text">Se
                     connecter</button>
-                <button onclick="window.location.href='{{ route('sign_in') }}'" class="btn btn-primary">Créer
+                <button onclick="window.location.href='{{ route('register') }}'" class="btn btn-primary">Créer
                     un compte</button>
             </div>
 
@@ -55,7 +55,15 @@
 
     <!-- MAIN CONTENT -->
     <main>
+        <br />
+        <br />
+        <br />
+        <br />
         @yield('content')
+        <br />
+        <br />
+        <br />
+        <br />
     </main>
 
     <!-- FOOTER -->
