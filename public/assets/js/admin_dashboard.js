@@ -115,6 +115,10 @@ document.addEventListener('DOMContentLoaded', function () {
   // Add user buttons
   document.getElementById('addPilot')?.addEventListener('click', () => {
     document.getElementById('userType').value = 'pilot';
+    const pilotSection = document.getElementById('pilotSection');
+    pilotSection.style.display = 'block'; // Afficher la section
+    const studentSection = document.getElementById('studentTutor');
+    studentSection.style.display = 'none'; // Masquer la section
     openModal('userModal');
   });
 
@@ -203,5 +207,44 @@ document.addEventListener('DOMContentLoaded', function () {
       // TODO: Handle GDPR actions
       console.log('GDPR action:', this.textContent);
     });
+  });
+});
+
+// JavaScript pour afficher/masquer la section "Étudiants pris en charge"
+document.addEventListener('DOMContentLoaded', function () {
+  const userTypeSelect = document.getElementById('userType');
+  const pilotSection = document.getElementById('pilotSection');
+  const studentSection = document.getElementById('studentTutor');
+
+  userTypeSelect.addEventListener('change', function () {
+    if (this.value === 'pilot') {
+      pilotSection.style.display = 'block'; // Afficher la section
+      studentSection.style.display = 'none';
+    } else if (this.value == 'student') {
+      pilotSection.style.display = 'none';
+      studentSection.style.display = 'block';
+    } else {
+      pilotSection.style.display = 'none'; // Masquer la section
+      studentSection.style.display = 'none';
+    }
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  const tutorSelect = document.getElementById('studentTutorSelect');
+
+  // Exemple de données des tuteurs (à remplacer par une requête API ou une base de données)
+  const tutors = [
+    { id: 1, name: 'Jean Martin' },
+    { id: 2, name: 'Claire Dupont' },
+    { id: 3, name: 'Paul Durand' },
+  ];
+
+  // Ajouter les options au champ de sélection
+  tutors.forEach((tutor) => {
+    const option = document.createElement('option');
+    option.value = tutor.id;
+    option.textContent = tutor.name;
+    tutorSelect.appendChild(option);
   });
 });

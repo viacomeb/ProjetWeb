@@ -58,6 +58,51 @@ body {
   position: relative;
 }
 
+.modal-content h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.modal-content p {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-actions .btn-danger {
+  background-color: #e74c3c;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.modal-actions .btn-danger:hover {
+  background-color: #c0392b;
+}
+
+.modal-actions .btn-secondary {
+  background-color: #bdc3c7;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.modal-actions .btn-secondary:hover {
+  background-color: #95a5a6;
+}
+
 .close {
   position: absolute;
   right: 20px;
