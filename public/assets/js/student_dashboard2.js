@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // Show selected section
       const sectionId = this.getAttribute('data-section');
+      console.log(`Navigating to section: ${sectionId}`); // Debug: Log the section ID
       document.getElementById(sectionId).classList.add('active');
     });
   });
@@ -197,4 +198,168 @@ document.addEventListener('DOMContentLoaded', function () {
       animateProgress();
     });
   });
+
+  const offers = [
+    // Exemple de données d'offres
+    {
+      title: 'Développeur Full-Stack',
+      company: 'TechCorp',
+      location: 'Paris (Hybride)',
+      salary: '1000€ - 1200€',
+    },
+    {
+      title: 'Data Analyst',
+      company: 'DataInsight',
+      location: 'Lyon (Remote)',
+      salary: '800€ - 1000€',
+    },
+    // Ajoutez plus d'offres ici...
+  ];
+
+  const offersPerPage = 10;
+  let currentPage = 1;
+
+  function renderOffers(page) {
+    const offersGrid = document.getElementById('offersGrid');
+    offersGrid.innerHTML = '';
+
+    const start = (page - 1) * offersPerPage;
+    const end = start + offersPerPage;
+    const paginatedOffers = offers.slice(start, end);
+
+    paginatedOffers.forEach((offer) => {
+      const offerCard = document.createElement('div');
+      offerCard.className = 'offer-card';
+      offerCard.innerHTML = `
+        <div class="offer-header">
+          <img src="https://ui-avatars.com/api/?name=${offer.company}" alt="Company Logo" class="company-logo" />
+          <div class="offer-info">
+            <h3>${offer.title}</h3>
+            <p>${offer.company}</p>
+          </div>
+        </div>
+        <div class="offer-details">
+          <p><i class="fas fa-map-marker-alt"></i> ${offer.location}</p>
+          <p><i class="fas fa-euro-sign"></i> ${offer.salary}</p>
+        </div>
+        <div class="offer-actions">
+          <button class="btn-primary"><i class="fas fa-paper-plane"></i> Postuler</button>
+          <button class="btn-secondary"><i class="fas fa-bookmark"></i> Ajouter aux favoris</button>
+        </div>
+      `;
+      offersGrid.appendChild(offerCard);
+    });
+  }
+
+  function renderPagination() {
+    const pagination = document.getElementById('pagination');
+    pagination.innerHTML = '';
+
+    const totalPages = Math.ceil(offers.length / offersPerPage);
+
+    for (let i = 1; i <= totalPages; i++) {
+      const button = document.createElement('button');
+      button.textContent = i;
+      button.className = i === currentPage ? 'active' : '';
+      button.addEventListener('click', () => {
+        currentPage = i;
+        renderOffers(currentPage);
+        renderPagination();
+      });
+      pagination.appendChild(button);
+    }
+  }
+
+  // Initial rendering
+  renderOffers(currentPage);
+  renderPagination();
+
+  const posts = [
+    {
+      author: 'Lucas Dubois',
+      time: 'Il y a 2h',
+      title: 'Conseils pour un entretien tech ?',
+      content:
+        'Je passe un entretien chez TechCorp la semaine prochaine, des conseils ?',
+      comments: 12,
+      likes: 5,
+    },
+    {
+      author: 'Emma Bernard',
+      time: 'Il y a 4h',
+      title: "Retour d'expérience : Stage Data Science",
+      content:
+        'Je viens de terminer mon stage chez DataInsight, je partage mon expérience !',
+      comments: 8,
+      likes: 15,
+    },
+    {
+      author: 'Thomas Laurent',
+      time: 'Il y a 1j',
+      title: 'Comment améliorer son CV ?',
+      content:
+        "J'aimerais avoir des conseils pour rendre mon CV plus attractif pour les recruteurs.",
+      comments: 20,
+      likes: 10,
+    },
+    // Ajoutez plus de posts ici...
+  ];
+
+  const postsPerPage = 10;
+  let currentCommunityPage = 1;
+
+  function renderCommunityPosts(page) {
+    const forumPosts = document.getElementById('forumPosts');
+    forumPosts.innerHTML = '';
+
+    const start = (page - 1) * postsPerPage;
+    const end = start + postsPerPage;
+    const paginatedPosts = posts.slice(start, end);
+
+    paginatedPosts.forEach((post) => {
+      const postElement = document.createElement('div');
+      postElement.className = 'forum-post';
+      postElement.innerHTML = `
+        <div class="post-author">
+          <img src="https://ui-avatars.com/api/?name=${post.author}" alt="Author" />
+          <div class="author-info">
+            <h4>${post.author}</h4>
+            <span>${post.time}</span>
+          </div>
+        </div>
+        <div class="post-content">
+          <h3>${post.title}</h3>
+          <p>${post.content}</p>
+          <div class="post-stats">
+            <span><i class="fas fa-comment"></i> ${post.comments} réponses</span>
+            <span><i class="fas fa-heart"></i> ${post.likes} likes</span>
+          </div>
+        </div>
+      `;
+      forumPosts.appendChild(postElement);
+    });
+  }
+
+  function renderCommunityPagination() {
+    const pagination = document.getElementById('communityPagination');
+    pagination.innerHTML = '';
+
+    const totalPages = Math.ceil(posts.length / postsPerPage);
+
+    for (let i = 1; i <= totalPages; i++) {
+      const button = document.createElement('button');
+      button.textContent = i;
+      button.className = i === currentCommunityPage ? 'active' : '';
+      button.addEventListener('click', () => {
+        currentCommunityPage = i;
+        renderCommunityPosts(currentCommunityPage);
+        renderCommunityPagination();
+      });
+      pagination.appendChild(button);
+    }
+  }
+
+  // Initial rendering for community posts
+  renderCommunityPosts(currentCommunityPage);
+  renderCommunityPagination();
 });
