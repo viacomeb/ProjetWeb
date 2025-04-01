@@ -421,6 +421,15 @@ body {
   background-color: var(--gray-medium);
 }
 
+/* Wishlist Section */
+#wishlist .offers-grid {
+  margin-top: 20px;
+}
+
+#wishlist .pagination {
+  margin-top: 1.5rem;
+}
+
 /* Buttons */
 .btn-primary,
 .btn-secondary {
@@ -451,6 +460,11 @@ body {
 
 .btn-secondary:hover {
   background-color: var(--gray-medium);
+}
+
+.btn-secondary.active {
+  background-color: gold;
+  color: white;
 }
 
 /* Battle Pass */
@@ -674,37 +688,6 @@ body {
   gap: 0.5rem;
 }
 
-/* Theme Toggle */
-.theme-toggle {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.theme-toggle label {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  cursor: pointer;
-}
-
-.theme-toggle input {
-  display: none;
-}
-
-.theme-toggle i {
-  font-size: 1.2rem;
-  color: var(--secondary-color);
-}
-
-.theme-toggle input:checked ~ .fa-moon {
-  color: var(--primary-color);
-}
-
-.theme-toggle input:not(:checked) ~ .fa-sun {
-  color: var(--primary-color);
-}
-
 /* Challenges Section */
 .challenges-grid {
   display: grid;
@@ -773,6 +756,222 @@ body {
 .challenge-actions .btn-secondary {
   background-color: var(--gray-light);
   color: var(--secondary-color);
+}
+
+/* Messages Section */
+.messaging-container {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  height: calc(100vh - 200px);
+}
+
+.contacts-list {
+  border-right: 1px solid var(--gray-medium);
+}
+
+.search-messages {
+  padding: 15px;
+  border-bottom: 1px solid var(--gray-medium);
+}
+
+.search-messages input {
+  width: 100%;
+  padding: 8px 15px;
+  border: 1px solid var(--gray-medium);
+  border-radius: 20px;
+  outline: none;
+}
+
+.contact {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.contact:hover,
+.contact.active {
+  background-color: var(--gray-light);
+}
+
+.contact img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.contact-info {
+  flex: 1;
+}
+
+.contact-info h4 {
+  margin-bottom: 3px;
+}
+
+.contact-info p {
+  color: var(--secondary-color);
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.contact-meta {
+  text-align: right;
+}
+
+.contact-meta .time {
+  font-size: 0.8rem;
+  color: var(--secondary-color);
+}
+
+.contact-meta .unread {
+  display: inline-block;
+  background-color: var(--primary-color);
+  color: white;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 0.8rem;
+  margin-top: 5px;
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-header {
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-bottom: 1px solid var(--gray-medium);
+}
+
+.chat-header img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.chat-contact-info p {
+  color: var(--success-color);
+  font-size: 0.9rem;
+}
+
+.messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.message {
+  max-width: 70%;
+  padding: 10px 15px;
+  border-radius: 15px;
+  position: relative;
+}
+
+.message.received {
+  background-color: var(--gray-light);
+  align-self: flex-start;
+  border-bottom-left-radius: 5px;
+}
+
+.message.sent {
+  background-color: var(--primary-color);
+  color: white;
+  align-self: flex-end;
+  border-bottom-right-radius: 5px;
+}
+
+.message .time {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  margin-top: 5px;
+  display: block;
+}
+
+.message-input {
+  padding: 15px;
+  display: flex;
+  gap: 10px;
+  border-top: 1px solid var(--gray-medium);
+}
+
+.message-input input {
+  flex: 1;
+  padding: 10px 15px;
+  border: 1px solid var(--gray-medium);
+  border-radius: 20px;
+  outline: none;
+}
+
+.send-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--primary-color);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Profile Section */
+.profile-form {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: var(--white);
+  padding: 20px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+
+.profile-form .form-group {
+  margin-bottom: 15px;
+}
+
+.profile-form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: var(--secondary-color);
+}
+
+.profile-form input[type='text'],
+.profile-form input[type='email'],
+.profile-form input[type='tel'],
+.profile-form input[type='file'] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--gray-medium);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+}
+
+.profile-form input[type='file'] {
+  padding: 5px;
+}
+
+.profile-form .form-actions {
+  text-align: right;
+}
+
+.profile-form .btn-primary {
+  margin-top: 10px;
 }
 
 /* Responsive Design */

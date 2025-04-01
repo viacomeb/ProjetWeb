@@ -21,27 +21,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Theme Toggle
-  const themeSwitch = document.getElementById('themeSwitch');
-  const body = document.body;
-
-  themeSwitch.addEventListener('change', function () {
-    if (this.checked) {
-      body.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      body.setAttribute('data-theme', 'light');
-      localStorage.setItem('theme', 'light');
-    }
-  });
-
-  // Check for saved theme preference
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme) {
-    body.setAttribute('data-theme', savedTheme);
-    themeSwitch.checked = savedTheme === 'dark';
-  }
-
   // Apply/Save buttons
   document.querySelectorAll('.btn-primary').forEach((btn) => {
     btn.addEventListener('click', function () {
@@ -362,4 +341,116 @@ document.addEventListener('DOMContentLoaded', function () {
   // Initial rendering for community posts
   renderCommunityPosts(currentCommunityPage);
   renderCommunityPagination();
+
+  const wishlist = [];
+  const wishlistPerPage = 10;
+  let currentWishlistPage = 1;
+
+  // Fonction pour ajouter ou retirer une offre de la wishlist
+  function toggleWishlist(offer, button) {
+    const index = wishlist.findIndex((item) => item.title === offer.title);
+
+    if (index === -1) {
+      // Ajouter à la wishlist
+      wishlist.push(offer);
+      showNotification(`"${offer.title}" a été ajouté à votre wishlist.`);
+      button.style.backgroundColor = 'gold';
+      button.innerHTML = '<i class="fas fa-bookmark"></i> Retirer des favoris';
+    } else {
+      // Retirer de la wishlist
+      wishlist.splice(index, 1);
+      showNotification(`"${offer.title}" a été retiré de votre wishlist.`);
+      button.style.backgroundColor = '';
+      button.innerHTML = '<i class="fas fa-bookmark"></i> Ajouter aux favoris';
+    }
+
+    // Toujours mettre à jour l'affichage de la wishlist
+    renderWishlist(currentWishlistPage);
+    renderWishlistPagination();
+  }
+
+  // Fonction pour afficher les offres de la wishlist
+  function renderWishlist(page) {
+    const wishlistGrid = document.getElementById('wishlistGrid');
+    wishlistGrid.innerHTML = '';
+
+    if (wishlist.length === 0) {
+      wishlistGrid.innerHTML = '<p>Aucune offre dans votre wishlist.</p>';
+      return;
+    }
+
+    const start = (page - 1) * wishlistPerPage;
+    const end = start + wishlistPerPage;
+    const paginatedWishlist = wishlist.slice(start, end);
+
+    paginatedWishlist.forEach((offer) => {
+      const offerCard = document.createElement('div');
+      offerCard.className = 'offer-card';
+      offerCard.innerHTML = `
+        <div class="offer-header">
+          <img src="https://ui-avatars.com/api/?name=${offer.company}" alt="Company Logo" class="company-logo" />
+          <div class="offer-info">
+            <h3>${offer.title}</h3>
+            <p>${offer.company}</p>
+          </div>
+        </div>
+        <div class="offer-details">
+          <p><i class="fas fa-map-marker-alt"></i> ${offer.location}</p>
+          <p><i class="fas fa-euro-sign"></i> ${offer.salary}</p>
+        </div>
+        <div class="offer-actions">
+          <button class="btn-primary"><i class="fas fa-paper-plane"></i> Postuler</button>
+          <button class="btn-secondary" style="background-color: gold;"><i class="fas fa-bookmark"></i> Retirer des favoris</button>
+        </div>
+      `;
+
+      // Ajouter un événement pour retirer l'offre de la wishlist
+      const wishlistButton = offerCard.querySelector('.btn-secondary');
+      wishlistButton.addEventListener('click', () =>
+        toggleWishlist(offer, wishlistButton)
+      );
+
+      wishlistGrid.appendChild(offerCard);
+    });
+  }
+
+  // Fonction pour afficher la pagination de la wishlist
+  function renderWishlistPagination() {
+    const pagination = document.getElementById('wishlistPagination');
+    pagination.innerHTML = '';
+
+    const totalPages = Math.ceil(wishlist.length / wishlistPerPage);
+
+    for (let i = 1; i <= totalPages; i++) {
+      const button = document.createElement('button');
+      button.textContent = i;
+      button.className = i === currentWishlistPage ? 'active' : '';
+      button.addEventListener('click', () => {
+        currentWishlistPage = i;
+        renderWishlist(currentWishlistPage);
+        renderWishlistPagination();
+      });
+      pagination.appendChild(button);
+    }
+  }
+
+  // Ajoutez un événement pour gérer le bouton "Wishlist" dans les offres
+  document.addEventListener('click', function (event) {
+    if (event.target.closest('.btn-secondary')) {
+      const offerCard = event.target.closest('.offer-card');
+      const offer = {
+        title: offerCard.querySelector('.offer-info h3').textContent,
+        company: offerCard.querySelector('.offer-info p').textContent,
+        location: offerCard.querySelector('.offer-details p:nth-child(1)')
+          .textContent,
+        salary: offerCard.querySelector('.offer-details p:nth-child(2)')
+          .textContent,
+      };
+      toggleWishlist(offer, event.target.closest('.btn-secondary'));
+    }
+  });
+
+  // Initial rendering for wishlist
+  renderWishlist(currentWishlistPage);
+  renderWishlistPagination();
 });
