@@ -21,25 +21,25 @@
             </div>
             <ul class="nav-links">
                 <li>
-                    <a href="overview.html"><i class="fas fa-home"></i> Vue d'ensemble</a>
+                    <a href="{{ route('admin.dashboard') }}"><i class="fas fa-home"></i> Vue d'ensemble</a>
                 </li>
                 <li>
-                    <a href="companies.html"><i class="fas fa-building"></i> Entreprises</a>
+                    <a href="{{ route('admin.companies') }}"><i class="fas fa-building"></i> Entreprises</a>
                 </li>
                 <li class="active">
-                    <a href="internships.html"><i class="fas fa-briefcase"></i> Offres de stage</a>
+                    <a href="{{ route('admin.internships') }}"><i class="fas fa-briefcase"></i> Offres de stage</a>
                 </li>
                 <li>
-                    <a href="pilots.html"><i class="fas fa-user-tie"></i> Pilotes</a>
+                    <a href="{{ route('admin.pilots') }}"><i class="fas fa-user-tie"></i> Pilotes</a>
                 </li>
                 <li>
-                    <a href="students.html"><i class="fas fa-user-graduate"></i> Étudiants</a>
+                    <a href="{{ route('admin.students') }}"><i class="fas fa-user-graduate"></i> Étudiants</a>
                 </li>
                 <li>
-                    <a href="applications.html"><i class="fas fa-file-alt"></i> Candidatures</a>
+                    <a href="{{ route('admin.applications') }}"><i class="fas fa-file-alt"></i> Candidatures</a>
                 </li>
                 <li>
-                    <a href="settings.html"><i class="fas fa-cog"></i> Paramètres</a>
+                    <a href="{{ route('admin.settings') }}"><i class="fas fa-cog"></i> Paramètres</a>
                 </li>
             </ul>
         </nav>

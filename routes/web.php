@@ -53,6 +53,16 @@ Route::middleware([AuthMiddleware::class])->group(function () {
         Route::post('/admin/create-pilot', [AuthController::class, 'register'])->name('admin.store.pilot');
     });
 
+    Route::middleware([AuthMiddleware::class, RoleMiddleware::class . ':admin'])->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::get('/companies', [AdminController::class, 'companies'])->name('companies');
+        Route::get('/internships', [AdminController::class, 'internships'])->name('internships');
+        Route::get('/pilots', [AdminController::class, 'pilots'])->name('pilots');
+        Route::get('/students', [AdminController::class, 'students'])->name('students');
+        Route::get('/applications', [AdminController::class, 'applications'])->name('applications');
+        Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
+    });
+
     // Pilot-specific routes
     Route::middleware([RoleMiddleware::class . ':pilot'])->group(function () {
         Route::get('/pilot/create-student', [AuthController::class, 'showRegisterForm'])->name('pilot.create.student');
