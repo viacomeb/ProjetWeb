@@ -18,7 +18,7 @@ return [
     |
     */
 
-    'driver' => 'file', // Assurez-vous que le driver est correct
+    'driver' => env('SESSION_DRIVER', 'database'), // Assurez-vous que le driver est correct
 
     /*
     |--------------------------------------------------------------------------
@@ -32,7 +32,7 @@ return [
     |
     */
 
-    'lifetime' => 120, // Durée de vie de la session en minutes
+    'lifetime' => env('SESSION_LIFETIME', '120'), // Durée de vie de la session en minutes
 
     'expire_on_close' => false,
 

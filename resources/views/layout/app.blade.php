@@ -38,10 +38,19 @@
 
             <!-- Boutons d'authentification -->
             <div class="auth-buttons">
-                <button onclick="window.location.href='{{ route('login') }}'" class="btn btn-text">Se
-                    connecter</button>
-                <button onclick="window.location.href='{{ route('register') }}'" class="btn btn-primary">Créer
-                    un compte</button>
+                @if (Auth::check())
+                    <form id="logoutForm" action="{{ route('logout') }}" method="POST"
+                        style="display: none; text-decoration: none;">
+                        @csrf
+                    </form>
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();"
+                        class="btn btn-primary">
+                        Déconnexion
+                    </a>
+                @else
+                    <button onclick="window.location.href='{{ route('login') }}'" class="btn btn-primary">Se
+                        connecter</button>
+                @endif
             </div>
 
             <!-- Bouton pour le menu mobile -->

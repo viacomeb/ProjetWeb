@@ -7,7 +7,7 @@ use App\Models\Role;
 
 class RoleController extends Controller
 {
-    public function index()
+    /* public function index()
     {
         $roles = Role::all();
         return view('roles.index', compact('roles'));
@@ -47,5 +47,5 @@ class RoleController extends Controller
     {
         $role->delete();
         return redirect()->route('roles.index')->with('success', 'Role deleted successfully.');
-    }
+    } */
 }
