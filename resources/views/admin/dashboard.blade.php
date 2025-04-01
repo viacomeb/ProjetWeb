@@ -17,7 +17,7 @@
                         <p>Entreprises enregistrées</p>
                     </div>
                 </div>
-                <div class="stat-</div>card">
+                <div class="stat-card">
                     <div class="stat-icon">
                         <i class="fas fa-briefcase"></i>
                     </div>
@@ -46,36 +46,35 @@
                 </div>
             </div>
             <div class="charts-container">
-                <div class="chart-card">
+                <div class="chart-card" style="width: 48%; display: inline-block;">
                     <h3>Top 5 entreprises</h3>
                     <canvas id="topCompaniesChart"></canvas>
                 </div>
-            </div>
-            <div class="chart-card">
-                <h3>Répartition par domaine</h3>
-                <canvas id="domainChart"></canvas>
-            </div>
-    </div>
-    <div class="recent-activities">
-        <h2>Activités récentes</h2>
-        <div class="activity-list">
-            <div class="activity-item">
-                <i class="fas fa-plus-circle"></i>
-                <div class="activity-details">
-                    <p>
-                        Nouvelle entreprise ajoutée : <strong>TechCorp</strong>
-                    </p>
+                <div class="chart-card" style="width: 48%; display: inline-block;">
+                    <h3>Répartition par domaine</h3>
+                    <canvas id="domainChart"></canvas>
                 </div>
             </div>
-            <div class="activity-item">
-                <i class="fas fa-user-plus"></i>
-                <div class="activity-details">
-                    <p>Nouveau pilote créé : <strong>Jean Martin</strong></p>
+            <div class="recent-activities">
+                <h2>Activités récentes</h2>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <i class="fas fa-plus-circle"></i>
+                        <div class="activity-details">
+                            <p>
+                                Nouvelle entreprise ajoutée : <strong>TechCorp</strong>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <i class="fas fa-user-plus"></i>
+                        <div class="activity-details">
+                            <p>Nouveau pilote créé : <strong>Jean Martin</strong></p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    </section>
+        </section>
     </div>
     </main>
     </div>

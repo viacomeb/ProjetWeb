@@ -17,7 +17,7 @@
         <section id="pilots" class="section-content active">
             <div class="section-header">
                 <h1>Gestion des Pilotes</h1>
-                <button class="btn-primary" id="addPilot">
+                <button class="btn btn-primary" id="addPilot">
                     <i class="fas fa-plus"></i> Nouveau pilote
                 </button>
             </div>
