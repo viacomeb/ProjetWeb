@@ -161,6 +161,73 @@
         </div>
       </main>
     </div>
+    <div id="internshipModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Ajouter une offre de stage</h2>
+        <form id="internshipForm">
+          <div class="form-group">
+            <label for="title">Titre de l'offre :</label>
+            <input type="text" id="title" placeholder="Entrez le titre" />
+          </div>
+          <div class="form-group">
+            <label for="companySearch">Rechercher une entreprise :</label>
+            <input
+              type="text"
+              id="companySearch"
+              placeholder="Recherchez une entreprise"
+            />
+            <ul
+              id="companyDropdown"
+              class="dropdown-menu"
+              style="display: none"
+            >
+              <!-- Liste des entreprises générée dynamiquement -->
+            </ul>
+            <p
+              id="selectedCompany"
+              style="margin-top: 10px; font-weight: bold"
+            ></p>
+          </div>
+          <div class="form-group">
+            <label for="description">Description de l'offre :</label>
+            <textarea
+              id="description"
+              placeholder="Entrez la description"
+            ></textarea>
+          </div>
+          <div class="form-group">
+            <label for="skills">Rechercher des compétences :</label>
+            <input
+              type="text"
+              id="skillsSearch"
+              placeholder="Recherchez des compétences"
+            />
+            <ul id="skillsDropdown" class="dropdown-menu" style="display: none">
+              <!-- Liste des compétences générée dynamiquement -->
+            </ul>
+          </div>
+          <div class="form-group">
+            <label>Compétences sélectionnées :</label>
+            <table id="selectedSkillsTable" class="data-table">
+              <thead>
+                <tr>
+                  <th>Compétence</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Compétences sélectionnées affichées ici -->
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-actions">
+            <button type="submit" class="btn-primary">Ajouter</button>
+            <button type="button" class="btn-secondary close">Annuler</button>
+          </div>
+        </form>
+      </div>
+    </div>
     <script src="../../../public/assets/js/admin_dashboard.js"></script>
   </body>
 </html>

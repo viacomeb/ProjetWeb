@@ -1,30 +1,41 @@
-document.addEventListener('DOMContentLoaded', function () {
-  // Navigation
+console.log('admin_dashboard.js chargé avec succès');
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Gestion de la navigation entre les sections
   document.querySelectorAll('.nav-links li').forEach((item) => {
     item.addEventListener('click', function () {
-      // Remove active class from all items
+      const sectionId = this.getAttribute('data-section');
+      const section = document.getElementById(sectionId);
+
+      if (!section) {
+        console.error(`Section avec l'ID "${sectionId}" introuvable.`);
+        return;
+      }
+
+      console.log('Navigation vers :', sectionId);
       document
         .querySelectorAll('.nav-links li')
         .forEach((i) => i.classList.remove('active'));
-      // Add active class to clicked item
       this.classList.add('active');
 
-      // Hide all sections
-      document.querySelectorAll('.section-content').forEach((section) => {
-        section.classList.remove('active');
-      });
-
-      // Show selected section
-      const sectionId = this.getAttribute('data-section');
-      document.getElementById(sectionId).classList.add('active');
+      document
+        .querySelectorAll('.section-content')
+        .forEach((section) => section.classList.remove('active'));
+      section.classList.add('active');
     });
   });
 
-  // Charts initialization
-  const topCompaniesCtx = document
-    .getElementById('topCompaniesChart')
-    .getContext('2d');
-  new Chart(topCompaniesCtx, {
+  // Initialisation des graphiques
+  const initChart = (canvasId, config) => {
+    const canvas = document.getElementById(canvasId);
+    if (canvas) {
+      new Chart(canvas.getContext('2d'), config);
+    } else {
+      console.warn(`Canvas pour "${canvasId}" introuvable.`);
+    }
+  };
+
+  initChart('topCompaniesChart', {
     type: 'bar',
     data: {
       labels: [
@@ -44,21 +55,12 @@ document.addEventListener('DOMContentLoaded', function () {
     },
     options: {
       responsive: true,
-      plugins: {
-        legend: {
-          display: false,
-        },
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-        },
-      },
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true } },
     },
   });
 
-  const domainCtx = document.getElementById('domainChart').getContext('2d');
-  new Chart(domainCtx, {
+  initChart('domainChart', {
     type: 'doughnut',
     data: {
       labels: [
@@ -83,168 +85,237 @@ document.addEventListener('DOMContentLoaded', function () {
     },
     options: {
       responsive: true,
-      plugins: {
-        legend: {
-          position: 'bottom',
-        },
-      },
+      plugins: { legend: { position: 'bottom' } },
     },
   });
 
-  // Filter buttons
+  // Gestion des boutons de filtre
   document.querySelectorAll('.filter-btn').forEach((btn) => {
     btn.addEventListener('click', function () {
-      // Remove active class from all buttons in the same filter group
-      this.parentElement.querySelectorAll('.filter-btn').forEach((b) => {
-        b.classList.remove('active');
-      });
-      // Add active class to clicked button
+      const parent = this.parentElement;
+      if (!parent) return;
+
+      parent
+        .querySelectorAll('.filter-btn')
+        .forEach((b) => b.classList.remove('active'));
       this.classList.add('active');
     });
   });
 
-  // Modal Management
-  function openModal(modalId) {
-    document.getElementById(modalId).classList.add('active');
-  }
+  // Gestion des modales
+  const toggleModal = (modalId, action) => {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.classList[action]('active');
+    } else {
+      console.error(`Modale avec l'ID "${modalId}" introuvable.`);
+    }
+  };
 
-  function closeModal(modalId) {
-    document.getElementById(modalId).classList.remove('active');
-  }
-
-  // Add user buttons
-  document.getElementById('addPilot')?.addEventListener('click', () => {
-    document.getElementById('userType').value = 'pilot';
-    const pilotSection = document.getElementById('pilotSection');
-    pilotSection.style.display = 'block'; // Afficher la section
-    const studentSection = document.getElementById('studentTutor');
-    studentSection.style.display = 'none'; // Masquer la section
-    openModal('userModal');
+  document.querySelectorAll('[id^="add"]').forEach((button) => {
+    const modalId = button.id.replace('add', '').toLowerCase() + 'Modal';
+    button.addEventListener('click', () => toggleModal(modalId, 'add'));
   });
 
-  document.getElementById('addStudent')?.addEventListener('click', () => {
-    document.getElementById('userType').value = 'student';
-    openModal('userModal');
-  });
-
-  // Close buttons
-  document.querySelectorAll('.close, .modal-close').forEach((btn) => {
-    btn.addEventListener('click', function () {
+  document.querySelectorAll('.close').forEach((closeButton) => {
+    closeButton.addEventListener('click', function () {
       const modal = this.closest('.modal');
-      if (modal) {
-        closeModal(modal.id);
-      }
+      if (modal) toggleModal(modal.id, 'remove');
     });
   });
 
-  // Form submission
-  document.getElementById('userForm')?.addEventListener('submit', function (e) {
-    e.preventDefault();
-    // TODO: Handle user form submission
-    const modal = this.closest('.modal');
-    if (modal) {
-      closeModal(modal.id);
+  document.querySelectorAll('.modal').forEach((modal) => {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) toggleModal(modal.id, 'remove');
+    });
+  });
+
+  // Gestion des formulaires
+  const handleFormSubmit = (formId, callback) => {
+    const form = document.getElementById(formId);
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        callback();
+        const modal = form.closest('.modal');
+        if (modal) toggleModal(modal.id, 'remove');
+      });
+    } else {
+      console.warn(`Formulaire "${formId}" introuvable.`);
+    }
+  };
+
+  handleFormSubmit('userForm', () => {
+    console.log('Formulaire utilisateur soumis');
+    const userType = document.getElementById('userType')?.value;
+    if (userType === 'pilot') {
+      const selectedStudents = Array.from(
+        document.querySelectorAll('#studentList input[type="checkbox"]:checked')
+      ).map((checkbox) => checkbox.value);
+      console.log('Étudiants associés au pilote :', selectedStudents);
+    } else if (userType === 'student') {
+      const selectedTutor =
+        document.getElementById('studentTutorSelect')?.value;
+      console.log("Tuteur associé à l'étudiant :", selectedTutor);
     }
   });
 
-  // Delete confirmation
+  // Suppression avec confirmation
   document.querySelectorAll('[title="Supprimer"]').forEach((btn) => {
     btn.addEventListener('click', function () {
       if (confirm('Êtes-vous sûr de vouloir supprimer cet élément ?')) {
         const row = this.closest('tr');
-        if (row) {
-          row.remove();
-        }
+        if (row) row.remove();
       }
     });
   });
 
-  // Notifications popup (to be implemented)
-  document
-    .querySelector('.notifications')
-    ?.addEventListener('click', function () {
-      // TODO: Implement notifications popup
-      console.log('Notifications clicked');
-    });
+  // Gestion des notifications et du profil
+  const setupClickHandler = (selector, message) => {
+    const element = document.querySelector(selector);
+    if (element) {
+      element.addEventListener('click', () => console.log(message));
+    } else {
+      console.warn(`Élément "${selector}" introuvable.`);
+    }
+  };
 
-  // Profile menu (to be implemented)
-  document.querySelector('.profile')?.addEventListener('click', function () {
-    // TODO: Implement profile menu
-    console.log('Profile clicked');
-  });
+  setupClickHandler('.notifications', 'Notifications clicked');
+  setupClickHandler('.profile', 'Profile clicked');
 
-  // Search functionality (to be implemented)
-  document
-    .querySelector('.search-bar input')
-    ?.addEventListener('input', function (e) {
-      // TODO: Implement search functionality
-      console.log('Search:', e.target.value);
-    });
+  // Barre de recherche
+  const searchBarInput = document.querySelector('.search-bar input');
+  if (searchBarInput) {
+    searchBarInput.addEventListener('input', (e) =>
+      console.log('Recherche :', e.target.value)
+    );
+  } else {
+    console.warn('Barre de recherche introuvable.');
+  }
 
-  // Permission toggles
-  document
-    .querySelectorAll('.permission input[type="checkbox"]')
-    .forEach((checkbox) => {
+  // Gestion des permissions et des paramètres de sécurité
+  const setupCheckboxHandler = (selector, message) => {
+    document.querySelectorAll(selector).forEach((checkbox) => {
       checkbox.addEventListener('change', function () {
-        // TODO: Handle permission changes
-        console.log('Permission changed:', this.checked);
+        console.log(message, this.checked);
       });
     });
+  };
 
-  // Security settings
-  document
-    .querySelectorAll('.security-settings .switch input')
-    .forEach((toggle) => {
-      toggle.addEventListener('change', function () {
-        // TODO: Handle security setting changes
-        console.log('Security setting changed:', this.checked);
-      });
-    });
+  setupCheckboxHandler(
+    '.permission input[type="checkbox"]',
+    'Permission changed:'
+  );
+  setupCheckboxHandler(
+    '.security-settings .switch input',
+    'Security setting changed:'
+  );
 
-  // GDPR actions
+  // Gestion des actions GDPR
   document.querySelectorAll('.gdpr-settings .btn-secondary').forEach((btn) => {
     btn.addEventListener('click', function () {
-      // TODO: Handle GDPR actions
       console.log('GDPR action:', this.textContent);
     });
   });
-});
 
-// JavaScript pour afficher/masquer la section "Étudiants pris en charge"
-document.addEventListener('DOMContentLoaded', function () {
+  // Affichage conditionnel des sections utilisateur
   const userTypeSelect = document.getElementById('userType');
-  const pilotSection = document.getElementById('pilotSection');
-  const studentSection = document.getElementById('studentTutor');
+  if (userTypeSelect) {
+    const sections = {
+      pilot: document.getElementById('pilotSection'),
+      student: document.getElementById('studentTutor'),
+    };
 
-  userTypeSelect.addEventListener('change', function () {
-    if (this.value === 'pilot') {
-      pilotSection.style.display = 'block'; // Afficher la section
-      studentSection.style.display = 'none';
-    } else if (this.value == 'student') {
-      pilotSection.style.display = 'none';
-      studentSection.style.display = 'block';
-    } else {
-      pilotSection.style.display = 'none'; // Masquer la section
-      studentSection.style.display = 'none';
+    userTypeSelect.addEventListener('change', function () {
+      Object.keys(sections).forEach((key) => {
+        if (sections[key])
+          sections[key].style.display = this.value === key ? 'block' : 'none';
+      });
+    });
+  }
+
+  // Initialisation des listes dynamiques
+  const initDropdown = (inputId, dropdownId, data, onSelect) => {
+    const input = document.getElementById(inputId);
+    const dropdown = document.getElementById(dropdownId);
+
+    if (input && dropdown) {
+      const renderDropdown = (filter = '') => {
+        dropdown.innerHTML = '';
+        const filteredData = data.filter((item) =>
+          item.name.toLowerCase().includes(filter.toLowerCase())
+        );
+        filteredData.forEach((item) => {
+          const listItem = document.createElement('li');
+          listItem.textContent = item.name;
+          listItem.dataset.id = item.id;
+          listItem.classList.add('dropdown-item');
+          listItem.addEventListener('click', () => {
+            onSelect(item);
+            dropdown.style.display = 'none'; // Masquer après sélection
+          });
+          dropdown.appendChild(listItem);
+        });
+        dropdown.style.display = filteredData.length ? 'block' : 'none';
+      };
+
+      input.addEventListener('input', () => renderDropdown(input.value));
+      input.addEventListener('focus', () => renderDropdown(''));
+      document.addEventListener('click', (e) => {
+        if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+          dropdown.style.display = 'none';
+        }
+      });
     }
-  });
-});
+  };
 
-document.addEventListener('DOMContentLoaded', function () {
-  const tutorSelect = document.getElementById('studentTutorSelect');
+  // Suggestions dynamiques pour les étudiants, entreprises et pilotes
+  const students = [
+    { id: 1, name: 'Alice Dupont' },
+    { id: 2, name: 'Bob Martin' },
+    { id: 3, name: 'Charlie Durand' },
+  ];
 
-  // Exemple de données des tuteurs (à remplacer par une requête API ou une base de données)
-  const tutors = [
+  const companies = [
+    { id: 1, name: 'TechCorp' },
+    { id: 2, name: 'DataInsight' },
+    { id: 3, name: 'WebSolutions' },
+  ];
+
+  const pilots = [
     { id: 1, name: 'Jean Martin' },
     { id: 2, name: 'Claire Dupont' },
     { id: 3, name: 'Paul Durand' },
   ];
 
-  // Ajouter les options au champ de sélection
-  tutors.forEach((tutor) => {
-    const option = document.createElement('option');
-    option.value = tutor.id;
-    option.textContent = tutor.name;
-    tutorSelect.appendChild(option);
+  initDropdown('studentSearch', 'studentDropdown', students, (student) => {
+    const selectedTable = document.getElementById('selectedStudentsTable');
+    if (selectedTable) {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${student.name}</td>
+        <td class="action-cell">
+          <button class="btn-icon delete" data-id="${student.id}">
+            <i class="fas fa-trash"></i>
+          </button>
+        </td>`;
+      selectedTable.querySelector('tbody').appendChild(row);
+
+      row.querySelector('.delete').addEventListener('click', () => {
+        row.remove();
+      });
+    }
+  });
+
+  initDropdown('companySearch', 'companyDropdown', companies, (company) => {
+    document.getElementById(
+      'selectedCompany'
+    ).textContent = `Entreprise sélectionnée : ${company.name}`;
+  });
+
+  initDropdown('pilotSearch', 'pilotDropdown', pilots, (pilot) => {
+    document.getElementById(
+      'selectedPilot'
+    ).textContent = `Pilote sélectionné : ${pilot.name}`;
   });
 });

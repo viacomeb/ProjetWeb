@@ -156,6 +156,53 @@
             </div>
           </section>
         </div>
+        <!-- Modal for Adding/Editing Applications -->
+        <div id="applicationModal" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Ajouter une candidature</h2>
+            <form id="applicationForm">
+              <div class="form-group">
+                <label for="student">Étudiant :</label>
+                <input
+                  type="text"
+                  id="student"
+                  placeholder="Entrez le nom de l'étudiant"
+                />
+              </div>
+              <div class="form-group">
+                <label for="company">Entreprise :</label>
+                <input
+                  type="text"
+                  id="company"
+                  placeholder="Entrez le nom de l'entreprise"
+                />
+              </div>
+              <div class="form-group">
+                <label for="position">Poste :</label>
+                <input
+                  type="text"
+                  id="position"
+                  placeholder="Entrez le poste"
+                />
+              </div>
+              <div class="form-group">
+                <label for="status">Statut :</label>
+                <select id="status">
+                  <option value="pending">En attente</option>
+                  <option value="accepted">Acceptée</option>
+                  <option value="rejected">Refusée</option>
+                </select>
+              </div>
+              <div class="modal-actions">
+                <button type="submit" class="btn-primary">Ajouter</button>
+                <button type="button" class="btn-secondary close">
+                  Annuler
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       </main>
     </div>
     <script src="../../../public/assets/js/admin_dashboard.js"></script>

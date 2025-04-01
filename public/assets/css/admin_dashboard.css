@@ -11,7 +11,7 @@
   --warning-color: #f59e0b;
   --danger-color: #ef4444;
   --gray-light: #f8fafc;
-  --gray-medium: #e2e8f0;
+  --gray-medium: #a7b1be;
 }
 
 * {
@@ -24,6 +24,7 @@
 body {
   background-color: var(--background-color);
   color: #1e293b;
+  overflow-x: hidden; /* Supprime le défilement horizontal */
 }
 
 .container {
@@ -51,56 +52,121 @@ body {
 
 .modal-content {
   background-color: var(--white);
-  padding: 30px;
+  padding: 40px;
   border-radius: var(--border-radius);
   width: 90%;
-  max-width: 600px;
+  max-width: 700px;
   position: relative;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease-in-out;
+  max-height: 90vh; /* Limite la hauteur du pop-up */
+  overflow-y: auto; /* Ajoute un défilement si le contenu dépasse */
 }
 
 .modal-content h2 {
-  font-size: 1.5rem;
-  margin-bottom: 15px;
-  color: #333;
+  font-size: 2rem;
+  margin-bottom: 25px;
+  color: var(--primary-color);
+  text-align: center;
+  font-weight: bold;
 }
 
 .modal-content p {
   font-size: 1rem;
-  color: #666;
+  color: var(--secondary-color);
   margin-bottom: 20px;
+  line-height: 1.6; /* Amélioration de l'espacement des lignes */
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px; /* Augmentation de l'espacement entre les catégories */
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Espacement interne des éléments dans une catégorie */
+}
+
+.form-group-inline {
+  display: flex;
+  gap: 20px; /* Espacement entre les champs dans une ligne */
+}
+
+.form-group-inline .form-group {
+  flex: 1; /* Les champs prennent la même largeur */
+}
+
+.modal-content form label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--secondary-color);
+}
+
+.modal-content form input,
+.modal-content form select,
+.modal-content form textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--gray-medium);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  color: #333;
+  background-color: var(--gray-light);
+  transition: border-color 0.3s ease;
+}
+
+.modal-content form input:focus,
+.modal-content form select:focus,
+.modal-content form textarea:focus {
+  border-color: var(--primary-color);
+  outline: none;
 }
 
 .modal-actions {
   display: flex;
   justify-content: space-between;
+  gap: 20px; /* Espacement entre les boutons */
+}
+
+.modal-actions .btn-danger,
+.modal-actions .btn-secondary {
+  flex: 1; /* Les boutons prennent la même largeur */
+  text-align: center;
+  padding: 12px 20px; /* Augmentation du padding */
+  font-size: 1rem;
+  font-weight: bold; /* Texte en gras */
+  transition: background-color 0.3s ease; /* Animation de transition */
+}
+
+.modal-actions .btn-primary,
+.modal-actions .btn-secondary {
+  flex: 1;
+  text-align: center;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
 }
 
 .modal-actions .btn-danger {
-  background-color: #e74c3c;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
+  background-color: var(--danger-color);
+  color: var(--white);
 }
 
 .modal-actions .btn-danger:hover {
-  background-color: #c0392b;
+  background-color: #c53030; /* Couleur plus sombre au survol */
 }
 
 .modal-actions .btn-secondary {
-  background-color: #bdc3c7;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
+  background-color: var(--gray-medium);
+  color: var(--white);
 }
 
 .modal-actions .btn-secondary:hover {
-  background-color: #95a5a6;
+  background-color: var(--secondary-color); /* Couleur secondaire au survol */
 }
 
 .close {
@@ -110,6 +176,23 @@ body {
   font-size: 24px;
   cursor: pointer;
   color: var(--secondary-color);
+  transition: color 0.3s ease; /* Animation de transition */
+}
+
+.close:hover {
+  color: var(--danger-color); /* Couleur rouge au survol */
+}
+
+/* Animation pour le pop-up */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .form-group {
@@ -170,24 +253,26 @@ body {
 }
 
 .nav-links li {
-  padding: 12px 15px;
-  margin: 8px 0;
-  border-radius: var(--border-radius);
-  cursor: pointer;
+  padding: 0;
+  margin-bottom: 10px; /* Ajout d'un espacement entre les boutons */
+}
+
+.nav-links li a {
   display: flex;
   align-items: center;
   gap: 10px;
+  text-decoration: none;
+  color: var(--secondary-color);
+  width: 100%; /* Le lien couvre toute la largeur */
+  padding: 12px 15px; /* Ajout du padding ici pour couvrir la boîte */
+  border-radius: var(--border-radius);
   transition: all 0.3s ease;
 }
 
-.nav-links li:hover,
-.nav-links li.active {
-  background-color: #e0e7ff;
-  color: var(--primary-color);
-}
-
-.nav-links li i {
-  width: 20px;
+.nav-links li:hover a,
+.nav-links li.active a {
+  background-color: var(--primary-color);
+  color: white;
 }
 
 /* Main Content Styles */
@@ -214,10 +299,13 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  background-color: #f1f5f9;
-  padding: 8px 15px;
-  border-radius: 20px;
-  width: 300px;
+  background-color: var(--gray-light);
+  padding: 10px 15px;
+  border-radius: 25px;
+  width: 100%; /* Ajuste la largeur pour s'adapter au conteneur */
+  max-width: 400px; /* Limite la largeur maximale */
+  box-shadow: var(--shadow); /* Ajout d'une ombre pour un effet propre */
+  border: 1px solid var(--gray-medium); /* Ajout d'une bordure légère */
 }
 
 .search-bar input {
@@ -225,6 +313,12 @@ body {
   background: none;
   outline: none;
   width: 100%;
+  font-size: 1rem;
+  color: var(--secondary-color);
+}
+
+.search-bar input::placeholder {
+  color: var(--gray-medium);
 }
 
 .user-menu {
@@ -341,6 +435,11 @@ th {
   font-weight: 600;
 }
 
+td.action-cell {
+  text-align: center; /* Aligne les boutons d'actions au centre */
+  width: 100px; /* Fixe une largeur pour éviter les déplacements */
+}
+
 .user-info,
 .company-info {
   display: flex;
@@ -385,19 +484,76 @@ th {
 .btn-icon {
   width: 32px;
   height: 32px;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   border: none;
-  background-color: var(--gray-light);
-  color: var(--secondary-color);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease;
+}
+
+.btn-icon.modify {
+  background-color: var(--primary-color); /* Bleu pour le bouton Modifier */
+  color: var(--white);
+}
+
+.btn-icon.modify:hover {
+  background-color: #1d4ed8; /* Couleur plus sombre au survol */
+}
+
+.btn-icon.delete {
+  background-color: var(--danger-color); /* Rouge pour le bouton Supprimer */
+  color: var(--white);
+}
+
+.btn-icon.delete:hover {
+  background-color: #c53030; /* Couleur plus sombre au survol */
 }
 
 .btn-icon:hover {
-  background-color: var(--gray-medium);
+  background-color: #c53030;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  text-align: center; /* Centrer le texte */
+  display: flex; /* Ajout pour centrer */
+  align-items: center; /* Centrer verticalement */
+  justify-content: center; /* Centrer horizontalement */
+}
+
+.btn-icon:hover {
+  background-color: #c53030;
+}
+
+/* Dropdown Menu Styles */
+.dropdown-menu {
+  position: absolute;
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  z-index: 1000;
+  width: 50%; /* Adapte la largeur au conteneur parent (barre de recherche) */
+  max-height: 300px; /* Hauteur maximale pour le menu déroulant */
+  overflow-y: auto; /* Ajoute un défilement si le contenu dépasse */
+  margin-top: 5em; /* Espacement réduit entre la barre de recherche et le menu */
+  padding: 10px; /* Espacement interne du menu déroulant */
+}
+
+.dropdown-item {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  white-space: nowrap; /* Empêche le texte de s'étendre horizontalement */
+  overflow: hidden; /* Cache le débordement horizontal */
+  text-overflow: ellipsis; /* Ajoute des points de suspension si le texte est trop long */
+}
+
+.dropdown-item:hover {
+  background-color: var(--gray-light);
+  color: var(--primary-color); /* Change la couleur du texte au survol */
 }
 
 /* Settings Styles */
@@ -642,6 +798,73 @@ input:checked + .slider:before {
 .activity-details span {
   font-size: 0.8rem;
   color: var(--secondary-color);
+}
+
+/* Student List Styles */
+.student-list {
+  max-height: 150px; /* Réduction de la hauteur */
+  overflow-y: auto;
+  border: 1px solid var(--gray-medium);
+  border-radius: var(--border-radius);
+  padding: 10px;
+  background-color: var(--gray-light);
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(150px, 1fr)
+  ); /* Organisation en grille */
+  gap: 10px; /* Espacement entre les éléments */
+}
+
+.student-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  background-color: var(--white);
+  border: 1px solid var(--gray-medium);
+  border-radius: var(--border-radius);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.student-item:hover {
+  background-color: var(--gray-light);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.student-item label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: var(--secondary-color);
+  cursor: pointer;
+  width: 100%; /* Rendre l'élément entièrement cliquable */
+  padding: 8px;
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.student-item label:hover {
+  background-color: var(--gray-light);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.student-item input[type='checkbox'] {
+  accent-color: var(--primary-color);
+  width: 20px; /* Augmente la taille de la case à cocher */
+  height: 20px; /* Augmente la taille de la case à cocher */
+}
+
+/* Address Group Styles */
+.address-group {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(200px, 1fr)
+  ); /* Organisation en grille */
+  gap: 20px; /* Espacement entre les champs */
 }
 
 /* Responsive Design */

@@ -142,6 +142,68 @@
             </div>
           </section>
         </div>
+        <div id="studentModal" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Ajouter un étudiant</h2>
+            <form id="studentForm">
+              <div class="form-group-inline">
+                <div class="form-group">
+                  <label for="studentFirstName">Prénom de l'étudiant :</label>
+                  <input
+                    type="text"
+                    id="studentFirstName"
+                    placeholder="Entrez le prénom"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="studentLastName">Nom de l'étudiant :</label>
+                  <input
+                    type="text"
+                    id="studentLastName"
+                    placeholder="Entrez le nom"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="email">Email :</label>
+                <input type="email" id="email" placeholder="Entrez l'email" />
+              </div>
+              <div class="form-group">
+                <label for="pilotSearch">Rechercher un pilote :</label>
+                <input
+                  type="text"
+                  id="pilotSearch"
+                  placeholder="Recherchez un pilote"
+                />
+                <ul
+                  id="pilotDropdown"
+                  class="dropdown-menu"
+                  style="display: none"
+                >
+                  <!-- Liste des pilotes générée dynamiquement -->
+                </ul>
+                <p
+                  id="selectedPilot"
+                  style="margin-top: 10px; font-weight: bold"
+                ></p>
+              </div>
+              <div class="form-group">
+                <label for="status">Statut :</label>
+                <select id="status">
+                  <option value="searching">En recherche</option>
+                  <option value="found">Stage trouvé</option>
+                </select>
+              </div>
+              <div class="modal-actions">
+                <button type="submit" class="btn-primary">Ajouter</button>
+                <button type="button" class="btn-secondary close">
+                  Annuler
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       </main>
     </div>
     <script src="../../../public/assets/js/admin_dashboard.js"></script>
