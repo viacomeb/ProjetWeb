@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Offres de stage - StageManager</title>
+    <link
+      rel="stylesheet"
+      href="../../../public/assets/css/admin_dashboard.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Sidebar -->
+      <nav class="sidebar">
+        <div class="logo">
+          <i class="fas fa-shield-alt"></i>
+          <span>Admin Panel</span>
+        </div>
+        <ul class="nav-links">
+          <li>
+            <a href="overview.html"
+              ><i class="fas fa-home"></i> Vue d'ensemble</a
+            >
+          </li>
+          <li>
+            <a href="companies.html"
+              ><i class="fas fa-building"></i> Entreprises</a
+            >
+          </li>
+          <li class="active">
+            <a href="internships.html"
+              ><i class="fas fa-briefcase"></i> Offres de stage</a
+            >
+          </li>
+          <li>
+            <a href="pilots.html"><i class="fas fa-user-tie"></i> Pilotes</a>
+          </li>
+          <li>
+            <a href="students.html"
+              ><i class="fas fa-user-graduate"></i> Étudiants</a
+            >
+          </li>
+          <li>
+            <a href="applications.html"
+              ><i class="fas fa-file-alt"></i> Candidatures</a
+            >
+          </li>
+          <li>
+            <a href="settings.html"><i class="fas fa-cog"></i> Paramètres</a>
+          </li>
+        </ul>
+      </nav>
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Header -->
+        <header class="header">
+          <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Rechercher..." />
+          </div>
+          <div class="user-menu">
+            <div class="notifications">
+              <i class="fas fa-bell"></i>
+              <span class="badge">5</span>
+            </div>
+            <div class="profile">
+              <img src="https://ui-avatars.com/api/?name=Admin" alt="Profile" />
+              <span>Administrateur</span>
+            </div>
+          </div>
+        </header>
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+          <section id="internships" class="section-content active">
+            <div class="section-header">
+              <h1>Gestion des Offres</h1>
+              <button class="btn-primary" id="addInternship">
+                <i class="fas fa-plus"></i> Nouvelle offre
+              </button>
+            </div>
+            <div class="filters">
+              <button class="filter-btn active">Toutes</button>
+              <button class="filter-btn">En attente</button>
+              <button class="filter-btn">Validées</button>
+              <button class="filter-btn">Pourvues</button>
+            </div>
+            <div class="data-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Titre</th>
+                    <th>Entreprise</th>
+                    <th>Candidatures</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Développeur Full-Stack</td>
+                    <td>
+                      <div class="company-info">
+                        <img
+                          src="https://ui-avatars.com/api/?name=Tech+Corp"
+                          alt="Company"
+                        />
+                        <span>TechCorp</span>
+                      </div>
+                    </td>
+                    <td>15</td>
+                    <td>
+                      <span class="status active">Active</span>
+                    </td>
+                    <td>
+                      <div class="actions">
+                        <button class="btn-icon" title="Modifier">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-icon" title="Supprimer">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Data Analyst</td>
+                    <td>
+                      <div class="company-info">
+                        <img
+                          src="https://ui-avatars.com/api/?name=Data+Insight"
+                          alt="Company"
+                        />
+                        <span>DataInsight</span>
+                      </div>
+                    </td>
+                    <td>8</td>
+                    <td>
+                      <span class="status pending">En attente</span>
+                    </td>
+                    <td>
+                      <div class="actions">
+                        <button class="btn-icon" title="Modifier">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-icon" title="Supprimer">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+    <div id="internshipModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Ajouter une offre de stage</h2>
+        <form id="internshipForm">
+          <div class="form-group">
+            <label for="title">Titre de l'offre :</label>
+            <input type="text" id="title" placeholder="Entrez le titre" />
+          </div>
+          <div class="form-group">
+            <label for="companySearch">Rechercher une entreprise :</label>
+            <input
+              type="text"
+              id="companySearch"
+              placeholder="Recherchez une entreprise"
+            />
+            <ul
+              id="companyDropdown"
+              class="dropdown-menu"
+              style="display: none"
+            >
+              <!-- Liste des entreprises générée dynamiquement -->
+            </ul>
+            <p
+              id="selectedCompany"
+              style="margin-top: 10px; font-weight: bold"
+            ></p>
+          </div>
+          <div class="form-group">
+            <label for="description">Description de l'offre :</label>
+            <textarea
+              id="description"
+              placeholder="Entrez la description"
+            ></textarea>
+          </div>
+          <div class="form-group">
+            <label for="skills">Rechercher des compétences :</label>
+            <input
+              type="text"
+              id="skillsSearch"
+              placeholder="Recherchez des compétences"
+            />
+            <ul id="skillsDropdown" class="dropdown-menu" style="display: none">
+              <!-- Liste des compétences générée dynamiquement -->
+            </ul>
+          </div>
+          <div class="form-group">
+            <label>Compétences sélectionnées :</label>
+            <table id="selectedSkillsTable" class="data-table">
+              <thead>
+                <tr>
+                  <th>Compétence</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Compétences sélectionnées affichées ici -->
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-actions">
+            <button type="submit" class="btn-primary">Ajouter</button>
+            <button type="button" class="btn-secondary close">Annuler</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script src="../../../public/assets/js/admin_dashboard.js"></script>
+  </body>
+</html>
