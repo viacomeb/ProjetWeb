@@ -1,65 +1,51 @@
+<?php
+session_start();
+// Simuler des données utilisateur (à remplacer par des vraies données de base de données)
+$userData = [
+    'streak' => 5,
+    'applications' => [
+        'sent' => 12,
+        'pending' => 5,
+        'interviews' => 2,
+    ],
+    'level' => 5,
+    'xp' => [
+        'current' => 450,
+        'max' => 500,
+    ],
+    'title' => 'Chercheur Prometteur',
+];
+
+$recommendedInternships = [
+    [
+        'title' => 'Stage Développeur Full-Stack',
+        'company' => 'TechCorp',
+        'location' => 'Paris, France',
+        'match' => 95,
+    ],
+    [
+        'title' => 'Stage Marketing Digital',
+        'company' => 'DigitalFlow',
+        'location' => 'Lyon, France',
+        'match' => 88,
+    ],
+    [
+        'title' => 'Stage Data Analyst',
+        'company' => 'DataTech',
+        'location' => 'Bordeaux, France',
+        'match' => 92,
+    ],
+];
+
+$badges = [['name' => 'Premier Pas', 'icon' => 'award', 'color' => 'green'], ['name' => 'Super Actif', 'icon' => 'flame', 'color' => 'orange'], ['name' => 'Networker', 'icon' => 'users', 'color' => 'purple'], ['name' => 'Expert', 'icon' => 'trophy', 'color' => 'yellow']];
+?>
+
+
 @extends('layout.app')
 
 @section('title', ucfirst($page))
 
 @section('content')
-
-    <?php
-    session_start();
-    // Simuler des données utilisateur (à remplacer par des vraies données de base de données)
-    $userData = [
-        'streak' => 5,
-        'applications' => [
-            'sent' => 12,
-            'pending' => 5,
-            'interviews' => 2,
-        ],
-        'level' => 5,
-        'xp' => [
-            'current' => 450,
-            'max' => 500,
-        ],
-        'title' => 'Chercheur Prometteur',
-    ];
-    
-    $recommendedInternships = [
-        [
-            'title' => 'Stage Développeur Full-Stack',
-            'company' => 'TechCorp',
-            'location' => 'Paris, France',
-            'match' => 95,
-        ],
-        [
-            'title' => 'Stage Marketing Digital',
-            'company' => 'DigitalFlow',
-            'location' => 'Lyon, France',
-            'match' => 88,
-        ],
-        [
-            'title' => 'Stage Data Analyst',
-            'company' => 'DataTech',
-            'location' => 'Bordeaux, France',
-            'match' => 92,
-        ],
-    ];
-    
-    $badges = [['name' => 'Premier Pas', 'icon' => 'award', 'color' => 'green'], ['name' => 'Super Actif', 'icon' => 'flame', 'color' => 'orange'], ['name' => 'Networker', 'icon' => 'users', 'color' => 'purple'], ['name' => 'Expert', 'icon' => 'trophy', 'color' => 'yellow']];
-    ?>
-
-    <!DOCTYPE html>
-    <html lang="fr">
-
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>WorknGo - Dashboard</title>
-        <link rel="stylesheet"
-            href="../../../public/assets/css/style.css?v=<?= filemtime('../../../public/assets/css/style.css') ?>">
-        <link rel="stylesheet"
-            href="../../../public/assets/css/dashboard.css?v=<?= filemtime('../../../public/assets/css/dashboard.css') ?>">
-        <link rel="icon" href="../../../public/assets/images/WorknGo_logo.svg">
-        <script src="https://unpkg.com/lucide@latest"></script>
-    </head>
 
     <body class="min-h-screen bg-gray-900 text-white">
         <!-- Header -->

@@ -11,7 +11,8 @@
     <div class="auth-container">
         <div class="auth-card">
             <h2>Connexion</h2>
-            <form id="loginForm" class="auth-form">
+            <form id="loginForm" class="auth-form" method="POST" action="{{ route('login.post') }}">
+                @csrf
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" id="email" name="email" required>
@@ -69,10 +70,25 @@
 
             // Form submission
             const loginForm = document.getElementById('loginForm');
-            loginForm.addEventListener('submit', function(e) {
+            loginForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
-                // Add your login logic here
-                console.log('Login form submitted');
+
+                const formData = new FormData(loginForm);
+                const response = await fetch(loginForm.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+                    },
+                    body: formData,
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    window.location.href = result.redirect;
+                } else {
+                    alert(result.message || 'Une erreur est survenue.');
+                }
             });
         });
     </script>
