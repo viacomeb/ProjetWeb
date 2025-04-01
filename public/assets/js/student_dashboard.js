@@ -1,53 +1,210 @@
 document.addEventListener('DOMContentLoaded', function () {
+  // Navigation
+  document.querySelectorAll('.nav-links li').forEach((item) => {
+    item.addEventListener('click', function () {
+      // Remove active class from all items
+      document
+        .querySelectorAll('.nav-links li')
+        .forEach((i) => i.classList.remove('active'));
+      // Add active class to clicked item
+      this.classList.add('active');
+
+      // Hide all sections
+      document.querySelectorAll('.section-content').forEach((section) => {
+        section.classList.remove('active');
+      });
+
+      // Show selected section
+      const sectionId = this.getAttribute('data-section');
+      document.getElementById(sectionId).classList.add('active');
+    });
+  });
+
   // Theme Toggle
-  const themeToggle = document.querySelector('.theme-toggle');
-  themeToggle.addEventListener('click', function () {
-    document.body.classList.toggle('dark-mode');
-    const icon = this.querySelector('i');
-    if (document.body.classList.contains('dark-mode')) {
-      icon.classList.remove('fa-moon');
-      icon.classList.add('fa-sun');
+  const themeSwitch = document.getElementById('themeSwitch');
+  const body = document.body;
+
+  themeSwitch.addEventListener('change', function () {
+    if (this.checked) {
+      body.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
     } else {
-      icon.classList.remove('fa-sun');
-      icon.classList.add('fa-moon');
+      body.setAttribute('data-theme', 'light');
+      localStorage.setItem('theme', 'light');
     }
   });
 
-  // Notifications Popup
-  const notifications = document.querySelector('.notifications');
-  const notificationsPopup = document.querySelector('.notifications-popup');
-  notifications.addEventListener('click', function (e) {
-    e.stopPropagation();
-    notificationsPopup.style.display =
-      notificationsPopup.style.display === 'block' ? 'none' : 'block';
+  // Check for saved theme preference
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+    body.setAttribute('data-theme', savedTheme);
+    themeSwitch.checked = savedTheme === 'dark';
+  }
+
+  // Quick Apply Functionality
+  document.querySelectorAll('.quick-apply').forEach((button) => {
+    button.addEventListener('click', function () {
+      const jobTitle =
+        this.closest('.job-card').querySelector('h3').textContent;
+      const company =
+        this.closest('.job-card').querySelector('.company').textContent;
+
+      // Animation feedback
+      this.textContent = 'Candidature envoyée !';
+      this.style.backgroundColor = '#10b981';
+
+      // Reset after 2 seconds
+      setTimeout(() => {
+        this.textContent = 'Postuler en 1 clic';
+        this.style.backgroundColor = '';
+      }, 2000);
+
+      // Update XP (example)
+      const xpCounter = document.querySelector('.xp-counter span');
+      const currentXP = parseInt(xpCounter.textContent);
+      xpCounter.textContent = `${currentXP + 50} XP`;
+
+      // Show notification
+      showNotification(
+        `Candidature envoyée pour le poste de ${jobTitle} chez ${company}`
+      );
+    });
   });
 
-  // Profile Menu
-  const profile = document.querySelector('.profile');
-  const profileMenu = document.querySelector('.profile-menu');
-  profile.addEventListener('click', function (e) {
-    e.stopPropagation();
-    profileMenu.style.display =
-      profileMenu.style.display === 'block' ? 'none' : 'block';
+  // Notification System
+  function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 15px 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      z-index: 1000;
+      animation: slideIn 0.3s ease-out;
+    `;
+    notification.textContent = message;
+
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+      notification.style.animation = 'slideOut 0.3s ease-out';
+      setTimeout(() => notification.remove(), 300);
+    }, 3000);
+  }
+
+  // Add animation keyframes
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes slideOut {
+      from { transform: translateX(0); opacity: 1; }
+      to { transform: translateX(100%); opacity: 0; }
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Forum Post Interactions
+  document.querySelectorAll('.post-actions button').forEach((button) => {
+    button.addEventListener('click', function () {
+      const post = this.closest('.forum-post');
+      const postAuthor = post.querySelector('h4').textContent;
+
+      // Create reply form
+      const replyForm = document.createElement('div');
+      replyForm.className = 'reply-form';
+      replyForm.innerHTML = `
+        <textarea placeholder="Répondre à ${postAuthor}..." class="reply-input"></textarea>
+        <div class="reply-actions">
+          <button class="send-reply">Envoyer</button>
+          <button class="cancel-reply">Annuler</button>
+        </div>
+      `;
+
+      // Add styles
+      const textarea = replyForm.querySelector('textarea');
+      textarea.style.cssText = `
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid var(--gray-medium);
+        border-radius: 8px;
+        resize: vertical;
+      `;
+
+      const actions = replyForm.querySelector('.reply-actions');
+      actions.style.cssText = `
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+      `;
+
+      // Only add form if it doesn't exist yet
+      if (!post.querySelector('.reply-form')) {
+        post.appendChild(replyForm);
+      }
+    });
   });
 
-  // Music Player
-  const musicPlayer = document.querySelector('.music-player');
-  const musicPopup = document.querySelector('.music-popup');
-  musicPlayer.addEventListener('click', function (e) {
-    e.stopPropagation();
-    musicPopup.style.display =
-      musicPopup.style.display === 'block' ? 'none' : 'block';
+  // Handle likes
+  document.querySelectorAll('.post-actions span').forEach((likeCounter) => {
+    likeCounter.style.cursor = 'pointer';
+    let liked = false;
+
+    likeCounter.addEventListener('click', function () {
+      const likesText = this.textContent;
+      const currentLikes = parseInt(likesText.match(/\d+/)[0]);
+
+      if (!liked) {
+        this.textContent = likesText.replace(currentLikes, currentLikes + 1);
+        this.style.color = '#ef4444';
+        liked = true;
+      } else {
+        this.textContent = likesText.replace(currentLikes, currentLikes - 1);
+        this.style.color = 'var(--secondary-color)';
+        liked = false;
+      }
+    });
   });
 
-  // Close popups when clicking outside
-  document.addEventListener('click', function () {
-    notificationsPopup.style.display = 'none';
-    profileMenu.style.display = 'none';
-    musicPopup.style.display = 'none';
+  // Contact Mentor Functionality
+  document.querySelectorAll('.contact-mentor').forEach((button) => {
+    button.addEventListener('click', function () {
+      const mentorName =
+        this.closest('.mentor-card').querySelector('h4').textContent;
+
+      // Show chat interface (simplified example)
+      showNotification(`Chat ouvert avec ${mentorName}`);
+
+      // Change button state
+      this.textContent = 'En discussion';
+      this.style.backgroundColor = '#10b981';
+      this.disabled = true;
+    });
   });
 
-  // Filter buttons
+  // Progress Animation
+  function animateProgress() {
+    document.querySelectorAll('.progress-bar .progress').forEach((bar) => {
+      const width = bar.style.width;
+      bar.style.width = '0';
+      setTimeout(() => {
+        bar.style.width = width;
+      }, 100);
+    });
+  }
+
+  // Run progress animation on page load
+  animateProgress();
+
+  // Filter Functionality
   document.querySelectorAll('.filter-btn').forEach((btn) => {
     btn.addEventListener('click', function () {
       // Remove active class from all buttons in the same filter group
@@ -56,201 +213,10 @@ document.addEventListener('DOMContentLoaded', function () {
       });
       // Add active class to clicked button
       this.classList.add('active');
-    });
-  });
 
-  // Music options
-  document.querySelectorAll('.music-option').forEach((option) => {
-    option.addEventListener('click', function () {
-      // TODO: Implement music playback
-      console.log('Playing:', this.textContent);
-    });
-  });
-
-  // Apply/Save buttons
-  document.querySelectorAll('.btn-primary').forEach((btn) => {
-    btn.addEventListener('click', function () {
-      // TODO: Implement respective actions
-      console.log('Action:', this.textContent);
-    });
-  });
-
-  // Progress animations
-  document.querySelectorAll('.progress').forEach((progress) => {
-    const width = progress.style.width;
-    progress.style.width = '0';
-    setTimeout(() => {
-      progress.style.width = width;
-    }, 100);
-  });
-
-  // Bookmark functionality
-  document.querySelectorAll('.btn-secondary').forEach((btn) => {
-    btn.addEventListener('click', function () {
-      const icon = this.querySelector('i');
-      if (icon.classList.contains('fa-bookmark')) {
-        icon.classList.remove('fa-bookmark');
-        icon.classList.add('fa-bookmark-solid');
-      } else {
-        icon.classList.remove('fa-bookmark-solid');
-        icon.classList.add('fa-bookmark');
-      }
-    });
-  });
-
-  // Search functionality
-  const searchInput = document.querySelector('.search-bar input');
-  searchInput.addEventListener('input', function (e) {
-    // TODO: Implement search functionality
-    console.log('Search:', e.target.value);
-  });
-
-  // Initialize tooltips
-  const tooltips = document.querySelectorAll('[data-tooltip]');
-  tooltips.forEach((tooltip) => {
-    tooltip.addEventListener('mouseenter', function () {
-      const tip = document.createElement('div');
-      tip.className = 'tooltip';
-      tip.textContent = this.dataset.tooltip;
-      document.body.appendChild(tip);
-
-      const rect = this.getBoundingClientRect();
-      tip.style.top = rect.bottom + 5 + 'px';
-      tip.style.left = rect.left + (rect.width - tip.offsetWidth) / 2 + 'px';
-    });
-
-    tooltip.addEventListener('mouseleave', function () {
-      const tip = document.querySelector('.tooltip');
-      if (tip) tip.remove();
+      // Filter logic would go here
+      // For now, just show animation
+      animateProgress();
     });
   });
 });
-
-// Simulated streak counter
-let streakCount = 5;
-let streakDate = new Date();
-
-function updateStreak() {
-  const today = new Date();
-  const diffDays = Math.floor((today - streakDate) / (1000 * 60 * 60 * 24));
-
-  if (diffDays > 1) {
-    streakCount = 0;
-  } else if (diffDays === 1) {
-    streakCount++;
-    streakDate = today;
-  }
-
-  const streakElement = document.querySelector('.streak span');
-  if (streakElement) {
-    streakElement.textContent = `${streakCount} jours`;
-  }
-}
-
-// Update streak daily
-setInterval(updateStreak, 1000 * 60 * 60); // Check every hour
-
-// XP System
-let userXP = 1250;
-const xpLevels = {
-  1: 0,
-  2: 500,
-  3: 1000,
-  4: 2000,
-  5: 3500,
-};
-
-function getCurrentLevel() {
-  let level = 1;
-  for (const [lvl, xp] of Object.entries(xpLevels)) {
-    if (userXP >= xp) level = parseInt(lvl);
-  }
-  return level;
-}
-
-function addXP(amount) {
-  const oldLevel = getCurrentLevel();
-  userXP += amount;
-  const newLevel = getCurrentLevel();
-
-  if (newLevel > oldLevel) {
-    // Level up notification
-    showNotification(
-      `Félicitations ! Vous avez atteint le niveau ${newLevel} !`
-    );
-  }
-
-  updateXPDisplay();
-}
-
-function updateXPDisplay() {
-  const xpElement = document.querySelector('.profile-info p');
-  if (xpElement) {
-    xpElement.textContent = `Niveau ${getCurrentLevel()} - ${userXP} XP`;
-  }
-}
-
-function showNotification(message) {
-  const notification = document.createElement('div');
-  notification.className = 'notification-toast';
-  notification.textContent = message;
-  document.body.appendChild(notification);
-
-  setTimeout(() => {
-    notification.remove();
-  }, 3000);
-}
-
-// Challenge system
-const challenges = {
-  daily: [
-    {
-      id: 'apply3',
-      title: 'Postuler à 3 offres',
-      xp: 50,
-      progress: 0,
-      max: 3,
-    },
-    {
-      id: 'updateCV',
-      title: 'Mettre à jour son CV',
-      xp: 30,
-      progress: 1,
-      max: 1,
-    },
-    {
-      id: 'forum',
-      title: 'Participer au forum',
-      xp: 70,
-      progress: 0,
-      max: 1,
-    },
-  ],
-};
-
-function updateChallenge(challengeId, progress) {
-  const challenge = challenges.daily.find((c) => c.id === challengeId);
-  if (challenge) {
-    challenge.progress = Math.min(challenge.max, challenge.progress + progress);
-    if (challenge.progress === challenge.max) {
-      addXP(challenge.xp);
-      showNotification(`Challenge complété ! +${challenge.xp} XP`);
-    }
-    updateChallengeDisplay();
-  }
-}
-
-function updateChallengeDisplay() {
-  challenges.daily.forEach((challenge) => {
-    const element = document.querySelector(
-      `[data-challenge="${challenge.id}"]`
-    );
-    if (element) {
-      const progress = element.querySelector('.progress');
-      const progressText = element.querySelector('.challenge-text p');
-
-      progress.style.width = `${(challenge.progress / challenge.max) * 100}%`;
-      progressText.textContent = `${challenge.progress}/${challenge.max} complétés`;
-    }
-  });
-}

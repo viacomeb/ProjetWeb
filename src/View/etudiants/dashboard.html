@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Étudiant - StageManager</title>
+    <link
+      rel="stylesheet"
+      href="../../../public/assets/css/student_dashboard.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- Sidebar -->
+      <nav class="sidebar">
+        <div class="logo">
+          <i class="fas fa-graduation-cap"></i>
+          <span>StageManager</span>
+        </div>
+        <ul class="nav-links">
+          <li class="active" data-section="overview">
+            <i class="fas fa-home"></i>
+            <span>Vue d'ensemble</span>
+          </li>
+          <li data-section="recommended">
+            <i class="fas fa-bullseye"></i>
+            <span>Offres recommandées</span>
+          </li>
+          <li data-section="challenges">
+            <i class="fas fa-trophy"></i>
+            <span>Challenges</span>
+          </li>
+          <li data-section="community">
+            <i class="fas fa-users"></i>
+            <span>Communauté</span>
+          </li>
+          <li data-section="profile">
+            <i class="fas fa-user"></i>
+            <span>Mon Profil</span>
+          </li>
+        </ul>
+
+        <!-- Theme Toggle -->
+        <div class="theme-toggle">
+          <i class="fas fa-moon"></i>
+          <label class="switch">
+            <input type="checkbox" id="themeSwitch" />
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </nav>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Header -->
+        <header class="header">
+          <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Rechercher une offre..." />
+          </div>
+          <div class="user-menu">
+            <div class="xp-counter">
+              <i class="fas fa-star"></i>
+              <span>1250 XP</span>
+            </div>
+            <div class="notifications">
+              <i class="fas fa-bell"></i>
+              <span class="badge">3</span>
+            </div>
+            <div class="profile">
+              <img
+                src="https://ui-avatars.com/api/?name=John+Doe"
+                alt="Profile"
+              />
+              <span>John Doe</span>
+              <div class="level-badge">Niveau 5</div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+          <!-- Overview Section -->
+          <section id="overview" class="section-content active">
+            <div class="welcome-banner">
+              <div class="streak-info">
+                <i class="fas fa-fire"></i>
+                <span>5 jours de streak! 🔥</span>
+              </div>
+              <h2>Bonjour John, prêt pour une nouvelle journée?</h2>
+              <p>Continue sur ta lancée! Tu es sur la bonne voie.</p>
+            </div>
+
+            <div class="progress-cards">
+              <div class="progress-card">
+                <div class="progress-header">
+                  <h3>Progression des candidatures</h3>
+                  <span class="total-count">15 total</span>
+                </div>
+                <div class="progress-bars">
+                  <div class="progress-item">
+                    <div class="progress-label">
+                      <span>En attente</span>
+                      <span>5</span>
+                    </div>
+                    <div class="progress-bar">
+                      <div class="progress" style="width: 33%"></div>
+                    </div>
+                  </div>
+                  <div class="progress-item">
+                    <div class="progress-label">
+                      <span>En cours</span>
+                      <span>8</span>
+                    </div>
+                    <div class="progress-bar">
+                      <div class="progress" style="width: 53%"></div>
+                    </div>
+                  </div>
+                  <div class="progress-item">
+                    <div class="progress-label">
+                      <span>Refusées</span>
+                      <span>2</span>
+                    </div>
+                    <div class="progress-bar">
+                      <div class="progress" style="width: 13%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="progress-card">
+                <div class="progress-header">
+                  <h3>Objectifs du jour</h3>
+                  <span class="completion-rate">2/3 complétés</span>
+                </div>
+                <div class="daily-goals">
+                  <div class="goal-item completed">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Postuler à 3 offres</span>
+                    <div class="xp-reward">+50 XP</div>
+                  </div>
+                  <div class="goal-item completed">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Mettre à jour ton CV</span>
+                    <div class="xp-reward">+30 XP</div>
+                  </div>
+                  <div class="goal-item">
+                    <i class="fas fa-circle"></i>
+                    <span>Participer au forum</span>
+                    <div class="xp-reward">+20 XP</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="quick-actions">
+              <h3>Actions rapides</h3>
+              <div class="action-buttons">
+                <button class="action-btn">
+                  <i class="fas fa-file-alt"></i>
+                  Modifier CV
+                </button>
+                <button class="action-btn">
+                  <i class="fas fa-envelope"></i>
+                  Modèle de LM
+                </button>
+                <button class="action-btn">
+                  <i class="fas fa-calendar"></i>
+                  Planifier entretien
+                </button>
+                <button class="action-btn">
+                  <i class="fas fa-comment"></i>
+                  Chat mentor
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Recommended Section -->
+          <section id="recommended" class="section-content">
+            <div class="section-header">
+              <h2>Offres recommandées pour vous</h2>
+              <div class="filters">
+                <button class="filter-btn active">Toutes</button>
+                <button class="filter-btn">Tech</button>
+                <button class="filter-btn">Design</button>
+                <button class="filter-btn">Marketing</button>
+              </div>
+            </div>
+
+            <div class="job-cards">
+              <div class="job-card">
+                <div class="company-logo">
+                  <img
+                    src="https://ui-avatars.com/api/?name=Tech+Corp"
+                    alt="TechCorp"
+                  />
+                </div>
+                <div class="job-info">
+                  <h3>Développeur Full-Stack</h3>
+                  <p class="company">TechCorp</p>
+                  <p class="location">
+                    <i class="fas fa-map-marker-alt"></i> Paris
+                  </p>
+                  <div class="tags">
+                    <span class="tag">React</span>
+                    <span class="tag">Node.js</span>
+                    <span class="tag">6 mois</span>
+                  </div>
+                </div>
+                <button class="quick-apply">Postuler en 1 clic</button>
+              </div>
+
+              <div class="job-card">
+                <div class="company-logo">
+                  <img
+                    src="https://ui-avatars.com/api/?name=Design+Studio"
+                    alt="DesignStudio"
+                  />
+                </div>
+                <div class="job-info">
+                  <h3>UI/UX Designer</h3>
+                  <p class="company">DesignStudio</p>
+                  <p class="location">
+                    <i class="fas fa-map-marker-alt"></i> Lyon
+                  </p>
+                  <div class="tags">
+                    <span class="tag">Figma</span>
+                    <span class="tag">Adobe XD</span>
+                    <span class="tag">4 mois</span>
+                  </div>
+                </div>
+                <button class="quick-apply">Postuler en 1 clic</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Challenges Section -->
+          <section id="challenges" class="section-content">
+            <div class="battle-pass">
+              <div class="battle-pass-header">
+                <h2>Battle Pass - Saison 1</h2>
+                <div class="battle-pass-progress">
+                  <div class="progress-bar">
+                    <div class="progress" style="width: 65%"></div>
+                  </div>
+                  <span>Niveau 5 - 650/1000 XP</span>
+                </div>
+              </div>
+
+              <div class="rewards-track">
+                <div class="reward-item unlocked">
+                  <div class="reward-icon">
+                    <i class="fas fa-medal"></i>
+                  </div>
+                  <div class="reward-info">
+                    <h4>Badge "Chercheur Débutant"</h4>
+                    <p>Débloqué au niveau 1</p>
+                  </div>
+                </div>
+
+                <div class="reward-item unlocked">
+                  <div class="reward-icon">
+                    <i class="fas fa-eye"></i>
+                  </div>
+                  <div class="reward-info">
+                    <h4>Voir qui visite ton profil</h4>
+                    <p>Débloqué au niveau 3</p>
+                  </div>
+                </div>
+
+                <div class="reward-item current">
+                  <div class="reward-icon">
+                    <i class="fas fa-star"></i>
+                  </div>
+                  <div class="reward-info">
+                    <h4>Profil mis en avant</h4>
+                    <p>Débloquer au niveau 7</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="leaderboard">
+              <h3>Classement des candidats</h3>
+              <div class="leaderboard-list">
+                <div class="leaderboard-item">
+                  <span class="rank">1</span>
+                  <img
+                    src="https://ui-avatars.com/api/?name=Sarah+L"
+                    alt="Sarah L."
+                  />
+                  <span class="name">Sarah L.</span>
+                  <span class="score">2500 XP</span>
+                </div>
+                <div class="leaderboard-item current-user">
+                  <span class="rank">2</span>
+                  <img
+                    src="https://ui-avatars.com/api/?name=John+Doe"
+                    alt="John Doe"
+                  />
+                  <span class="name">John Doe (Vous)</span>
+                  <span class="score">1250 XP</span>
+                </div>
+                <div class="leaderboard-item">
+                  <span class="rank">3</span>
+                  <img
+                    src="https://ui-avatars.com/api/?name=Marc+D"
+                    alt="Marc D."
+                  />
+                  <span class="name">Marc D.</span>
+                  <span class="score">1100 XP</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Community Section -->
+          <section id="community" class="section-content">
+            <div class="community-grid">
+              <div class="forum-section">
+                <h3>Forum des étudiants</h3>
+                <div class="forum-posts">
+                  <div class="forum-post">
+                    <div class="post-header">
+                      <img
+                        src="https://ui-avatars.com/api/?name=Marie+L"
+                        alt="Marie L."
+                      />
+                      <div class="post-info">
+                        <h4>Marie L.</h4>
+                        <span>Il y a 2h</span>
+                      </div>
+                    </div>
+                    <p>Des conseils pour un entretien dans une startup tech?</p>
+                    <div class="post-actions">
+                      <button><i class="fas fa-comment"></i> Répondre</button>
+                      <span><i class="fas fa-heart"></i> 5 likes</span>
+                    </div>
+                  </div>
+
+                  <div class="forum-post">
+                    <div class="post-header">
+                      <img
+                        src="https://ui-avatars.com/api/?name=Thomas+R"
+                        alt="Thomas R."
+                      />
+                      <div class="post-info">
+                        <h4>Thomas R.</h4>
+                        <span>Il y a 5h</span>
+                      </div>
+                    </div>
+                    <p>Je viens de décrocher un stage chez TechCorp! AMA</p>
+                    <div class="post-actions">
+                      <button><i class="fas fa-comment"></i> Répondre</button>
+                      <span><i class="fas fa-heart"></i> 12 likes</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mentoring-section">
+                <h3>Mentors disponibles</h3>
+                <div class="mentor-list">
+                  <div class="mentor-card">
+                    <img
+                      src="https://ui-avatars.com/api/?name=Sophie+M"
+                      alt="Sophie M."
+                    />
+                    <div class="mentor-info">
+                      <h4>Sophie M.</h4>
+                      <p>Lead Developer chez TechCorp</p>
+                      <div class="tags">
+                        <span class="tag">React</span>
+                        <span class="tag">Node.js</span>
+                      </div>
+                    </div>
+                    <button class="contact-mentor">Contacter</button>
+                  </div>
+
+                  <div class="mentor-card">
+                    <img
+                      src="https://ui-avatars.com/api/?name=Paul+D"
+                      alt="Paul D."
+                    />
+                    <div class="mentor-info">
+                      <h4>Paul D.</h4>
+                      <p>UX Designer chez DesignStudio</p>
+                      <div class="tags">
+                        <span class="tag">UI/UX</span>
+                        <span class="tag">Figma</span>
+                      </div>
+                    </div>
+                    <button class="contact-mentor">Contacter</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+    <script src="../../../public/assets/js/student_dashboard.js"></script>
+  </body>
+</html>
