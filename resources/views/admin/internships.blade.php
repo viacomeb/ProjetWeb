@@ -1,39 +1,8 @@
-<!DOCTYPE html>
-<html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Offres de stage - StageManager</title>
-    <link
-      rel="stylesheet"
-      href="../../../public/assets/css/admin_dashboard.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  </head>
+@extends('admin.app')
 
-      <!-- Main Content -->
-      <main class="main-content">
-        <!-- Header -->
-        <header class="header">
-          <div class="search-bar">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Rechercher..." />
-          </div>
-          <div class="user-menu">
-            <div class="notifications">
-              <i class="fas fa-bell"></i>
-              <span class="badge">5</span>
-            </div>
-            <div class="profile">
-              <img src="https://ui-avatars.com/api/?name=Admin" alt="Profile" />
-              <span>Administrateur</span>
-            </div>
-          </div>
-        </header>
+@section('title', ucfirst($page))
+
+@section('content')
         <!-- Dashboard Content -->
         <div class="dashboard-content">
           <section id="internships" class="section-content active">
@@ -187,6 +156,4 @@
         </form>
       </div>
     </div>
-    <script src="../../../public/assets/js/admin_dashboard.js"></script>
-  </body>
-</html>
+@endsection
