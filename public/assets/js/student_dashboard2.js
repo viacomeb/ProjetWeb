@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Gestion des clics sur les boxes
   document.addEventListener('click', function (event) {
-    const box = event.target.closest('.offer-card, .box_offer'); // Vérifie si le clic est sur une box
+    const box = event.target.closest('.offer-card'); // Vérifie si le clic est sur une box
     if (box) {
       const boxId = box.id; // Récupère l'ID de la box cliquée
       console.log(`Box cliquée : ${boxId}`);
@@ -42,6 +42,8 @@ document.addEventListener('DOMContentLoaded', function () {
       // Remplir les informations du modal
       offerModalTitle.textContent = offer.title;
       offerModalCompany.textContent = offer.company;
+      offerModalLocation.textContent = offer.location;
+      offerModalSalary.textContent = offer.salary;
       offerModalDetails.innerHTML = `
         <p>${offer.location}</p>
         <p>${offer.salary}</p>
