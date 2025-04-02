@@ -13,6 +13,7 @@ use App\Http\Controllers\ResetPasswordController;
 /* use App\Http\Middleware\AuthMiddleware; */
 use App\Http\Middleware\RoleMiddleware;
 
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
@@ -78,7 +79,7 @@ Route::middleware(['web'])->group(function () {
         Route::post('/offers/{id}/apply', [OffersController::class, 'apply'])->name('offers.apply');
         Route::post('/offers/{id}/wishlist', [OffersController::class, 'addToWishlist'])->name('offers.wishlist');
     });
-});
+/* }); */
 
 // Ajout d'une route API pour récupérer les entreprises
 Route::get('/api/companies', function () {
