@@ -7,7 +7,7 @@ import { readdirSync } from 'fs';
 import { resolve } from 'path';
 
 export default defineConfig({
-  base: '/',
+  base: './', // Utiliser un chemin relatif pour les assets
   plugins: [
     laravel({
       input: [
@@ -29,5 +29,12 @@ export default defineConfig({
   build: {
     outDir: 'public/build', // Définir le dossier de sortie
     assetsDir: 'assets', // Définir où les assets seront stockés
+    rollupOptions: {
+      output: {
+        assetFileNames: 'assets/[name].[hash][extname]', // Organiser les assets
+        chunkFileNames: 'assets/[name].[hash].js',
+        entryFileNames: 'assets/[name].[hash].js',
+      },
+    },
   },
 });
