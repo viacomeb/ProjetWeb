@@ -27,17 +27,40 @@ class HomeController extends Controller
         return view('pages.contact', compact('page'));
     }
 
-    public function blog()
-    {
-        // Logique pour la page de blog
-        $page = 'blog';
-        return view('about.blog', compact('page'));
-    }
-
     public function careers()
     {
         // Logique pour la page de carrières
         $page = 'careers';
         return view('about.careers', compact('page'));
+    }
+
+    public function guide()
+    {
+        $page = 'guide';
+        return view('about.guide', compact('page'));
+    }
+
+    public function support()
+    {
+        $page = 'support';
+        return view('about.support', compact('page'));
+    }
+
+    public function legal()
+    {
+        $page = 'legal';
+        return view('about.legal', compact('page'));
+    }
+
+    public function cgu()
+    {
+        $page = 'cgu';
+        return view('about.cgu', compact('page'));
+    }
+
+    public function privacy()
+    {
+        $page = 'privacy';
+        return view('about.privacy', compact('page'));
     }
 }

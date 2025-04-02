@@ -82,7 +82,6 @@
                     <h3>À propos</h3>
                     <ul>
                         <li><a href="{{ route('about') }}">Qui sommes-nous</a></li>
-                        <li><a href="{{ route('blog') }}">Blog</a></li>
                         <li><a href="{{ route('careers') }}">Carrières</a></li>
                     </ul>
                 </div>
@@ -90,18 +89,17 @@
                 <div class="footer-section">
                     <h3>Ressources</h3>
                     <ul>
-                        <li><a href="#">Guide</a></li>
-                        <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Support</a></li>
+                        <li><a href="{{ route('guide') }}">Guide</a></li>
+                        <li><a href="{{ route('support') }}">Support</a></li>
                     </ul>
                 </div>
                 <!-- Section "Légal" -->
                 <div class="footer-section">
                     <h3>Légal</h3>
                     <ul>
-                        <li><a href="#">Mentions légales</a></li>
-                        <li><a href="#">CGU</a></li>
-                        <li><a href="#">Confidentialité</a></li>
+                        <li><a href="{{ route('legal') }}">Mentions légales</a></li>
+                        <li><a href="{{ route('cgu') }}">CGU</a></li>
+                        <li><a href="{{ route('privacy') }}">Confidentialité</a></li>
                     </ul>
                 </div>
                 <!-- Section "Suivez-nous" -->

@@ -21,6 +21,11 @@ Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/blog', [HomeController::class, 'blog'])->name('blog');
 Route::get('/careers', [HomeController::class, 'careers'])->name('careers');
+Route::get('/guide', [HomeController::class, 'guide'])->name('guide');
+Route::get('/support', [HomeController::class, 'support'])->name('support');
+Route::get('/legal', [HomeController::class, 'legal'])->name('legal');
+Route::get('/cgu', [HomeController::class, 'cgu'])->name('cgu');
+Route::get('/privacy', [HomeController::class, 'privacy'])->name('privacy');
 
 // Login routes
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
