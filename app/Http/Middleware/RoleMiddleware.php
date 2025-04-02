@@ -11,9 +11,8 @@ class RoleMiddleware
     {
         $user = Auth::user();
 
-        // Vérifie si l'utilisateur a une relation avec le rôle demandé
-        if (!$user || !$user->$role) {
-            abort(403, 'Unauthorized action.');
+        if (!$user || !in_array($role, ['student', 'pilot', 'admin']) || !$user->$role) {
+            abort(403, 'Accès non autorisé.');
         }
 
         return $next($request);
