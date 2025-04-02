@@ -128,6 +128,68 @@
         </div>
     </div>
 
+    <!-- Modal for editing a company -->
+    <div id="editCompanyModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Modifier une entreprise</h2>
+            <form id="editCompanyForm" method="POST" action="">
+                @csrf
+                @method('PUT')
+                <input type="hidden" id="editCompanyId" name="company_id">
+                <div class="form-group">
+                    <label for="editCompanyName">Nom de l'entreprise :</label>
+                    <input type="text" id="editCompanyName" name="company_name" placeholder="Entrez le nom"
+                        required />
+                </div>
+                <div class="form-group">
+                    <label for="editDescription">Description :</label>
+                    <textarea id="editDescription" name="description" placeholder="Entrez une description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editPhone">Téléphone :</label>
+                    <input type="text" id="editPhone" name="phone" placeholder="Entrez le téléphone" />
+                </div>
+                <div class="form-group">
+                    <label for="editEmail">Email :</label>
+                    <input type="email" id="editEmail" name="email" placeholder="Entrez l'email" />
+                </div>
+                <div class="form-group">
+                    <label for="editStreet">Rue :</label>
+                    <input type="text" id="editStreet" name="street" placeholder="Entrez la rue" />
+                </div>
+                <div class="form-group">
+                    <label for="editStreetNumber">Numéro de rue :</label>
+                    <input type="number" id="editStreetNumber" name="street_number"
+                        placeholder="Entrez le numéro de rue" />
+                </div>
+                <div class="form-group">
+                    <label for="editCityName">Ville :</label>
+                    <input type="text" id="editCityName" name="city_name" placeholder="Entrez la ville" required />
+                </div>
+                <div class="form-group">
+                    <label for="editPostalCode">Code postal :</label>
+                    <input type="number" id="editPostalCode" name="postal_code" placeholder="Entrez le code postal"
+                        required />
+                </div>
+                <div class="form-group">
+                    <label for="editDepartmentName">Département :</label>
+                    <input type="text" id="editDepartmentName" name="department_name"
+                        placeholder="Entrez le département" required />
+                </div>
+                <div class="form-group">
+                    <label for="editCountryName">Pays :</label>
+                    <input type="text" id="editCountryName" name="country_name" placeholder="Entrez le pays"
+                        required />
+                </div>
+                <div class="modal-actions">
+                    <button type="submit" class="btn-primary">Enregistrer</button>
+                    <button type="button" class="btn-secondary close">Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Ajout d'un modal de confirmation de suppression -->
     <div id="deleteModal" class="modal">
         <div class="modal-content">
@@ -169,6 +231,61 @@
                 if (formToSubmit) {
                     formToSubmit.submit();
                 }
+            });
+
+            const editButtons = document.querySelectorAll('.btn-icon[title="Modifier"]');
+            const editModal = document.getElementById('editCompanyModal');
+            const closeModalButtonsEdit = editModal.querySelectorAll('.close');
+            const editForm = document.getElementById('editCompanyForm');
+
+            editButtons.forEach(button => {
+                button.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    const companyId = button.closest('tr').querySelector('form button').dataset
+                        .id;
+
+                    try {
+                        // Fetch company data from the server
+                        const response = await fetch(`/companies/${companyId}`);
+                        if (!response.ok) {
+                            throw new Error('Failed to fetch company data');
+                        }
+
+                        const company = await response.json();
+
+                        // Populate modal fields with fetched data
+                        editForm.action = `/companies/${companyId}`;
+                        document.getElementById('editCompanyId').value = companyId;
+                        document.getElementById('editCompanyName').value = company.company_name;
+                        document.getElementById('editDescription').value = company
+                            .description || '';
+                        document.getElementById('editPhone').value = company.phone || '';
+                        document.getElementById('editEmail').value = company.email || '';
+                        document.getElementById('editStreet').value = company.street || '';
+                        document.getElementById('editStreetNumber').value = company
+                            .street_number || '';
+                        document.getElementById('editCityName').value = company.city
+                            .city_name || '';
+                        document.getElementById('editPostalCode').value = company.city
+                            .postal_code || '';
+                        document.getElementById('editDepartmentName').value = company.city
+                            .department.department_name || '';
+                        document.getElementById('editCountryName').value = company.city
+                            .department.country.country_name || '';
+
+                        editModal.classList.add('active');
+                    } catch (error) {
+                        console.error('Error fetching company data:', error);
+                        alert(
+                            'Une erreur est survenue lors de la récupération des données de l\'entreprise.');
+                    }
+                });
+            });
+
+            closeModalButtonsEdit.forEach(button => {
+                button.addEventListener('click', () => {
+                    editModal.classList.remove('active');
+                });
             });
         });
     </script>

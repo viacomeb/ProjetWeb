@@ -33,6 +33,6 @@ class City extends Model
 
     public function country()
     {
-        return $this->hasOneThrough(Country::class, Department::class, 'department_id', 'country_id', 'department_id', 'country_id');
+        return $this->belongsToThrough(Country::class, Department::class, 'department_id', 'country_id');
     }
 }

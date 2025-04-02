@@ -16,7 +16,7 @@ use Illuminate\Routing\Middleware\ThrottleRequests;
 use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Auth;
 
-
+// Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
@@ -34,26 +34,29 @@ Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkE
 Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
-// Authenticated routes (avant)
-Route::get('/companies', [CompaniesController::class, 'list'])->name('companies.list');
-Route::get('/companies/{id}', [CompaniesController::class, 'show'])->name('companies.show');
+    // Authenticated routes
+    Route::get('/companies', [CompaniesController::class, 'list'])->name('companies.list');
+    Route::get('/companies/{id}', [CompaniesController::class, 'show'])->name('companies.show');
+    Route::put('/companies/{id}', [CompaniesController::class, 'update'])->name('companies.update');
 
-Route::get('/offers', [OffersController::class, 'list'])->name('offers.list');
-Route::get('/offers/{id}', [OffersController::class, 'show'])->name('offers.show');
+    Route::get('/offers', [OffersController::class, 'list'])->name('offers.list');
+    Route::get('/offers/{id}', [OffersController::class, 'show'])->name('offers.show');
+    Route::put('/offers/{id}', [OffersController::class, 'update'])->name('offers.update');
 
 Route::middleware(['auth'])->group(function () {
     // Admin-specific routes
-    Route::middleware([RoleMiddleware::class . ':admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-    Route::get('/companies', [AdminController::class, 'companies'])->name('companies');
-    Route::get('/internships', [AdminController::class, 'internships'])->name('internships');
-    Route::get('/pilots', [AdminController::class, 'pilots'])->name('pilots');
-    Route::get('/students', [AdminController::class, 'students'])->name('students');
-    Route::get('/applications', [AdminController::class, 'applications'])->name('applications');
-    Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
-    Route::post('/internships/store', [OffersController::class, 'store'])->name('internships.store');
-    Route::post('/pilots/store', [AdminController::class, 'storePilot'])->name('pilots.store');
-    Route::post('/companies/store', [CompaniesController::class, 'store'])->name('companies.store');
+    Route::middleware(['auth', RoleMiddleware::class . ':admin'])->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::get('/companies', [AdminController::class, 'companies'])->name('companies');
+        Route::get('/internships', [AdminController::class, 'internships'])->name('internships');
+        Route::get('/pilots', [AdminController::class, 'pilots'])->name('pilots');
+        Route::get('/students', [AdminController::class, 'students'])->name('students');
+        Route::get('/applications', [AdminController::class, 'applications'])->name('applications');
+        Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
+        Route::post('/internships/store', [OffersController::class, 'store'])->name('internships.store');
+        Route::post('/pilots/store', [AdminController::class, 'storePilot'])->name('pilots.store');
+        Route::post('/companies/store', [CompaniesController::class, 'store'])->name('companies.store');
+        Route::delete('/companies/{id}', [CompaniesController::class, 'destroy'])->name('companies.destroy');
     });
 
     // Pilot-specific routes
@@ -76,47 +79,8 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
-// Ajout d'une route API pour récupérer les entreprises
-Route::get('/api/companies', function () {
-    return \App\Models\Company::select('company_id as id', 'company_name as name')->get();
-});
-
-// Correction des routes API pour utiliser les colonnes correctes
-Route::get('/api/students', function () {
-    try {
-        $students = \App\Models\Student::join('Users', 'Students.user_id', '=', 'Users.user_id')
-            ->select('Students.student_id as id', 'Users.first_name', 'Users.last_name')
-            ->get();
-
-        return $students->map(function ($student) {
-            return [
-                'id' => $student->id,
-                'name' => $student->first_name . ' ' . $student->last_name,
-            ];
-        });
-    } catch (\Exception $e) {
-        \Log::error('Erreur dans /api/students : ' . $e->getMessage());
-        return response()->json(['error' => 'Erreur interne'], 500);
-    }
-});
-
-Route::get('/api/pilots', function () {
-    try {
-        $pilots = \App\Models\Pilot::join('Users', 'Pilots.user_id', '=', 'Users.user_id')
-            ->select('Pilots.pilot_id as id', 'Users.first_name', 'Users.last_name')
-            ->get();
-        return $pilots->map(function ($pilot) {
-            return [
-                'id' => $pilot->id,
-                'name' => $pilot->first_name . ' ' . $pilot->last_name,
-            ];
-        });
-    } catch (\Exception $e) {
-        \Log::error('Erreur dans /api/pilots : ' . $e->getMessage());
-        return response()->json(['error' => 'Erreur interne'], 500);
-    }
-});
-
-Route::get('/api/skills', function () {
-    return \App\Models\Skill::select('skill_id as id', 'name')->get();
-});
+// General routes
+Route::get('/companies', [CompaniesController::class, 'list']);
+Route::get('/students', [StudentsController::class, 'list']);
+Route::get('/pilots', [PilotsController::class, 'list']);
+Route::get('/skills', [SkillsController::class, 'list']);

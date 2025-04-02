@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Pilot;
 
 class PilotsController extends Controller
 {
@@ -13,5 +14,11 @@ class PilotsController extends Controller
             'page' => 'dashboard',
             // Ajoutez ici les données nécessaires pour le tableau de bord
         ]);
+    }
+
+    public function list()
+    {
+        $pilots = Pilot::all();
+        return response()->json($pilots);
     }
 }
