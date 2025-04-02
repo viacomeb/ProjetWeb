@@ -6,25 +6,29 @@ import path from 'path';
 import { readdirSync } from 'fs';
 import { resolve } from 'path';
 
-// Fonction pour récupérer tous les fichiers d'un répertoire avec une extension donnée
-function getFiles(dir, ext) {
-  return readdirSync(resolve(__dirname, dir))
-    .filter((file) => file.endsWith(ext))
-    .map((file) => `${dir}/${file}`);
-}
-
 export default defineConfig({
   plugins: [
     laravel({
       input: [
-        ...getFiles('resources/css', '.css'),
-        ...getFiles('resources/js', '.js'),
+        'resources/css/admin_dashboard.css',
+        'resources/css/dashboard.css',
+        'resources/css/home.css',
+        'resources/css/login.css',
+        'resources/css/style.css',
+        'resources/js/admin_dashboard.js',
+        'resources/js/app.js',
+        'resources/js/auth.js',
+        'resources/js/dashboard.js',
       ],
       refresh: true,
     }),
     tailwindcss(),
     vue(),
   ],
+  build: {
+    outDir: 'public/build', // Définir le dossier de sortie
+    assetsDir: 'assets', // Définir où les assets seront stockés
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'resources/js'),
