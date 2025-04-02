@@ -7,8 +7,8 @@
     <title>WorknGo - @yield('title')</title>
     <link rel="icon" href="{{ asset('images/WorknGo_logo.png') }}">
     @vite('resources/css/admin_dashboard.css')
-    @vite('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css')
-    @vite('https://cdn.jsdelivr.net/npm/chart.js')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js/dist/Chart.min.css">
 </head>
 
 <body>
@@ -20,25 +20,25 @@
                 <span>Admin Panel</span>
             </div>
             <ul class="nav-links">
-                <li>
+                <li class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                     <a href="{{ route('admin.dashboard') }}"><i class="fas fa-home"></i> Vue d'ensemble</a>
                 </li>
-                <li>
+                <li class="{{ request()->routeIs('admin.companies') ? 'active' : '' }}">
                     <a href="{{ route('admin.companies') }}"><i class="fas fa-building"></i> Entreprises</a>
                 </li>
-                <li class="active">
+                <li class="{{ request()->routeIs('admin.internships') ? 'active' : '' }}">
                     <a href="{{ route('admin.internships') }}"><i class="fas fa-briefcase"></i> Offres de stage</a>
                 </li>
-                <li>
+                <li class="{{ request()->routeIs('admin.pilots') ? 'active' : '' }}">
                     <a href="{{ route('admin.pilots') }}"><i class="fas fa-user-tie"></i> Pilotes</a>
                 </li>
-                <li>
+                <li class="{{ request()->routeIs('admin.students') ? 'active' : '' }}">
                     <a href="{{ route('admin.students') }}"><i class="fas fa-user-graduate"></i> Étudiants</a>
                 </li>
-                <li>
+                <li class="{{ request()->routeIs('admin.applications') ? 'active' : '' }}">
                     <a href="{{ route('admin.applications') }}"><i class="fas fa-file-alt"></i> Candidatures</a>
                 </li>
-                <li>
+                <li class="{{ request()->routeIs('admin.settings') ? 'active' : '' }}">
                     <a href="{{ route('admin.settings') }}"><i class="fas fa-cog"></i> Paramètres</a>
                 </li>
             </ul>
@@ -65,8 +65,9 @@
             </header>
 
             @yield('content')
-
-            @vite('resources/js/admin_dashboard.js')
+        </main>
+    </div>
+    @vite('resources/js/admin_dashboard.js')
 </body>
 
 </html>

@@ -8,7 +8,7 @@
         <section id="companies" class="section-content active">
             <div class="section-header">
                 <h1>Gestion des Entreprises</h1>
-                <button class="btn-primary" id="addCompany">
+                <button class="btn btn-primary" id="addCompany">
                     <i class="fas fa-plus"></i> Nouvelle entreprise
                 </button>
             </div>

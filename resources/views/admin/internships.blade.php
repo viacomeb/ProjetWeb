@@ -8,7 +8,7 @@
           <section id="internships" class="section-content active">
             <div class="section-header">
               <h1>Gestion des Offres</h1>
-              <button class="btn-primary" id="addInternship">
+              <button class="btn btn-primary" id="addInternship">
                 <i class="fas fa-plus"></i> Nouvelle offre
               </button>
             </div>

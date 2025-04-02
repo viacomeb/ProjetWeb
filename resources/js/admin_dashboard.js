@@ -1,3 +1,5 @@
+import Chart from 'chart.js/auto';
+
 console.log('admin_dashboard.js chargé avec succès');
 
 document.addEventListener('DOMContentLoaded', () => {

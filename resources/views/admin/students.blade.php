@@ -8,7 +8,7 @@
         <section id="students" class="section-content active">
             <div class="section-header">
                 <h1>Gestion des Étudiants</h1>
-                <button class="btn-primary" id="addStudent">
+                <button class="btn btn-primary" id="addStudent">
                     <i class="fas fa-plus"></i> Nouvel étudiant
                 </button>
             </div>
