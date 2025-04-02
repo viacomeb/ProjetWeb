@@ -61,6 +61,7 @@ Route::middleware([AuthMiddleware::class])->group(function () {
         Route::get('/students', [AdminController::class, 'students'])->name('students');
         Route::get('/applications', [AdminController::class, 'applications'])->name('applications');
         Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
+        Route::post('/internships/store', [OffersController::class, 'store'])->name('internships.store');
     });
 
     // Pilot-specific routes

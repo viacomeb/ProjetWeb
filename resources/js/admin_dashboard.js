@@ -162,6 +162,53 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Handle form submission for internships
+  handleFormSubmit('internshipForm', () => {
+    const title = document.getElementById('title')?.value;
+    const description = document.getElementById('description')?.value;
+    const salary = document.getElementById('salary')?.value;
+    const startDate = document.getElementById('start_date')?.value;
+    const endDate = document.getElementById('end_date')?.value;
+    const companyId = document.getElementById('company_id')?.value;
+
+    if (!title || !companyId) {
+      alert('Veuillez remplir tous les champs obligatoires.');
+      return;
+    }
+
+    const formData = {
+      title,
+      description,
+      salary,
+      start_date: startDate,
+      end_date: endDate,
+      company_id: companyId,
+      _token: document.querySelector('input[name="_token"]').value,
+    };
+
+    fetch('/admin/internships/store', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => {
+        if (response.ok) {
+          alert(
+            'Le formulaire a été soumis avec succès et les données ont été enregistrées.'
+          );
+          location.reload(); // Reload the page to reflect changes
+        } else {
+          alert('Une erreur est survenue lors de la soumission du formulaire.');
+        }
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la soumission du formulaire :', error);
+        alert('Une erreur est survenue. Veuillez réessayer.');
+      });
+  });
+
   // Suppression avec confirmation
   document.querySelectorAll('[title="Supprimer"]').forEach((btn) => {
     btn.addEventListener('click', function () {
@@ -313,11 +360,39 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById(
       'selectedCompany'
     ).textContent = `Entreprise sélectionnée : ${company.name}`;
+    document.getElementById('company_id').value = company.id;
   });
 
   initDropdown('pilotSearch', 'pilotDropdown', pilots, (pilot) => {
     document.getElementById(
       'selectedPilot'
     ).textContent = `Pilote sélectionné : ${pilot.name}`;
+  });
+
+  const skills = [
+    { id: 1, name: 'JavaScript' },
+    { id: 2, name: 'Python' },
+    { id: 3, name: 'HTML' },
+    { id: 4, name: 'CSS' },
+    { id: 5, name: 'React' },
+  ];
+
+  initDropdown('skillsSearch', 'skillsDropdown', skills, (skill) => {
+    const selectedTable = document.getElementById('selectedSkillsTable');
+    if (selectedTable) {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${skill.name}</td>
+        <td class="action-cell">
+          <button class="btn-icon delete" data-id="${skill.id}">
+            <i class="fas fa-trash"></i>
+          </button>
+        </td>`;
+      selectedTable.querySelector('tbody').appendChild(row);
+
+      row.querySelector('.delete').addEventListener('click', () => {
+        row.remove();
+      });
+    }
   });
 });

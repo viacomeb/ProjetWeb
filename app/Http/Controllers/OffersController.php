@@ -67,5 +67,25 @@ class OffersController extends Controller
         return redirect()->back()->with('success', 'Offer added to your wishlist.');
     }
 
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:50',
+            'description' => 'nullable|string',
+            'salary' => 'nullable|numeric|min:0',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'company_id' => 'required|exists:Companies,company_id',
+        ]);
+
+        // Set default values for view_count and is_active
+        $validatedData['view_count'] = 0;
+        $validatedData['is_active'] = true;
+
+        Offer::create($validatedData);
+
+        return redirect()->route('admin.internships')->with('success', 'Offre créée avec succès.');
+    }
+
     // Autres méthodes pour créer, mettre à jour, supprimer des offres
 }
