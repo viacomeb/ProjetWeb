@@ -20,8 +20,8 @@
                 <span>student Panel</span>
             </div>
             <ul class="nav-links">
-                <li class="{{ request()->routeIs('students.overview') ? 'active' : '' }}">
-                    <a href="{{ route('students.overview') }}"><i class="fas fa-home"></i> Vue d'ensemble</a>
+                <li class="active">
+                    <a href="#overview"><i class="fas fa-home"></i> Vue d'ensemble</a>
                 </li>
                 <li class="{{ request()->routeIs('students.internships') ? 'active' : '' }}">
                     <a href="{{ route('students.internships') }}"><i class="fas fa-briefcase"></i> Offres de stage</a>

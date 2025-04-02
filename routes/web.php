@@ -127,4 +127,11 @@ Route::get('/api/skills', function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
+    Route::get('/students/overview', [StudentController::class, 'overview'])->name('students.overview');
+    Route::get('/students/internships', [StudentController::class, 'internships'])->name('students.internships');
+    Route::get('/students/wishlist', [StudentController::class, 'wishlist'])->name('students.wishlist');
+    Route::get('/students/challenges', [StudentController::class, 'challenges'])->name('students.challenges');
+    Route::get('/students/community', [StudentController::class, 'community'])->name('students.community');
+    Route::get('/students/messages', [StudentController::class, 'messages'])->name('students.messages');
+    Route::get('/students/settings', [StudentController::class, 'settings'])->name('students.settings');
 });

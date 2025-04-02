@@ -33,7 +33,7 @@ class AuthController extends Controller
 
             // Redirection en fonction du rôle
             $redirectUrl = match (true) {
-                Auth::user()->student !== null => route('students.dashboard'),
+                Auth::user()->student !== null => route('students.overview'),
                 Auth::user()->pilot !== null => route('pilots.dashboard'),
                 Auth::user()->admin !== null => route('admin.dashboard'),
                 default => route('home'),
