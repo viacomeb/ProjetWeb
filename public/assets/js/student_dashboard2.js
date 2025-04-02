@@ -4,7 +4,10 @@ document.addEventListener('DOMContentLoaded', function () {
   const offerModal = document.getElementById('offerModal');
   const companyModal = document.getElementById('companyModal'); // Modal pour les entreprises
   const companyModalTitle = document.getElementById('companyModalTitle');
-  const companyModalDetails = document.getElementById('companyModalDetails');
+  const companyDescription = document.getElementById('companyDescription');
+  const companyPhone = document.getElementById('companyPhone');
+  const companyEmail = document.getElementById('companyEmail');
+  const companyAddress = document.getElementById('companyAddress');
   const offerModalTitle = document.getElementById('offerModalTitle');
   const offerModalCompany = document.getElementById('offerModalCompany');
   const offerModalLocation = document.getElementById('offerModalLocation');
@@ -16,7 +19,10 @@ document.addEventListener('DOMContentLoaded', function () {
     !offerModal ||
     !companyModal ||
     !companyModalTitle ||
-    !companyModalDetails ||
+    !companyDescription ||
+    !companyPhone ||
+    !companyEmail ||
+    !companyAddress ||
     !offerModalTitle ||
     !offerModalCompany ||
     !offerModalLocation ||
@@ -48,17 +54,17 @@ document.addEventListener('DOMContentLoaded', function () {
       const companyDetails = {
         name: companyName,
         description: `Description de l'entreprise ${companyName}.`,
-        location: 'Paris, France',
-        website: 'https://example.com',
+        phone: '+33 1 23 45 67 89',
+        email: `${companyName.toLowerCase().replace(/\s+/g, '')}@example.com`,
+        address: '123 Rue de Paris, 75000 Paris, France',
       };
 
       // Remplir les informations du modal entreprise
       companyModalTitle.textContent = companyDetails.name;
-      companyModalDetails.innerHTML = `
-        <p><strong>Localisation :</strong> ${companyDetails.location}</p>
-        <p><strong>Site web :</strong> <a href="${companyDetails.website}" target="_blank">${companyDetails.website}</a></p>
-        <p><strong>Description :</strong> ${companyDetails.description}</p>
-      `;
+      companyDescription.textContent = companyDetails.description;
+      companyPhone.textContent = companyDetails.phone;
+      companyEmail.textContent = companyDetails.email;
+      companyAddress.textContent = companyDetails.address;
 
       // Afficher le modal entreprise
       companyModal.classList.add('active');
