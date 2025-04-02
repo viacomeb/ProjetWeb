@@ -10,7 +10,7 @@ use App\Http\Controllers\PilotsController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
-use App\Http\Middleware\AuthMiddleware;
+/* use App\Http\Middleware\AuthMiddleware; */
 use App\Http\Middleware\RoleMiddleware;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -37,7 +37,7 @@ Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showRese
 Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
 // Authenticated routes
-Route::middleware(AuthMiddleware::class)->group(function () {
+/* Route::middleware(AuthMiddleware::class)->group(function () { */
     Route::get('/companies', [CompaniesController::class, 'list'])->name('companies.list');
     Route::get('/companies/{id}', [CompaniesController::class, 'show'])->name('companies.show');
 
@@ -72,4 +72,4 @@ Route::middleware(AuthMiddleware::class)->group(function () {
         Route::post('/offers/{id}/apply', [OffersController::class, 'apply'])->name('offers.apply');
         Route::post('/offers/{id}/wishlist', [OffersController::class, 'addToWishlist'])->name('offers.wishlist');
     });
-});
+/* }); */

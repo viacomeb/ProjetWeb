@@ -20,6 +20,11 @@ class AuthController extends Controller
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required|string|min:8',
+        ], [
+            'email.required' => 'Email ou mot de passe incorrect.',
+            'email.email' => 'Email ou mot de passe incorrect.',
+            'password.required' => 'Email ou mot de passe incorrect.',
+            'password.min' => 'Email ou mot de passe incorrect.',
         ]);
 
         // Tentative de connexion
@@ -34,20 +39,31 @@ class AuthController extends Controller
                 default => route('home'),
             };
 
+            // Si la requête est AJAX, une réponse JSON est renvoyée
             if ($request->expectsJson()) {
-                return response()->json(['success' => true, 'redirect' => $redirectUrl]);
+                return response()->json([
+                    'success' => true,
+                    'redirect' => $redirectUrl,
+                ]);
             }
 
+            // Redirection classique
             return redirect()->intended($redirectUrl);
         }
 
         // Gestion des erreurs
         $errorMessage = 'Email ou mot de passe incorrect.';
         if ($request->expectsJson()) {
-            return response()->json(['success' => false, 'message' => $errorMessage], 401);
+            return response()->json([
+                'success' => false,
+                'message' => $errorMessage,
+            ], 401);
         }
 
-        return back()->withErrors(['email' => $errorMessage])->withInput();
+        return back()->withErrors([
+            'email' => $errorMessage,
+            'password' => $errorMessage,
+        ])->withInput();
     }
 
     // Déconnexion

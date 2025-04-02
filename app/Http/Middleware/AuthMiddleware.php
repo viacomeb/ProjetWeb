@@ -14,7 +14,6 @@ class AuthMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Liste des routes publiques (à adapter selon ton projet)
         $publicRoutes = ['home', 'login', 'register', 'password.request', 'password.reset'];
 
         // Si la route actuelle est publique, on laisse passer
