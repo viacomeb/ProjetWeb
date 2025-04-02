@@ -211,25 +211,35 @@ document.addEventListener('DOMContentLoaded', function () {
       const companyName = companyNameElement.textContent.trim();
       console.log(`Nom de l'entreprise cliqué : ${companyName}`);
 
-      // Simulez la récupération des données de l'entreprise
-      const companyDetails = {
-        name: companyName,
-        description: `Description de l'entreprise ${companyName}.`,
-        phone: '+33 1 23 45 67 89',
-        email: `${companyName.toLowerCase().replace(/\s+/g, '')}@example.com`,
-        address: '123 Rue de Paris, 75000 Paris, France',
-      };
+      const companyId = companyName.toLowerCase().replace(/\s+/g, '_');
 
-      // Remplir les informations du modal entreprise
-      companyModalTitle.textContent = companyDetails.name;
-      companyDescription.textContent = companyDetails.description;
-      companyPhone.textContent = companyDetails.phone;
-      companyEmail.textContent = companyDetails.email;
-      companyAddress.textContent = companyDetails.address;
+      fetch(`/companies/${companyId}`)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Failed to fetch company data');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          // Populate modal with company data
+          companyModalTitle.textContent = data.company_name;
+          companyDescription.textContent = data.description || 'Non renseignée';
+          companyPhone.textContent = data.phone || 'Non renseigné';
+          companyEmail.textContent = data.email || 'Non renseigné';
+          companyAddress.textContent = `${data.street || ''} ${
+            data.street_number || ''
+          }, ${data.city_name || ''}`;
 
-      // Afficher le modal entreprise
-      companyModal.classList.add('active');
-      console.log('Modal entreprise ouvert.');
+          // Show the modal
+          companyModal.classList.add('active');
+        })
+        .catch((error) => {
+          console.error('Error fetching company data:', error);
+          alert(
+            "Une erreur est survenue lors de la récupération des données de l'entreprise."
+          );
+        });
+
       return; // Empêche l'ouverture du modal d'offre
     }
 

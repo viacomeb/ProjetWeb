@@ -30,7 +30,7 @@
                     </thead>
                     <tbody>
                         @foreach ($offers as $offer)
-                            <tr>
+                            <tr class="offer-row" data-offer-id="{{ $offer->offer_id }}" style="cursor: pointer;">
                                 <td>{{ $offer->title }}</td>
                                 <td>{{ $offer->company->company_name ?? 'Non spécifié' }}</td>
                                 <td>{{ $offer->applications_count ?? 0 }}</td>
@@ -132,7 +132,18 @@
         </div>
     </div>
 
-    <script>
+    <!-- Modal for Viewing Offer Details -->
+    <div id="offerDetailsModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" id="closeOfferDetailsModal">&times;</span>
+            <h2 id="modalOfferTitle"></h2>
+            <p><strong>Description :</strong> <span id="modalOfferDescription"></span></p>
+            <p><strong>Salaire :</strong> <span id="modalOfferSalary"></span></p>
+            <p><strong>Entreprise :</strong> <span id="modalOfferCompany"></span></p>
+            <p><strong>Date de début :</strong> <span id="modalOfferStartDate"></span></p>
+            <p><strong>Date de fin :</strong> <span id="modalOfferEndDate"></span></p>
+        </div>
+    </div>
 
-    </script>
+    <script></script>
 @endsection

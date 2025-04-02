@@ -24,8 +24,13 @@ class OffersController extends Controller
 
     public function show($id)
     {
-        // Récupérer une offre spécifique
-        $offer = Offer::findOrFail($id);
+        $offer = Offer::with('company')->findOrFail($id);
+
+        // Check if the request expects JSON (e.g., from AJAX)
+        if (request()->wantsJson()) {
+            return response()->json($offer);
+        }
+
         return view('offers.show', ['offer' => $offer, 'page' => $this->page]);
     }
 
@@ -85,6 +90,23 @@ class OffersController extends Controller
         Offer::create($validatedData);
 
         return redirect()->route('admin.internships')->with('success', 'Offre créée avec succès.');
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:50',
+            'description' => 'nullable|string',
+            'salary' => 'nullable|numeric|min:0',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'company_id' => 'required|exists:Companies,company_id',
+        ]);
+
+        $offer = Offer::findOrFail($id);
+        $offer->update($validatedData);
+
+        return redirect()->route('offers.list')->with('success', 'Offre mise à jour avec succès.');
     }
 
     // Autres méthodes pour créer, mettre à jour, supprimer des offres

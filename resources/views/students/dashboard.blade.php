@@ -68,9 +68,7 @@
                         <span class="badge">3</span>
                     </div>
                     <div class="profile">
-                        <img
-                            src="https://ui-avatars.com/api/?name=John+Doe"
-                            alt="Profile" />
+                        <img src="https://ui-avatars.com/api/?name=John+Doe" alt="Profile" />
                         <span>John Doe</span>
                         <div class="level-badge">Niveau 5</div>
                     </div>
@@ -169,9 +167,7 @@
                                     <span>95% match</span>
                                 </div>
                                 <div class="offer-header">
-                                    <img
-                                        src="https://ui-avatars.com/api/?name=Tech+Corp"
-                                        alt="Company" />
+                                    <img src="https://ui-avatars.com/api/?name=Tech+Corp" alt="Company" />
                                     <div class="offer-company">
                                         <h3>Développeur Full-Stack</h3>
                                         <p>TechCorp</p>
@@ -207,9 +203,7 @@
                                     <span>88% match</span>
                                 </div>
                                 <div class="offer-header">
-                                    <img
-                                        src="https://ui-avatars.com/api/?name=Data+Insight"
-                                        alt="Company" />
+                                    <img src="https://ui-avatars.com/api/?name=Data+Insight" alt="Company" />
                                     <div class="offer-company">
                                         <h3>Data Analyst</h3>
                                         <p>DataInsight</p>
@@ -347,9 +341,7 @@
                             <div class="forum-posts">
                                 <div class="forum-post">
                                     <div class="post-author">
-                                        <img
-                                            src="https://ui-avatars.com/api/?name=Lucas+Dubois"
-                                            alt="Author" />
+                                        <img src="https://ui-avatars.com/api/?name=Lucas+Dubois" alt="Author" />
                                         <div class="author-info">
                                             <h4>Lucas Dubois</h4>
                                             <span>Il y a 2h</span>
@@ -369,9 +361,7 @@
                                 </div>
                                 <div class="forum-post">
                                     <div class="post-author">
-                                        <img
-                                            src="https://ui-avatars.com/api/?name=Emma+Bernard"
-                                            alt="Author" />
+                                        <img src="https://ui-avatars.com/api/?name=Emma+Bernard" alt="Author" />
                                         <div class="author-info">
                                             <h4>Emma Bernard</h4>
                                             <span>Il y a 4h</span>
@@ -394,9 +384,7 @@
                                 <h3>Mentors disponibles</h3>
                                 <div class="mentors-list">
                                     <div class="mentor-card">
-                                        <img
-                                            src="https://ui-avatars.com/api/?name=Sophie+Martin"
-                                            alt="Mentor" />
+                                        <img src="https://ui-avatars.com/api/?name=Sophie+Martin" alt="Mentor" />
                                         <div class="mentor-info">
                                             <h4>Sophie Martin</h4>
                                             <p>Lead Dev chez TechCorp</p>
@@ -408,9 +396,7 @@
                                         <button class="btn-primary">Contacter</button>
                                     </div>
                                     <div class="mentor-card">
-                                        <img
-                                            src="https://ui-avatars.com/api/?name=Marc+Dubois"
-                                            alt="Mentor" />
+                                        <img src="https://ui-avatars.com/api/?name=Marc+Dubois" alt="Mentor" />
                                         <div class="mentor-info">
                                             <h4>Marc Dubois</h4>
                                             <p>Data Scientist chez DataInsight</p>
@@ -432,9 +418,7 @@
                         <div class="leaderboard">
                             <div class="leaderboard-item top">
                                 <div class="rank">1</div>
-                                <img
-                                    src="https://ui-avatars.com/api/?name=Thomas+Laurent"
-                                    alt="User" />
+                                <img src="https://ui-avatars.com/api/?name=Thomas+Laurent" alt="User" />
                                 <div class="user-info">
                                     <h4>Thomas Laurent</h4>
                                     <p>2500 XP</p>
@@ -446,9 +430,7 @@
                             </div>
                             <div class="leaderboard-item">
                                 <div class="rank">2</div>
-                                <img
-                                    src="https://ui-avatars.com/api/?name=Marie+Martin"
-                                    alt="User" />
+                                <img src="https://ui-avatars.com/api/?name=Marie+Martin" alt="User" />
                                 <div class="user-info">
                                     <h4>Marie Martin</h4>
                                     <p>2250 XP</p>
@@ -459,9 +441,7 @@
                             </div>
                             <div class="leaderboard-item">
                                 <div class="rank">3</div>
-                                <img
-                                    src="https://ui-avatars.com/api/?name=Lucas+Dubois"
-                                    alt="User" />
+                                <img src="https://ui-avatars.com/api/?name=Lucas+Dubois" alt="User" />
                                 <div class="user-info">
                                     <h4>Lucas Dubois</h4>
                                     <p>2100 XP</p>
@@ -609,16 +589,11 @@
                             @csrf
                             <div class="form-group">
                                 <label for="communityTitle">Titre :</label>
-                                <input
-                                    type="text"
-                                    id="communityTitle"
-                                    placeholder="Entrez le nom" />
+                                <input type="text" id="communityTitle" placeholder="Entrez le nom" />
                             </div>
                             <div class="form-group">
                                 <label for="description">Votre message :</label>
-                                <textarea
-                                    id="description"
-                                    placeholder="Entrez votre message"></textarea>
+                                <textarea id="description" placeholder="Entrez votre message"></textarea>
                             </div>
                             <div class="modal-actions">
                                 <button type="submit" class="btn-primary">Ajouter</button>
@@ -633,27 +608,42 @@
                 <div id="offerModal" class="modal">
                     <div class="modal-content">
                         <span class="close">&times;</span>
-                        <h2 id="offerModalTitle"></h2>
-                        <div class="form-group">
-                            <strong>Entreprise:</strong>
-                            <p id="offerModalCompany"></p>
-                        </div>
-                        <div class="form-group">
-                            <strong>Localisation:</strong>
-                            <p id="offerModalLocation"></p>
-                        </div>
-                        <div class="form-group">
-                            <strong>Rémunération:</strong>
-                            <p id="offerModalSalary"></p>
-                        </div>
-                        <div class="form-group">
-                            <strong>Description:</strong>
-                            <div id="offerModalDetails"></div>
-                        </div>
-                        <div class="modal-actions">
-                            <button class="btn-primary">Postuler</button>
-                            <button class="btn-secondary close">Fermer</button>
-                        </div>
+                        <h2 id="offerModalTitle">Modifier l'offre</h2>
+                        <form id="offerForm" method="POST"
+                            action="{{ route('offers.update', ['id' => 'offer_id']) }}">
+                            @csrf
+                            @method('PUT')
+                            <div class="form-group">
+                                <label for="offerTitle">Titre :</label>
+                                <input type="text" id="offerTitle" name="title" placeholder="Titre de l'offre"
+                                    required />
+                            </div>
+                            <div class="form-group">
+                                <label for="offerDescription">Description :</label>
+                                <textarea id="offerDescription" name="description" placeholder="Description de l'offre"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="offerSalary">Salaire :</label>
+                                <input type="number" id="offerSalary" name="salary" placeholder="Salaire" />
+                            </div>
+                            <div class="form-group">
+                                <label for="offerStartDate">Date de début :</label>
+                                <input type="date" id="offerStartDate" name="start_date" />
+                            </div>
+                            <div class="form-group">
+                                <label for="offerEndDate">Date de fin :</label>
+                                <input type="date" id="offerEndDate" name="end_date" />
+                            </div>
+                            <div class="form-group">
+                                <label for="offerCompany">Entreprise :</label>
+                                <input type="text" id="offerCompany" name="company_id"
+                                    placeholder="ID de l'entreprise" required />
+                            </div>
+                            <div class="modal-actions">
+                                <button type="submit" class="btn-primary">Enregistrer</button>
+                                <button type="button" class="btn-secondary close">Annuler</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -702,14 +692,10 @@
                     <div class="messaging-container">
                         <div class="contacts-list">
                             <div class="search-messages">
-                                <input
-                                    type="text"
-                                    placeholder="Rechercher une conversation..." />
+                                <input type="text" placeholder="Rechercher une conversation..." />
                             </div>
                             <div class="contact active">
-                                <img
-                                    src="https://ui-avatars.com/api/?name=Marie+Martin"
-                                    alt="Contact" />
+                                <img src="https://ui-avatars.com/api/?name=Marie+Martin" alt="Contact" />
                                 <div class="contact-info">
                                     <h4>Marie Martin</h4>
                                     <p>Merci pour l'information sur...</p>
@@ -720,9 +706,7 @@
                                 </div>
                             </div>
                             <div class="contact">
-                                <img
-                                    src="https://ui-avatars.com/api/?name=Tech+Corp"
-                                    alt="Contact" />
+                                <img src="https://ui-avatars.com/api/?name=Tech+Corp" alt="Contact" />
                                 <div class="contact-info">
                                     <h4>TechCorp RH</h4>
                                     <p>Concernant la candidature de...</p>
@@ -732,9 +716,7 @@
                                 </div>
                             </div>
                             <div class="contact">
-                                <img
-                                    src="https://ui-avatars.com/api/?name=Lucas+Dubois"
-                                    alt="Contact" />
+                                <img src="https://ui-avatars.com/api/?name=Lucas+Dubois" alt="Contact" />
                                 <div class="contact-info">
                                     <h4>Lucas Dubois</h4>
                                     <p>J'ai bien reçu le contrat...</p>
@@ -746,9 +728,7 @@
                         </div>
                         <div class="chat-container">
                             <div class="chat-header">
-                                <img
-                                    src="https://ui-avatars.com/api/?name=Marie+Martin"
-                                    alt="Contact" />
+                                <img src="https://ui-avatars.com/api/?name=Marie+Martin" alt="Contact" />
                                 <div class="chat-contact-info">
                                     <h4>Marie Martin</h4>
                                     <p>En ligne</p>
@@ -831,43 +811,28 @@
                         </div>
 
                         <!-- Formulaire de modification (caché par défaut) -->
-                        <form id="profileForm" class="profile-form hidden" method="POST" enctype="multipart/form-data">
+                        <form id="profileForm" class="profile-form hidden" method="POST"
+                            enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label for="Name">Nom</label>
-                                <input
-                                    type="text"
-                                    id="Name"
-                                    name="Name"
-                                    placeholder="Votre nom complet"
+                                <input type="text" id="Name" name="Name" placeholder="Votre nom complet"
                                     required />
                             </div>
                             <div class="form-group">
                                 <label for="firstName">Prenom</label>
-                                <input
-                                    type="text"
-                                    id="firstName"
-                                    name="firstName"
-                                    placeholder="Votre nom complet"
-                                    required />
+                                <input type="text" id="firstName" name="firstName"
+                                    placeholder="Votre nom complet" required />
                             </div>
                             <div class="form-group">
                                 <label for="email">Adresse email</label>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    placeholder="Votre adresse email"
-                                    required />
+                                <input type="email" id="email" name="email"
+                                    placeholder="Votre adresse email" required />
                             </div>
                             <div class="form-group">
                                 <label for="phone">Numéro de téléphone</label>
-                                <input
-                                    type="tel"
-                                    id="phone"
-                                    name="phone"
-                                    placeholder="Votre numéro de téléphone"
-                                    required />
+                                <input type="tel" id="phone" name="phone"
+                                    placeholder="Votre numéro de téléphone" required />
                             </div>
                             <div class="form-group">
                                 <label for="cvFile">CV</label>
@@ -875,10 +840,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="coverLetterFile">Lettre de motivation</label>
-                                <input
-                                    type="file"
-                                    id="coverLetterFile"
-                                    name="coverLetterFile" />
+                                <input type="file" id="coverLetterFile" name="coverLetterFile" />
                             </div>
                             <div class="form-actions">
                                 <button type="submit" class="btn-primary">Enregistrer</button>

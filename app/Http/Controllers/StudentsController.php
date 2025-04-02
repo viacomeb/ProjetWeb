@@ -13,4 +13,10 @@ class StudentsController extends Controller
         $student = auth()->user()->student; // Récupérer l'étudiant associé à l'utilisateur connecté
         return view('students.dashboard', compact('page', 'student'));
     }
+
+    public function list()
+    {
+        $students = Student::all();
+        return response()->json($students);
+    }
 }
