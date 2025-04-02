@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard Étudiant - WorknGo</title>
-    <link rel="stylesheet" href="{{ asset('css/student_dashboard.css') }}" />
+    @vite('resources/css/student_dashboard.css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -68,11 +68,9 @@
                         <span class="badge">3</span>
                     </div>
                     <div class="profile">
-                        <img
-                            src="https://ui-avatars.com/api/?name=John+Doe"
-                            alt="Profile" />
-                        <span>John Doe</span>
-                        <div class="level-badge">Niveau 5</div>
+                        <img src="https://ui-avatars.com/api/?name={{ $student->name ?? 'Invité' }}" alt="Profile" />
+                        <span>{{ $student->name ?? 'Invité' }}</span>
+                        <div class="level-badge">Niveau {{ $student->level ?? 'N/A' }}</div>
                     </div>
                 </div>
             </header>
@@ -892,7 +890,8 @@
             </div>
         </main>
     </div>
-    <script src="{{ asset('js/student_dashboard.js') }}"></script>
+    @vite('resources/js/student_dashboard.js')
 </body>
 
 </html>
+-->

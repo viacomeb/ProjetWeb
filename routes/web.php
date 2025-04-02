@@ -10,6 +10,7 @@ use App\Http\Controllers\PilotsController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\StudentController;
 /* use App\Http\Middleware\AuthMiddleware; */
 use App\Http\Middleware\RoleMiddleware;
 
@@ -38,44 +39,44 @@ Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name(
 
 // Authenticated routes
 /* Route::middleware(AuthMiddleware::class)->group(function () { */
-    Route::get('/companies', [CompaniesController::class, 'list'])->name('companies.list');
-    Route::get('/companies/{id}', [CompaniesController::class, 'show'])->name('companies.show');
+Route::get('/companies', [CompaniesController::class, 'list'])->name('companies.list');
+Route::get('/companies/{id}', [CompaniesController::class, 'show'])->name('companies.show');
 
-    Route::get('/offers', [OffersController::class, 'list'])->name('offers.list');
-    Route::get('/offers/{id}', [OffersController::class, 'show'])->name('offers.show');
+Route::get('/offers', [OffersController::class, 'list'])->name('offers.list');
+Route::get('/offers/{id}', [OffersController::class, 'show'])->name('offers.show');
 
-    Route::get('/students/dashboard', [StudentsController::class, 'dashboard'])->name('students.dashboard');
-    Route::get('/pilots/dashboard', [PilotsController::class, 'dashboard'])->name('pilots.dashboard');
-    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+Route::get('/students/dashboard', [StudentsController::class, 'dashboard'])->name('students.dashboard');
+Route::get('/pilots/dashboard', [PilotsController::class, 'dashboard'])->name('pilots.dashboard');
+Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
-    // Admin-specific routes
-    Route::middleware(['auth', RoleMiddleware::class . ':admin'])->prefix('admin')->name('admin.')->group(function () {
-        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-        Route::get('/companies', [AdminController::class, 'companies'])->name('companies');
-        Route::get('/internships', [AdminController::class, 'internships'])->name('internships');
-        Route::get('/pilots', [AdminController::class, 'pilots'])->name('pilots');
-        Route::get('/students', [AdminController::class, 'students'])->name('students');
-        Route::get('/applications', [AdminController::class, 'applications'])->name('applications');
-        Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
-        Route::post('/internships/store', [OffersController::class, 'store'])->name('internships.store');
-        Route::post('/pilots/store', [AdminController::class, 'storePilot'])->name('pilots.store');
-        Route::post('/companies/store', [CompaniesController::class, 'store'])->name('companies.store');
-    });
-
-    // Pilot-specific routes
-    Route::middleware([RoleMiddleware::class . ':pilot'])->group(function () {
-        Route::get('/pilot/create-student', [AuthController::class, 'showRegisterForm'])->name('pilot.create.student');
-        Route::post('/pilot/create-student', [AuthController::class, 'register'])->name('pilot.store.student');
-        Route::resource('companies', CompaniesController::class)->only(['create', 'store']);
-        Route::resource('offers', OffersController::class)->only(['create', 'store']);
-    });
-
-    // Student-specific routes
-    Route::middleware([RoleMiddleware::class . ':student'])->group(function () {
-        Route::post('/offers/{id}/apply', [OffersController::class, 'apply'])->name('offers.apply');
-        Route::post('/offers/{id}/wishlist', [OffersController::class, 'addToWishlist'])->name('offers.wishlist');
-    });
+// Admin-specific routes
+Route::middleware(['auth', RoleMiddleware::class . ':admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/companies', [AdminController::class, 'companies'])->name('companies');
+    Route::get('/internships', [AdminController::class, 'internships'])->name('internships');
+    Route::get('/pilots', [AdminController::class, 'pilots'])->name('pilots');
+    Route::get('/students', [AdminController::class, 'students'])->name('students');
+    Route::get('/applications', [AdminController::class, 'applications'])->name('applications');
+    Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
+    Route::post('/internships/store', [OffersController::class, 'store'])->name('internships.store');
+    Route::post('/pilots/store', [AdminController::class, 'storePilot'])->name('pilots.store');
+    Route::post('/companies/store', [CompaniesController::class, 'store'])->name('companies.store');
 });
+
+// Pilot-specific routes
+Route::middleware([RoleMiddleware::class . ':pilot'])->group(function () {
+    Route::get('/pilot/create-student', [AuthController::class, 'showRegisterForm'])->name('pilot.create.student');
+    Route::post('/pilot/create-student', [AuthController::class, 'register'])->name('pilot.store.student');
+    Route::resource('companies', CompaniesController::class)->only(['create', 'store']);
+    Route::resource('offers', OffersController::class)->only(['create', 'store']);
+});
+
+// Student-specific routes
+Route::middleware([RoleMiddleware::class . ':student'])->group(function () {
+    Route::post('/offers/{id}/apply', [OffersController::class, 'apply'])->name('offers.apply');
+    Route::post('/offers/{id}/wishlist', [OffersController::class, 'addToWishlist'])->name('offers.wishlist');
+});
+//});
 
 // Ajout d'une route API pour récupérer les entreprises
 Route::get('/api/companies', function () {
@@ -120,4 +121,8 @@ Route::get('/api/pilots', function () {
 
 Route::get('/api/skills', function () {
     return \App\Models\Skill::select('skill_id as id', 'name')->get();
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
 });
