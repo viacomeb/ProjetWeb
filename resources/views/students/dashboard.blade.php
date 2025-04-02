@@ -5,12 +5,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard Étudiant - WorknGo</title>
-    <link
-        rel="stylesheet"
-        href="../../../public/assets/css/student_dashboard2.css" />
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="{{ asset('css/student_dashboard.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
@@ -610,6 +606,7 @@
                         <span class="close">&times;</span>
                         <h2>Lancer une nouvelle discussion</h2>
                         <form id="communityForm">
+                            @csrf
                             <div class="form-group">
                                 <label for="communityTitle">Titre :</label>
                                 <input
@@ -834,7 +831,8 @@
                         </div>
 
                         <!-- Formulaire de modification (caché par défaut) -->
-                        <form id="profileForm" class="profile-form hidden">
+                        <form id="profileForm" class="profile-form hidden" method="POST" enctype="multipart/form-data">
+                            @csrf
                             <div class="form-group">
                                 <label for="Name">Nom</label>
                                 <input
@@ -894,7 +892,7 @@
             </div>
         </main>
     </div>
-    <script src="../../../public/assets/js/student_dashboard2.js"></script>
+    <script src="{{ asset('js/student_dashboard.js') }}"></script>
 </body>
 
 </html>
