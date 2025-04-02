@@ -7,6 +7,16 @@ import { readdirSync } from 'fs';
 import { resolve } from 'path';
 
 export default defineConfig({
+  server: {
+    https: true,
+    host: 'workngo.westeurope.cloudapp.azure.com',
+    strictPort: true,
+    port: 5173,
+    hmr: {
+      protocol: 'wss',
+      host: 'workngo.westeurope.cloudapp.azure.com',
+    },
+  },
   plugins: [
     laravel({
       input: [

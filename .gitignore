@@ -6,7 +6,7 @@ node_modules/
 
 # ERépertoires de production ou de build, si on en génère.
 dist/
-build/
+public/build/
 
 # Fichiers de logs
 *.log
