@@ -1,6 +1,37 @@
 document.addEventListener('DOMContentLoaded', function () {
   console.log('Script chargé : student_dashboard2.js');
 
+  const starRating = document.querySelector('.star-rating');
+  const ratingValue = document.getElementById('ratingValue'); // Déclarez `ratingValue` ici
+
+  // Fonction pour mettre à jour l'affichage des étoiles
+  function updateStarDisplay(rating) {
+    const stars = starRating.querySelectorAll('i'); // Sélectionnez toutes les étoiles
+    stars.forEach((star) => {
+      const starValue = parseInt(star.getAttribute('data-value'), 10); // Récupérez la valeur de chaque étoile
+      if (starValue <= rating) {
+        star.classList.remove('far'); // Supprime la classe "far" (contour)
+        star.classList.add('fas', 'yellow'); // Ajoute la classe "fas" (plein) et "yellow" (jaune)
+      } else {
+        star.classList.remove('fas', 'yellow'); // Supprime les classes "fas" et "yellow"
+        star.classList.add('far'); // Ajoute la classe "far" (contour)
+      }
+    });
+  }
+
+  if (starRating && ratingValue) {
+    starRating.addEventListener('click', (event) => {
+      const star = event.target.closest('i');
+      if (star) {
+        const rating = parseInt(star.dataset.value, 10);
+        console.log(`Étoile cliquée : ${rating}`); // Debug : Affiche l'étoile cliquée
+        ratingValue.textContent = `Note : ${rating}`;
+        updateStarDisplay(rating);
+        console.log(`Entreprise notée avec ${rating} étoiles.`);
+      }
+    });
+  }
+
   const offerModal = document.getElementById('offerModal');
   const companyModal = document.getElementById('companyModal'); // Modal pour les entreprises
   const companyModalTitle = document.getElementById('companyModalTitle');
@@ -35,8 +66,46 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Gestion des clics sur les boxes et le nom de l'entreprise
   document.addEventListener('click', function (event) {
+    const clickedStar = event.target.closest('i'); // Vérifiez si un élément <i> a été cliqué
     const closeButton = event.target.closest('.close'); // Vérifie si le clic est sur un bouton "Fermer"
-    if (closeButton) {
+    const wishlistButton = event.target.closest('.btn-secondary'); // Vérifie si le clic est sur un bouton "Ajouter à la wishlist"
+
+    if (wishlistButton) {
+      const offerCard = wishlistButton.closest('.offer-card');
+      if (!offerCard) {
+        console.error("Impossible de trouver l'offre associée au bouton.");
+        return;
+      }
+
+      const offer = {
+        title:
+          offerCard.querySelector('.offer-info h3')?.textContent ||
+          'Titre inconnu',
+        company:
+          offerCard.querySelector('.offer-info p')?.textContent ||
+          'Entreprise inconnue',
+        location:
+          offerCard.querySelector('.offer-details p:nth-child(1)')
+            ?.textContent || 'Localisation inconnue',
+        salary:
+          offerCard.querySelector('.offer-details p:nth-child(2)')
+            ?.textContent || 'Rémunération inconnue',
+      };
+
+      toggleWishlist(offer, wishlistButton);
+      return; // Empêche l'exécution des autres actions
+    }
+
+    if (clickedStar) {
+      const rating = parseInt(clickedStar.getAttribute('data-value'), 10); // Récupérez la valeur de l'étoile cliquée
+      console.log(`Étoile cliquée : ${rating}`); // Debug : Affiche la valeur cliquée
+
+      // Mettez à jour l'affichage des étoiles
+      updateStarDisplay(rating);
+
+      // Mettez à jour la note affichée
+      ratingValue.textContent = `Note : ${rating}/5`;
+    } else if (closeButton) {
       const modal = closeButton.closest('.modal');
       if (modal) {
         modal.classList.remove('active');
@@ -684,5 +753,53 @@ document.addEventListener('DOMContentLoaded', function () {
     newDiscussionForm.reset();
     newDiscussionModal.classList.remove('active');
     console.log('Formulaire réinitialisé et modale fermée');
+  });
+
+  // Gestion de la section profil
+  const editProfileButton = document.getElementById('editProfile');
+  const profileForm = document.getElementById('profileForm');
+  const profileInfo = document.querySelector('.profile-info');
+  const cancelEditButton = document.getElementById('cancelEdit');
+
+  // Afficher le formulaire de modification
+  editProfileButton.addEventListener('click', () => {
+    profileInfo.style.display = 'none';
+    profileForm.classList.remove('hidden');
+    editProfileButton.style.display = 'none';
+
+    // Pré-remplir le formulaire avec les informations actuelles
+    document.getElementById('fullName').value =
+      document.getElementById('profileFullName').textContent;
+    document.getElementById('email').value =
+      document.getElementById('profileEmail').textContent;
+    document.getElementById('phone').value =
+      document.getElementById('profilePhone').textContent;
+  });
+
+  // Annuler la modification
+  cancelEditButton.addEventListener('click', () => {
+    profileInfo.style.display = 'block';
+    profileForm.classList.add('hidden');
+    editProfileButton.style.display = 'block';
+  });
+
+  // Soumettre le formulaire de modification
+  profileForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    // Mettre à jour les informations affichées
+    document.getElementById('profileFullName').textContent =
+      document.getElementById('fullName').value;
+    document.getElementById('profileEmail').textContent =
+      document.getElementById('email').value;
+    document.getElementById('profilePhone').textContent =
+      document.getElementById('phone').value;
+
+    // Réinitialiser l'affichage
+    profileInfo.style.display = 'block';
+    profileForm.classList.add('hidden');
+    editProfileButton.style.display = 'block';
+
+    console.log('Profil mis à jour avec succès.');
   });
 });

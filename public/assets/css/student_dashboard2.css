@@ -179,11 +179,14 @@ body {
 
 /* Section Content Styles */
 .section-content {
-  display: none;
+  display: none; /* Par défaut, les sections sont masquées */
+  opacity: 0; /* Ajout d'une transition pour un effet fluide */
+  transition: opacity 0.3s ease-in-out;
 }
 
 .section-content.active {
-  display: block;
+  display: block; /* Affiche la section active */
+  opacity: 1; /* Rétablit l'opacité */
 }
 
 /* Welcome Banner */
@@ -938,6 +941,9 @@ body {
   padding: 20px;
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
+  display: flex; /* Assure que le formulaire est visible */
+  flex-direction: column;
+  gap: 15px;
 }
 
 .profile-form .form-group {
@@ -974,6 +980,10 @@ body {
   margin-top: 10px;
 }
 
+.profile-form.hidden {
+  display: none; /* Cache le formulaire lorsqu'il est masqué */
+}
+
 /* Modal Styles */
 .modal {
   display: none;
@@ -1003,6 +1013,9 @@ body {
   animation: fadeIn 0.3s ease-in-out;
   max-height: 90vh; /* Limite la hauteur du pop-up */
   overflow-y: auto; /* Ajoute un défilement si le contenu dépasse */
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .modal-content h2 {
@@ -1125,6 +1138,11 @@ body {
   color: var(--danger-color); /* Couleur rouge au survol */
 }
 
+.modal.active .modal-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .sidebar {
@@ -1191,4 +1209,85 @@ body {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
+}
+
+/* Rating Section */
+.rating-section {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.rating-section h3 {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: var(--secondary-color);
+}
+
+.star-rating {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.star-rating i {
+  font-size: 30px;
+  color: var(--gray-medium); /* Couleur par défaut des étoiles */
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.star-rating i.full {
+  color: var(
+    --primary-color
+  ); /* Couleur jaune pour les étoiles sélectionnées */
+}
+
+.star-rating i:hover {
+  transform: scale(1.2); /* Effet de zoom au survol */
+}
+
+.star-rating i.yellow {
+  color: #ffc107; /* Couleur jaune pour les étoiles sélectionnées */
+}
+
+#ratingValue {
+  font-size: 1rem;
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+/* Profile Container */
+.profile-container {
+  position: relative;
+  padding: 20px;
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+
+.profile-info {
+  margin-bottom: 20px;
+}
+
+.profile-info h2 {
+  margin-bottom: 15px;
+  color: var(--primary-color);
+}
+
+.profile-info p {
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: var(--secondary-color);
+}
+
+.profile-form.hidden {
+  display: none;
+}
+
+#editProfile {
+  display: block; /* Assure que le bouton est visible */
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
 }
