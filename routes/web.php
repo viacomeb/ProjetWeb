@@ -34,14 +34,14 @@ Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkE
 Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
-    // Authenticated routes
-    Route::get('/companies', [CompaniesController::class, 'list'])->name('companies.list');
-    Route::get('/companies/{id}', [CompaniesController::class, 'show'])->name('companies.show');
-    Route::put('/companies/{id}', [CompaniesController::class, 'update'])->name('companies.update');
+// Authenticated routes
+Route::get('/companies', [CompaniesController::class, 'list'])->name('companies.list');
+Route::get('/companies/{id}', [CompaniesController::class, 'show'])->name('companies.show');
+Route::put('/companies/{id}', [CompaniesController::class, 'update'])->name('companies.update');
 
-    Route::get('/offers', [OffersController::class, 'list'])->name('offers.list');
-    Route::get('/offers/{id}', [OffersController::class, 'show'])->name('offers.show');
-    Route::put('/offers/{id}', [OffersController::class, 'update'])->name('offers.update');
+Route::get('/offers', [OffersController::class, 'list'])->name('offers.list');
+Route::get('/offers/{id}', [OffersController::class, 'show'])->name('offers.show');
+Route::put('/offers/{id}', [OffersController::class, 'update'])->name('offers.update');
 
 Route::middleware(['auth'])->group(function () {
     // Admin-specific routes
@@ -80,7 +80,6 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // General routes
-Route::get('/companies', [CompaniesController::class, 'list']);
-Route::get('/students', [StudentsController::class, 'list']);
+Route::get('/students', [StudentController::class, 'list']);
 Route::get('/pilots', [PilotsController::class, 'list']);
 Route::get('/skills', [SkillsController::class, 'list']);
