@@ -32,47 +32,55 @@ class CompaniesController extends Controller
     {
         $validatedData = $request->validate([
             'company_name' => 'required|string|max:100',
-            'sector' => 'required|string|max:100',
-            'street_number' => 'required|integer',
-            'street' => 'required|string|max:100',
-            'city_name' => 'required|string|max:100',
-            'postal_code' => 'required|string|max:20',
-            'country_name' => 'required|string|max:100',
-            'department_name' => 'required|string|max:100',
+            'description' => 'nullable|string',
+            'phone' => 'nullable|string|max:20',
+            'email' => 'nullable|email|max:50',
+            'street' => 'nullable|string|max:50',
+            'street_number' => 'nullable|integer',
+            'city_name' => 'required|string|max:50',
+            'postal_code' => 'required|integer',
+            'department_name' => 'required|string|max:50',
+            'country_name' => 'required|string|max:50',
         ]);
 
-        \Log::info('Validated data:', $validatedData);
-
         // Create or find the country
-        $country = \App\Models\Country::firstOrCreate(['country_name' => $validatedData['country_name']]);
-        \Log::info('Country created or found:', ['country' => $country]);
+        $country = \App\Models\Country::firstOrCreate([
+            'country_name' => $validatedData['country_name']
+        ]);
 
         // Create or find the department
         $department = \App\Models\Department::firstOrCreate([
             'department_name' => $validatedData['department_name'],
-            'country_id' => $country->id,
+            'country_id' => $country->country_id,
         ]);
-        \Log::info('Department created or found:', ['department' => $department]);
 
         // Create or find the city
         $city = \App\Models\City::firstOrCreate([
             'city_name' => $validatedData['city_name'],
-            'department_id' => $department->id,
+            'postal_code' => $validatedData['postal_code'],
+            'department_id' => $department->department_id,
         ]);
-        \Log::info('City created or found:', ['city' => $city]);
 
         // Create the company
         $company = \App\Models\Company::create([
             'company_name' => $validatedData['company_name'],
-            'sector' => $validatedData['sector'],
-            'street_number' => $validatedData['street_number'],
+            'description' => $validatedData['description'],
+            'phone' => $validatedData['phone'],
+            'email' => $validatedData['email'],
             'street' => $validatedData['street'],
-            'city_id' => $city->id,
-            'postal_code' => $validatedData['postal_code'],
+            'street_number' => $validatedData['street_number'],
+            'city_id' => $city->city_id,
         ]);
-        \Log::info('Company created:', ['company' => $company]);
 
         return redirect()->route('admin.companies')->with('success', 'Entreprise créée avec succès.');
+    }
+
+    public function destroy($id)
+    {
+        $company = Company::findOrFail($id);
+        $company->delete();
+
+        return redirect()->route('admin.companies')->with('success', 'Entreprise supprimée avec succès.');
     }
 
     // Autres méthodes pour créer, mettre à jour, supprimer des entreprises

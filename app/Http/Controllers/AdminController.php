@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use App\Models\Company;
 use App\Models\City;
+use App\Models\Student;
 
 class AdminController extends Controller
 {
@@ -54,9 +55,9 @@ class AdminController extends Controller
     {
         $pilots = Pilot::join('Users', 'Pilots.user_id', '=', 'Users.user_id')
             ->select('Users.first_name', 'Users.last_name', 'Users.email', 'Pilots.*')
-            ->get();
+            ->paginate(10);
 
-        $cities = \App\Models\City::all();
+        $cities = City::all();
 
         return view('admin.pilots', [
             'page' => 'pilots',
@@ -82,7 +83,7 @@ class AdminController extends Controller
                 return response()->json(['errors' => $validator->errors()], 422);
             }
 
-            $city = \App\Models\City::firstOrCreate(['city_name' => $request->input('city_name')]);
+            $city = City::firstOrCreate(['city_name' => $request->input('city_name')]);
 
             $user = new User();
             $user->first_name = $request->input('first_name');
@@ -107,10 +108,16 @@ class AdminController extends Controller
 
     public function students()
     {
-        // Logique pour récupérer les données des étudiants
+        $students = Student::join('Users', 'Students.user_id', '=', 'Users.user_id')
+            ->select('Users.first_name', 'Users.last_name', 'Users.email', 'Students.*')
+            ->paginate(10); // Removed get() before paginate()
+
+        $cities = City::all();
+
         return view('admin.students', [
             'page' => 'students',
-            // Ajoutez ici les données nécessaires pour les étudiants
+            'students' => $students,
+            'cities' => $cities,
         ]);
     }
 
