@@ -10,7 +10,6 @@ use App\Http\Controllers\PilotsController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
-use App\Http\Controllers\StudentController;
 use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 use App\Http\Middleware\Authenticate;
@@ -69,17 +68,17 @@ Route::middleware(['auth'])->group(function () {
 
     // Student-specific routes
     Route::middleware([RoleMiddleware::class . ':student'])->prefix('student')->name('student.')->group(function () {
-        Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('dashboard');
-        Route::get('/internships', [StudentController::class, 'internships'])->name('internships');
-        Route::get('/wishlist', [StudentController::class, 'wishlist'])->name('wishlist');
-        Route::get('/challenges', [StudentController::class, 'challenges'])->name('challenges');
-        Route::get('/community', [StudentController::class, 'community'])->name('community');
-        Route::get('/messages', [StudentController::class, 'messages'])->name('messages');
-        Route::get('/settings', [StudentController::class, 'settings'])->name('settings');
+        Route::get('/dashboard', [StudentsController::class, 'dashboard'])->name('dashboard');
+        Route::get('/internships', [StudentsController::class, 'internships'])->name('internships');
+        Route::get('/wishlist', [StudentsController::class, 'wishlist'])->name('wishlist');
+        Route::get('/challenges', [StudentsController::class, 'challenges'])->name('challenges');
+        Route::get('/community', [StudentsController::class, 'community'])->name('community');
+        Route::get('/messages', [StudentsController::class, 'messages'])->name('messages');
+        Route::get('/settings', [StudentsController::class, 'settings'])->name('settings');
     });
 });
 
 // General routes
-Route::get('/students', [StudentController::class, 'list']);
+Route::get('/students', [StudentsController::class, 'list']);
 Route::get('/pilots', [PilotsController::class, 'list']);
 Route::get('/skills', [SkillsController::class, 'list']);
