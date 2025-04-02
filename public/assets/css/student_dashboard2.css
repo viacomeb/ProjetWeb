@@ -974,6 +974,157 @@ body {
   margin-top: 10px;
 }
 
+/* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.modal.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: var(--white);
+  padding: 40px;
+  border-radius: var(--border-radius);
+  width: 90%;
+  max-width: 700px;
+  position: relative;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease-in-out;
+  max-height: 90vh; /* Limite la hauteur du pop-up */
+  overflow-y: auto; /* Ajoute un défilement si le contenu dépasse */
+}
+
+.modal-content h2 {
+  font-size: 2rem;
+  margin-bottom: 25px;
+  color: var(--primary-color);
+  text-align: center;
+  font-weight: bold;
+}
+
+.modal-content p {
+  font-size: 1rem;
+  color: var(--secondary-color);
+  margin-bottom: 20px;
+  line-height: 1.6; /* Amélioration de l'espacement des lignes */
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px; /* Augmentation de l'espacement entre les catégories */
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Espacement interne des éléments dans une catégorie */
+}
+
+.form-group-inline {
+  display: flex;
+  gap: 20px; /* Espacement entre les champs dans une ligne */
+}
+
+.form-group-inline .form-group {
+  flex: 1; /* Les champs prennent la même largeur */
+}
+
+.modal-content form label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--secondary-color);
+}
+
+.modal-content form input,
+.modal-content form select,
+.modal-content form textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--gray-medium);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  color: #333;
+  background-color: var(--gray-light);
+  transition: border-color 0.3s ease;
+}
+
+.modal-content form input:focus,
+.modal-content form select:focus,
+.modal-content form textarea:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px; /* Espacement entre les boutons */
+}
+
+.modal-actions .btn-danger,
+.modal-actions .btn-secondary {
+  flex: 1; /* Les boutons prennent la même largeur */
+  text-align: center;
+  padding: 12px 20px; /* Augmentation du padding */
+  font-size: 1rem;
+  font-weight: bold; /* Texte en gras */
+  transition: background-color 0.3s ease; /* Animation de transition */
+}
+
+.modal-actions .btn-primary,
+.modal-actions .btn-secondary {
+  flex: 1;
+  text-align: center;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.modal-actions .btn-danger {
+  background-color: var(--danger-color);
+  color: var(--white);
+}
+
+.modal-actions .btn-danger:hover {
+  background-color: #c53030; /* Couleur plus sombre au survol */
+}
+
+.modal-actions .btn-secondary {
+  background-color: var(--gray-medium);
+  color: var(--white);
+}
+
+.modal-actions .btn-secondary:hover {
+  background-color: var(--secondary-color); /* Couleur secondaire au survol */
+}
+
+.close {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--secondary-color);
+  transition: color 0.3s ease; /* Animation de transition */
+}
+
+.close:hover {
+  color: var(--danger-color); /* Couleur rouge au survol */
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .sidebar {
@@ -1013,4 +1164,31 @@ body {
   .job-cards {
     grid-template-columns: 1fr;
   }
+}
+
+/* Offer Modal Styles */
+#offerModal .modal-content {
+  max-width: 600px;
+  padding: 20px;
+}
+
+#offerModal h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+#offerModal p {
+  font-size: 1rem;
+  color: var(--secondary-color);
+  margin-bottom: 20px;
+}
+
+#offerModalDetails {
+  margin-bottom: 20px;
+}
+
+#offerModal .modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
 }

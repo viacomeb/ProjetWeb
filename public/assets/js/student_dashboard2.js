@@ -1,23 +1,110 @@
 document.addEventListener('DOMContentLoaded', function () {
+  console.log('Script chargé : student_dashboard2.js');
+
+  const offerModal = document.getElementById('offerModal');
+  const offerModalTitle = document.getElementById('offerModalTitle');
+  const offerModalCompany = document.getElementById('offerModalCompany');
+  const offerModalDetails = document.getElementById('offerModalDetails');
+
+  if (
+    !offerModal ||
+    !offerModalTitle ||
+    !offerModalCompany ||
+    !offerModalDetails
+  ) {
+    console.error('Le modal ou ses éléments sont introuvables.');
+    return;
+  }
+
+  // Gestion des clics sur les boxes
+  document.addEventListener('click', function (event) {
+    const box = event.target.closest('.offer-card, .box_offer'); // Vérifie si le clic est sur une box
+    if (box) {
+      const boxId = box.id; // Récupère l'ID de la box cliquée
+      console.log(`Box cliquée : ${boxId}`);
+
+      // Récupération des données directement depuis la box
+      const [title, company] = boxId.split('--');
+      const offer = {
+        title: title.replace(/_/g, ' '),
+        company: company.replace(/_/g, ' '),
+        location: box.querySelector('.offer-location')?.textContent.trim(),
+        salary: box.querySelector('.offer-salary')?.textContent.trim(),
+      };
+
+      if (!offer.title || !offer.company) {
+        console.error("Impossible de récupérer les informations de l'offre.");
+        return;
+      }
+
+      console.log("Informations de l'offre récupérées :", offer);
+
+      // Remplir les informations du modal
+      offerModalTitle.textContent = offer.title;
+      offerModalCompany.textContent = offer.company;
+      offerModalDetails.innerHTML = `
+        <p>${offer.location}</p>
+        <p>${offer.salary}</p>
+      `;
+
+      // Afficher le modal
+      offerModal.classList.add('active');
+      console.log('Modal ouvert.');
+    }
+
+    if (event.target.closest('.btn-secondary')) {
+      const offerCard = event.target.closest('.offer-card');
+      const offer = {
+        title: offerCard.querySelector('.offer-info h3').textContent,
+        company: offerCard.querySelector('.offer-info p').textContent,
+        location: offerCard.querySelector('.offer-details p:nth-child(1)')
+          .textContent,
+        salary: offerCard.querySelector('.offer-details p:nth-child(2)')
+          .textContent,
+      };
+      toggleWishlist(offer, event.target.closest('.btn-secondary'));
+    }
+  });
+
+  // Fermer le modal
+  offerModal.querySelector('.close').addEventListener('click', function () {
+    offerModal.classList.remove('active');
+    console.log('Modal fermé.');
+  });
+
+  // Fermer le modal en cliquant à l'extérieur
+  offerModal.addEventListener('click', function (event) {
+    if (event.target === offerModal) {
+      offerModal.classList.remove('active');
+      console.log("Modal fermé en cliquant à l'extérieur.");
+    }
+  });
+
   // Navigation
   document.querySelectorAll('.nav-links li').forEach((item) => {
     item.addEventListener('click', function () {
-      // Remove active class from all items
+      // Supprimez la classe active de tous les éléments
       document
         .querySelectorAll('.nav-links li')
         .forEach((i) => i.classList.remove('active'));
-      // Add active class to clicked item
+      // Ajoutez la classe active à l'élément cliqué
       this.classList.add('active');
 
-      // Hide all sections
+      // Masquez toutes les sections
       document.querySelectorAll('.section-content').forEach((section) => {
         section.classList.remove('active');
       });
 
-      // Show selected section
+      // Affichez la section correspondante
       const sectionId = this.getAttribute('data-section');
-      console.log(`Navigating to section: ${sectionId}`); // Debug: Log the section ID
-      document.getElementById(sectionId).classList.add('active');
+      const targetSection = document.getElementById(sectionId);
+
+      if (targetSection) {
+        console.log(`Navigating to section: ${sectionId}`); // Debug: Log the section ID
+        targetSection.classList.add('active');
+      } else {
+        console.error(`Section with ID "${sectionId}" not found.`);
+      }
     });
   });
 
@@ -207,8 +294,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const paginatedOffers = offers.slice(start, end);
 
     paginatedOffers.forEach((offer) => {
+      const offerId = `${offer.title.replace(
+        /\s+/g,
+        '_'
+      )}--${offer.company.replace(/\s+/g, '_')}`;
       const offerCard = document.createElement('div');
       offerCard.className = 'offer-card';
+      offerCard.id = offerId; // Ajout de l'ID personnalisé
       offerCard.innerHTML = `
         <div class="offer-header">
           <img src="https://ui-avatars.com/api/?name=${offer.company}" alt="Company Logo" class="company-logo" />
@@ -218,8 +310,8 @@ document.addEventListener('DOMContentLoaded', function () {
           </div>
         </div>
         <div class="offer-details">
-          <p><i class="fas fa-map-marker-alt"></i> ${offer.location}</p>
-          <p><i class="fas fa-euro-sign"></i> ${offer.salary}</p>
+          <p class="offer-location"><i class="fas fa-map-marker-alt"></i> ${offer.location}</p>
+          <p class="offer-salary"><i class="fas fa-euro-sign"></i> ${offer.salary}</p>
         </div>
         <div class="offer-actions">
           <button class="btn-primary"><i class="fas fa-paper-plane"></i> Postuler</button>
@@ -387,20 +479,22 @@ document.addEventListener('DOMContentLoaded', function () {
       const offerCard = document.createElement('div');
       offerCard.className = 'offer-card';
       offerCard.innerHTML = `
-        <div class="offer-header">
-          <img src="https://ui-avatars.com/api/?name=${offer.company}" alt="Company Logo" class="company-logo" />
-          <div class="offer-info">
-            <h3>${offer.title}</h3>
-            <p>${offer.company}</p>
+        <div class="box_offer" id="${offer.title}_${offer.company}">
+          <div class="offer-header">
+        <img src="https://ui-avatars.com/api/?name=${offer.company}" alt="Company Logo" class="company-logo" />
+        <div class="offer-info">
+          <h3>${offer.title}</h3>
+          <p>${offer.company}</p>
+        </div>
           </div>
-        </div>
-        <div class="offer-details">
-          <p><i class="fas fa-map-marker-alt"></i> ${offer.location}</p>
-          <p><i class="fas fa-euro-sign"></i> ${offer.salary}</p>
-        </div>
-        <div class="offer-actions">
-          <button class="btn-primary"><i class="fas fa-paper-plane"></i> Postuler</button>
-          <button class="btn-secondary" style="background-color: gold;"><i class="fas fa-bookmark"></i> Retirer des favoris</button>
+          <div class="offer-details">
+        <p><i class="fas fa-map-marker-alt"></i> ${offer.location}</p>
+        <p><i class="fas fa-euro-sign"></i> ${offer.salary}</p>
+          </div>
+          <div class="offer-actions">
+        <button class="btn-primary"><i class="fas fa-paper-plane"></i> Postuler</button>
+        <button class="btn-secondary" style="background-color: gold;"><i class="fas fa-bookmark"></i> Retirer des favoris</button>
+          </div>
         </div>
       `;
 
@@ -434,23 +528,84 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Ajoutez un événement pour gérer le bouton "Wishlist" dans les offres
-  document.addEventListener('click', function (event) {
-    if (event.target.closest('.btn-secondary')) {
-      const offerCard = event.target.closest('.offer-card');
-      const offer = {
-        title: offerCard.querySelector('.offer-info h3').textContent,
-        company: offerCard.querySelector('.offer-info p').textContent,
-        location: offerCard.querySelector('.offer-details p:nth-child(1)')
-          .textContent,
-        salary: offerCard.querySelector('.offer-details p:nth-child(2)')
-          .textContent,
-      };
-      toggleWishlist(offer, event.target.closest('.btn-secondary'));
-    }
-  });
-
   // Initial rendering for wishlist
   renderWishlist(currentWishlistPage);
   renderWishlistPagination();
+
+  const newDiscussionModal = document.getElementById('newDiscussionModal');
+  const openCommunityModalButton = document.querySelector(
+    '#community .community-header .btn-primary'
+  );
+  const openCommunityModalButton1 = document.querySelector(
+    '.community-header .btn-primary'
+  );
+  const closeCommunityModalButton = newDiscussionModal.querySelector('.close');
+  const newDiscussionForm = document.getElementById('newDiscussionForm');
+
+  // Vérifiez si le bouton "Nouvelle discussion" est trouvé
+  if (openCommunityModalButton || openCommunityModalButton1) {
+    console.log(
+      'Bouton "Nouvelle discussion" trouvé dans la section community:',
+      openCommunityModalButton
+    );
+
+    // Ouvrir la modale pour la communauté
+    openCommunityModalButton.addEventListener('click', function () {
+      console.log(
+        'Bouton "Nouvelle discussion" cliqué dans la section community'
+      );
+      newDiscussionModal.classList.add('active');
+      console.log('Modale "Nouvelle discussion" ouverte');
+    });
+  } else {
+    console.error(
+      'Bouton "Nouvelle discussion" introuvable dans la section community.'
+    );
+  }
+
+  // Fermer la modale pour la communauté
+  if (closeCommunityModalButton) {
+    closeCommunityModalButton.addEventListener('click', function () {
+      console.log('Bouton "Annuler" cliqué');
+      newDiscussionModal.classList.remove('active');
+      console.log('Modale "Nouvelle discussion" fermée');
+    });
+  } else {
+    console.error('Bouton "Annuler" introuvable.');
+  }
+
+  // Fermer la modale en cliquant à l'extérieur
+  newDiscussionModal.addEventListener('click', function (event) {
+    if (event.target === newDiscussionModal) {
+      console.log("Clic à l'extérieur de la modale détecté");
+      newDiscussionModal.classList.remove('active');
+      console.log('Modale "Nouvelle discussion" fermée');
+    }
+  });
+
+  // Soumettre le formulaire de discussion
+  newDiscussionForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const title = document.getElementById('discussionTitle').value;
+    const category = document.getElementById('discussionCategory').value;
+    const content = document.getElementById('discussionContent').value;
+
+    console.log('Formulaire soumis avec les données :', {
+      title,
+      category,
+      content,
+    });
+
+    // Simuler l'ajout de la discussion
+    console.log('Nouvelle discussion ajoutée :', { title, category, content });
+
+    // Afficher une notification de succès
+    showNotification('Votre discussion a été publiée avec succès !');
+
+    // Réinitialiser le formulaire et fermer la modale
+    newDiscussionForm.reset();
+    newDiscussionModal.classList.remove('active');
+    console.log('Formulaire réinitialisé et modale fermée');
+  });
 });
