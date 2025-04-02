@@ -1143,6 +1143,18 @@ body {
   transform: translateY(0);
 }
 
+/* Correction pour masquer les éléments avec la classe hidden */
+.hidden {
+  display: none !important; /* Force le masquage des éléments */
+}
+
+/* Style pour les messages d'erreur des fichiers */
+.file-error {
+  font-size: 0.9rem;
+  color: var(--danger-color);
+  margin-top: 5px;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .sidebar {
@@ -1264,6 +1276,9 @@ body {
   background-color: var(--white);
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
+  display: flex; /* Ajout pour organiser les éléments */
+  flex-direction: column; /* Les éléments s'empilent verticalement */
+  gap: 20px; /* Espacement entre les éléments */
 }
 
 .profile-info {
@@ -1287,7 +1302,17 @@ body {
 
 #editProfile {
   display: block; /* Assure que le bouton est visible */
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
+  margin-top: 20px; /* Ajout d'un espacement pour éviter qu'il chevauche d'autres éléments */
+  align-self: flex-start; /* Aligne le bouton à gauche */
+  position: static; /* Supprime la position absolue */
+}
+
+/* Masquer le formulaire par défaut */
+.profile-form.hidden {
+  display: none;
+}
+
+/* Assurez-vous que les informations de base sont visibles par défaut */
+.profile-info {
+  display: block;
 }

@@ -68,7 +68,18 @@ document.addEventListener('DOMContentLoaded', function () {
   document.addEventListener('click', function (event) {
     const clickedStar = event.target.closest('i'); // Vérifiez si un élément <i> a été cliqué
     const closeButton = event.target.closest('.close'); // Vérifie si le clic est sur un bouton "Fermer"
-    const wishlistButton = event.target.closest('.btn-secondary'); // Vérifie si le clic est sur un bouton "Ajouter à la wishlist"
+    const wishlistButton = event.target.closest(
+      '.offer-actions .btn-secondary'
+    ); // Vérifie si le clic est sur un bouton "Ajouter à la wishlist"
+    const modificationButton = event.target.closest(
+      '.profile-info .btn-secondary'
+    ); // Vérifie si le clic est sur le bouton "Modifier les informations"
+
+    const abortButton = event.target.closest('.form-actions .btn-secondary'); // Vérifie si le clic est sur le bouton "Annuler" du formulaire de profil
+
+    const submitProfileButton = event.target.closest(
+      '.form-actions .btn-primary'
+    ); // Vérifie si le clic est sur le bouton "Soumettre" du formulaire de profil
 
     if (wishlistButton) {
       const offerCard = wishlistButton.closest('.offer-card');
@@ -94,6 +105,64 @@ document.addEventListener('DOMContentLoaded', function () {
 
       toggleWishlist(offer, wishlistButton);
       return; // Empêche l'exécution des autres actions
+    }
+
+    if (modificationButton) {
+      const profileForm = document.getElementById('profileForm');
+      if (!profileForm) {
+        console.error('Impossible de trouver le formulaire de profil.');
+        return;
+      }
+      document.getElementById('profileInfo').classList.add('hidden'); // Masque le bouton de modification
+      profileForm.classList.remove('hidden'); // Affiche le formulaire de profil
+      console.log('Formulaire de profil affiché.');
+
+      // Pré-remplir le formulaire avec les informations actuelles
+      const NameField = document.getElementById('Name');
+      const firstNameField = document.getElementById('firstName');
+      const emailField = document.getElementById('email');
+      const phoneField = document.getElementById('phone');
+
+      if (NameField && emailField && phoneField && firstNameField) {
+        NameField.value =
+          document.getElementById('profileName')?.textContent.trim() || '';
+        firstNameField.value =
+          document.getElementById('profileFirstName')?.textContent.trim() || '';
+        emailField.value =
+          document.getElementById('profileEmail')?.textContent.trim() || '';
+        phoneField.value =
+          document.getElementById('profilePhone')?.textContent.trim() || '';
+      }
+
+      return; // Empêche l'exécution des autres actions
+    }
+
+    if (abortButton) {
+      // Réafficher les informations de base
+      profileInfo.classList.remove('hidden');
+
+      // Masquer le formulaire
+      profileForm.classList.add('hidden');
+      return;
+    }
+
+    if (submitProfileButton) {
+      console.log('Soumettre le formulaire de profil.');
+      // Mettre à jour les informations affichées
+      const Name = document.getElementById('Name')?.value || '';
+      const firstName = document.getElementById('firstName')?.value || '';
+      const email = document.getElementById('email')?.value || '';
+      const phone = document.getElementById('phone')?.value || '';
+
+      document.getElementById('profileName').textContent = Name;
+      document.getElementById('profileFirstName').textContent = firstName;
+      document.getElementById('profileEmail').textContent = email;
+      document.getElementById('profilePhone').textContent = phone;
+
+      // Réinitialiser l'affichage
+      profileInfo.classList.remove('hidden');
+      profileForm.classList.add('hidden');
+      return;
     }
 
     if (clickedStar) {
@@ -181,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function () {
       console.log('Modal offre ouvert.');
     }
 
-    if (event.target.closest('.btn-secondary')) {
+    if (event.target.closest('.offer-actions .btn-secondary')) {
       const offerCard = event.target.closest('.offer-card');
       if (!offerCard) {
         console.error("Impossible de trouver l'offre associée au bouton.");
@@ -203,7 +272,7 @@ document.addEventListener('DOMContentLoaded', function () {
             ?.textContent || 'Rémunération inconnue',
       };
 
-      toggleWishlist(offer, event.target.closest('.btn-secondary'));
+      toggleWishlist(offer, event.target.closest('offer-grid, .btn-secondary'));
     }
   });
 
@@ -255,7 +324,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // Apply/Save buttons
-  document.querySelectorAll('.btn-primary').forEach((btn) => {
+  document.querySelectorAll('.modal-actions .btn-primary').forEach((btn) => {
     btn.addEventListener('click', function () {
       // TODO: Implement respective actions
       console.log('Action:', this.textContent);
@@ -645,7 +714,9 @@ document.addEventListener('DOMContentLoaded', function () {
       `;
 
       // Ajouter un événement pour retirer l'offre de la wishlist
-      const wishlistButton = offerCard.querySelector('.btn-secondary');
+      const wishlistButton = offerCard.querySelector(
+        'offer-grid, .btn-secondary'
+      );
       wishlistButton.addEventListener('click', () =>
         toggleWishlist(offer, wishlistButton)
       );
@@ -678,128 +749,32 @@ document.addEventListener('DOMContentLoaded', function () {
   renderWishlist(currentWishlistPage);
   renderWishlistPagination();
 
-  const newDiscussionModal = document.getElementById('newDiscussionModal');
-  const openCommunityModalButton = document.querySelector(
-    '#community .community-header .btn-primary'
-  );
-  const openCommunityModalButton1 = document.querySelector(
-    '.community-header .btn-primary'
-  );
-  const closeCommunityModalButton = newDiscussionModal.querySelector('.close');
-  const newDiscussionForm = document.getElementById('newDiscussionForm');
-
-  // Vérifiez si le bouton "Nouvelle discussion" est trouvé
-  if (openCommunityModalButton || openCommunityModalButton1) {
-    console.log(
-      'Bouton "Nouvelle discussion" trouvé dans la section community:',
-      openCommunityModalButton
-    );
-
-    // Ouvrir la modale pour la communauté
-    openCommunityModalButton.addEventListener('click', function () {
-      console.log(
-        'Bouton "Nouvelle discussion" cliqué dans la section community'
-      );
-      newDiscussionModal.classList.add('active');
-      console.log('Modale "Nouvelle discussion" ouverte');
-    });
-  } else {
-    console.error(
-      'Bouton "Nouvelle discussion" introuvable dans la section community.'
-    );
-  }
-
-  // Fermer la modale pour la communauté
-  if (closeCommunityModalButton) {
-    closeCommunityModalButton.addEventListener('click', function () {
-      console.log('Bouton "Annuler" cliqué');
-      newDiscussionModal.classList.remove('active');
-      console.log('Modale "Nouvelle discussion" fermée');
-    });
-  } else {
-    console.error('Bouton "Annuler" introuvable.');
-  }
-
-  // Fermer la modale en cliquant à l'extérieur
-  newDiscussionModal.addEventListener('click', function (event) {
-    if (event.target === newDiscussionModal) {
-      console.log("Clic à l'extérieur de la modale détecté");
-      newDiscussionModal.classList.remove('active');
-      console.log('Modale "Nouvelle discussion" fermée');
-    }
-  });
-
-  // Soumettre le formulaire de discussion
-  newDiscussionForm.addEventListener('submit', function (event) {
-    event.preventDefault();
-
-    const title = document.getElementById('discussionTitle').value;
-    const category = document.getElementById('discussionCategory').value;
-    const content = document.getElementById('discussionContent').value;
-
-    console.log('Formulaire soumis avec les données :', {
-      title,
-      category,
-      content,
-    });
-
-    // Simuler l'ajout de la discussion
-    console.log('Nouvelle discussion ajoutée :', { title, category, content });
-
-    // Afficher une notification de succès
-    showNotification('Votre discussion a été publiée avec succès !');
-
-    // Réinitialiser le formulaire et fermer la modale
-    newDiscussionForm.reset();
-    newDiscussionModal.classList.remove('active');
-    console.log('Formulaire réinitialisé et modale fermée');
-  });
-
-  // Gestion de la section profil
-  const editProfileButton = document.getElementById('editProfile');
+  // Gestion de la soumission du formulaire de profil
   const profileForm = document.getElementById('profileForm');
-  const profileInfo = document.querySelector('.profile-info');
-  const cancelEditButton = document.getElementById('cancelEdit');
+  if (profileForm) {
+    profileForm.addEventListener('submit', (event) => {
+      event.preventDefault(); // Empêche le rechargement de la page
+      console.log('Formulaire de profil soumis.');
 
-  // Afficher le formulaire de modification
-  editProfileButton.addEventListener('click', () => {
-    profileInfo.style.display = 'none';
-    profileForm.classList.remove('hidden');
-    editProfileButton.style.display = 'none';
+      // Mettre à jour les informations affichées
+      const Name = document.getElementById('Name')?.value || '';
+      const firstName = document.getElementById('firstName')?.value || '';
+      const email = document.getElementById('email')?.value || '';
+      const phone = document.getElementById('phone')?.value || '';
 
-    // Pré-remplir le formulaire avec les informations actuelles
-    document.getElementById('fullName').value =
-      document.getElementById('profileFullName').textContent;
-    document.getElementById('email').value =
-      document.getElementById('profileEmail').textContent;
-    document.getElementById('phone').value =
-      document.getElementById('profilePhone').textContent;
-  });
+      document.getElementById('profileName').textContent = Name;
+      document.getElementById('profileFirstName').textContent = firstName;
+      document.getElementById('profileEmail').textContent = email;
+      document.getElementById('profilePhone').textContent = phone;
 
-  // Annuler la modification
-  cancelEditButton.addEventListener('click', () => {
-    profileInfo.style.display = 'block';
-    profileForm.classList.add('hidden');
-    editProfileButton.style.display = 'block';
-  });
+      // Réinitialiser l'affichage
+      document.getElementById('profileInfo').classList.remove('hidden');
+      profileForm.classList.add('hidden');
+      document.getElementById('editProfile').style.display = 'block';
 
-  // Soumettre le formulaire de modification
-  profileForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-
-    // Mettre à jour les informations affichées
-    document.getElementById('profileFullName').textContent =
-      document.getElementById('fullName').value;
-    document.getElementById('profileEmail').textContent =
-      document.getElementById('email').value;
-    document.getElementById('profilePhone').textContent =
-      document.getElementById('phone').value;
-
-    // Réinitialiser l'affichage
-    profileInfo.style.display = 'block';
-    profileForm.classList.add('hidden');
-    editProfileButton.style.display = 'block';
-
-    console.log('Profil mis à jour avec succès.');
-  });
+      console.log('Profil mis à jour avec succès.');
+    });
+  } else {
+    console.warn('Le formulaire de profil "profileForm" est introuvable.');
+  }
 });

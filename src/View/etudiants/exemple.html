@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exemple Box Click</title>
+    <style>
+      .box {
+        width: 150px;
+        height: 150px;
+        margin: 10px;
+        display: inline-block;
+        text-align: center;
+        line-height: 150px;
+        font-size: 18px;
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      .box1 {
+        background-color: #3498db;
+      }
+      .box2 {
+        background-color: #e74c3c;
+      }
+      .box3 {
+        background-color: #2ecc71;
+      }
+      #output {
+        margin-top: 20px;
+        font-size: 18px;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Exemple : Clic sur une Box</h1>
+    <div class="box box1" id="box1">Box 1</div>
+    <div class="box box2" id="box2">Box 2</div>
+    <div class="box box3" id="box3">Box 3</div>
+
+    <div id="output">Cliquez sur une box pour voir le résultat ici.</div>
+
+    <script src="exemple.js"></script>
+  </body>
+</html>

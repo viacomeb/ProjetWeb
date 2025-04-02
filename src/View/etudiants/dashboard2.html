@@ -816,11 +816,15 @@
             </div>
             <div class="profile-container">
               <!-- Affichage des informations de base -->
-              <div class="profile-info">
+              <div class="profile-info" id="profileInfo">
                 <h2>Informations de base</h2>
                 <p>
-                  <strong>Nom complet :</strong>
-                  <span id="profileFullName">John Doe</span>
+                  <strong>Nom :</strong>
+                  <span id="profileName">Doe</span>
+                </p>
+                <p>
+                  <strong>Nom :</strong>
+                  <span id="profileFirstName">John</span>
                 </p>
                 <p>
                   <strong>Email :</strong>
@@ -830,16 +834,41 @@
                   <strong>Téléphone :</strong>
                   <span id="profilePhone">+33 6 12 34 56 78</span>
                 </p>
+
+                <!-- Affichage des fichiers -->
+                <h2>Fichiers</h2>
+                <p>
+                  <strong>CV :</strong>
+                  <span id="cvFileName">Non renseigné</span>
+                </p>
+                <p>
+                  <strong>Lettre de motivation :</strong>
+                  <span id="coverLetterFileName">Non renseigné</span>
+                </p>
+                <!-- Bouton pour modifier les informations -->
+                <button id="editProfile" class="btn-secondary">
+                  Modifier les informations
+                </button>
               </div>
 
               <!-- Formulaire de modification (caché par défaut) -->
               <form id="profileForm" class="profile-form hidden">
                 <div class="form-group">
-                  <label for="fullName">Nom complet</label>
+                  <label for="Name">Nom</label>
                   <input
                     type="text"
-                    id="fullName"
-                    name="fullName"
+                    id="Name"
+                    name="Name"
+                    placeholder="Votre nom complet"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="firstName">Prenom</label>
+                  <input
+                    type="text"
+                    id="firstName"
+                    name="firstName"
                     placeholder="Votre nom complet"
                     required
                   />
@@ -864,6 +893,18 @@
                     required
                   />
                 </div>
+                <div class="form-group">
+                  <label for="cvFile">CV</label>
+                  <input type="file" id="cvFile" name="cvFile" />
+                </div>
+                <div class="form-group">
+                  <label for="coverLetterFile">Lettre de motivation</label>
+                  <input
+                    type="file"
+                    id="coverLetterFile"
+                    name="coverLetterFile"
+                  />
+                </div>
                 <div class="form-actions">
                   <button type="submit" class="btn-primary">Enregistrer</button>
                   <button type="button" class="btn-secondary" id="cancelEdit">
@@ -871,11 +912,6 @@
                   </button>
                 </div>
               </form>
-
-              <!-- Bouton pour modifier les informations -->
-              <button id="editProfile" class="btn-secondary">
-                Modifier les informations
-              </button>
             </div>
           </section>
         </div>
