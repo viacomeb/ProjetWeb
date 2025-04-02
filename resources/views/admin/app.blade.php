@@ -42,7 +42,18 @@
                     <a href="{{ route('admin.settings') }}"><i class="fas fa-cog"></i> Paramètres</a>
                 </li>
             </ul>
+            <div class="sidebar-footer">
+                <form id="logoutForm" action="{{ route('logout') }}" method="POST"
+                    style="display: none; text-decoration: none;">
+                    @csrf
+                </form>
+                <a href="#" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();"
+                    class="logout-btn">
+                    Déconnexion
+                </a>
+            </div>
         </nav>
+
 
         <!-- Main content -->
         <main class="main-content">

@@ -50,12 +50,6 @@
                     </svg>
                 </button>
             </form>
-            <div class="auth-separator">
-                <span>ou</span>
-            </div>
-            <p class="auth-redirect">
-                Pas encore de compte ? <a href="{{ route('register') }}">Inscrivez-vous</a>
-            </p>
         </div>
     </div>
     @vite(['resources/js/auth.js'])
