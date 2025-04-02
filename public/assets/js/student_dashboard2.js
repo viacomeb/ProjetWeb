@@ -2,22 +2,70 @@ document.addEventListener('DOMContentLoaded', function () {
   console.log('Script chargé : student_dashboard2.js');
 
   const offerModal = document.getElementById('offerModal');
+  const companyModal = document.getElementById('companyModal'); // Modal pour les entreprises
+  const companyModalTitle = document.getElementById('companyModalTitle');
+  const companyModalDetails = document.getElementById('companyModalDetails');
   const offerModalTitle = document.getElementById('offerModalTitle');
   const offerModalCompany = document.getElementById('offerModalCompany');
+  const offerModalLocation = document.getElementById('offerModalLocation');
+  const offerModalSalary = document.getElementById('offerModalSalary');
   const offerModalDetails = document.getElementById('offerModalDetails');
 
+  // Vérifiez que les modals existent
   if (
     !offerModal ||
+    !companyModal ||
+    !companyModalTitle ||
+    !companyModalDetails ||
     !offerModalTitle ||
     !offerModalCompany ||
+    !offerModalLocation ||
+    !offerModalSalary ||
     !offerModalDetails
   ) {
-    console.error('Le modal ou ses éléments sont introuvables.');
+    console.error('Un ou plusieurs éléments des modals sont introuvables.');
     return;
   }
 
-  // Gestion des clics sur les boxes
+  // Gestion des clics sur les boxes et le nom de l'entreprise
   document.addEventListener('click', function (event) {
+    const closeButton = event.target.closest('.close'); // Vérifie si le clic est sur un bouton "Fermer"
+    if (closeButton) {
+      const modal = closeButton.closest('.modal');
+      if (modal) {
+        modal.classList.remove('active');
+        console.log('Modal fermé.');
+      }
+      return; // Ignore les autres actions si le clic est sur un bouton "Fermer"
+    }
+
+    const companyNameElement = event.target.closest('.offer-info p'); // Vérifie si le clic est sur le nom de l'entreprise
+    if (companyNameElement) {
+      const companyName = companyNameElement.textContent.trim();
+      console.log(`Nom de l'entreprise cliqué : ${companyName}`);
+
+      // Simulez la récupération des données de l'entreprise
+      const companyDetails = {
+        name: companyName,
+        description: `Description de l'entreprise ${companyName}.`,
+        location: 'Paris, France',
+        website: 'https://example.com',
+      };
+
+      // Remplir les informations du modal entreprise
+      companyModalTitle.textContent = companyDetails.name;
+      companyModalDetails.innerHTML = `
+        <p><strong>Localisation :</strong> ${companyDetails.location}</p>
+        <p><strong>Site web :</strong> <a href="${companyDetails.website}" target="_blank">${companyDetails.website}</a></p>
+        <p><strong>Description :</strong> ${companyDetails.description}</p>
+      `;
+
+      // Afficher le modal entreprise
+      companyModal.classList.add('active');
+      console.log('Modal entreprise ouvert.');
+      return; // Empêche l'ouverture du modal d'offre
+    }
+
     const box = event.target.closest('.offer-card'); // Vérifie si le clic est sur une box
     if (box) {
       const boxId = box.id; // Récupère l'ID de la box cliquée
@@ -28,8 +76,12 @@ document.addEventListener('DOMContentLoaded', function () {
       const offer = {
         title: title.replace(/_/g, ' '),
         company: company.replace(/_/g, ' '),
-        location: box.querySelector('.offer-location')?.textContent.trim(),
-        salary: box.querySelector('.offer-salary')?.textContent.trim(),
+        location:
+          box.querySelector('.offer-location')?.textContent.trim() ||
+          'Non spécifiée',
+        salary:
+          box.querySelector('.offer-salary')?.textContent.trim() ||
+          'Non spécifiée',
       };
 
       if (!offer.title || !offer.company) {
@@ -51,35 +103,52 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // Afficher le modal
       offerModal.classList.add('active');
-      console.log('Modal ouvert.');
+      console.log('Modal offre ouvert.');
     }
 
     if (event.target.closest('.btn-secondary')) {
       const offerCard = event.target.closest('.offer-card');
+      if (!offerCard) {
+        console.error("Impossible de trouver l'offre associée au bouton.");
+        return;
+      }
+
       const offer = {
-        title: offerCard.querySelector('.offer-info h3').textContent,
-        company: offerCard.querySelector('.offer-info p').textContent,
-        location: offerCard.querySelector('.offer-details p:nth-child(1)')
-          .textContent,
-        salary: offerCard.querySelector('.offer-details p:nth-child(2)')
-          .textContent,
+        title:
+          offerCard.querySelector('.offer-info h3')?.textContent ||
+          'Titre inconnu',
+        company:
+          offerCard.querySelector('.offer-info p')?.textContent ||
+          'Entreprise inconnue',
+        location:
+          offerCard.querySelector('.offer-details p:nth-child(1)')
+            ?.textContent || 'Localisation inconnue',
+        salary:
+          offerCard.querySelector('.offer-details p:nth-child(2)')
+            ?.textContent || 'Rémunération inconnue',
       };
+
       toggleWishlist(offer, event.target.closest('.btn-secondary'));
     }
   });
 
-  // Fermer le modal
-  offerModal.querySelector('.close').addEventListener('click', function () {
-    offerModal.classList.remove('active');
-    console.log('Modal fermé.');
+  // Fermer les modals
+  document.querySelectorAll('.modal .close').forEach((closeButton) => {
+    closeButton.addEventListener('click', function () {
+      const modal = this.closest('.modal');
+      if (modal) modal.classList.remove('active');
+      console.log('Modal fermé.');
+    });
   });
 
-  // Fermer le modal en cliquant à l'extérieur
-  offerModal.addEventListener('click', function (event) {
-    if (event.target === offerModal) {
-      offerModal.classList.remove('active');
-      console.log("Modal fermé en cliquant à l'extérieur.");
-    }
+  // Fermer les modals en cliquant à l'extérieur
+  document.querySelectorAll('.modal').forEach((modal) => {
+    modal.addEventListener('click', function (event) {
+      if (event.target === modal) {
+        modal.classList.remove('active');
+        console.log("Modal fermé en cliquant à l'extérieur.");
+      }
+    });
   });
 
   // Navigation
