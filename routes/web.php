@@ -74,9 +74,14 @@ Route::middleware(['web'])->group(function () {
     });
 
     // Student-specific routes
-    Route::middleware([RoleMiddleware::class . ':student'])->group(function () {
-        Route::post('/offers/{id}/apply', [OffersController::class, 'apply'])->name('offers.apply');
-        Route::post('/offers/{id}/wishlist', [OffersController::class, 'addToWishlist'])->name('offers.wishlist');
+    Route::middleware([RoleMiddleware::class . ':student'])->prefix('student')->name('student.')->group(function () {
+        Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('dashboard');
+        Route::get('/internships', [StudentController::class, 'internships'])->name('internships');
+        Route::get('/wishlist', [StudentController::class, 'wishlist'])->name('wishlist');
+        Route::get('/challenges', [StudentController::class, 'challenges'])->name('challenges');
+        Route::get('/community', [StudentController::class, 'community'])->name('community');
+        Route::get('/messages', [StudentController::class, 'messages'])->name('messages');
+        Route::get('/settings', [StudentController::class, 'settings'])->name('settings');
     });
 });
 
@@ -123,15 +128,4 @@ Route::get('/api/pilots', function () {
 
 Route::get('/api/skills', function () {
     return \App\Models\Skill::select('skill_id as id', 'name')->get();
-});
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
-    Route::get('/students/overview', [StudentController::class, 'overview'])->name('students.overview');
-    Route::get('/students/internships', [StudentController::class, 'internships'])->name('students.internships');
-    Route::get('/students/wishlist', [StudentController::class, 'wishlist'])->name('students.wishlist');
-    Route::get('/students/challenges', [StudentController::class, 'challenges'])->name('students.challenges');
-    Route::get('/students/community', [StudentController::class, 'community'])->name('students.community');
-    Route::get('/students/messages', [StudentController::class, 'messages'])->name('students.messages');
-    Route::get('/students/settings', [StudentController::class, 'settings'])->name('students.settings');
 });

@@ -14,22 +14,9 @@ class StudentController extends Controller
             return redirect()->route('login')->withErrors('Vous devez être connecté en tant qu\'étudiant.');
         }
 
-        return view('students.app', [
+        return view('students.dashboard', [
             'student' => $user->student,
-        ]);
-    }
-
-    public function overview()
-    {
-        $user = auth()->user();
-
-        if (!$user || !$user->student) {
-            return redirect()->route('login')->withErrors('Vous devez être connecté en tant qu\'étudiant.');
-        }
-
-        return view('students.overview', [
-            'student' => $user->student,
-            'page' => 'vue d\'ensemble',
+            'page' => 'dashboard',
         ]);
     }
 
@@ -42,7 +29,7 @@ class StudentController extends Controller
 
         return view('students.internships', [
             'student' => $user->student,
-            'page' => 'offres de stage',
+            'page' => 'internships',
         ]);
     }
 
