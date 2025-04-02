@@ -8,16 +8,6 @@ import { resolve } from 'path';
 
 export default defineConfig({
   base: '/',
-  server: {
-    https: true,
-    host: 'workngo.westeurope.cloudapp.azure.com',
-    strictPort: true,
-    port: 5173,
-    hmr: {
-      protocol: 'wss',
-      host: 'workngo.westeurope.cloudapp.azure.com',
-    },
-  },
   plugins: [
     laravel({
       input: [
@@ -39,10 +29,5 @@ export default defineConfig({
   build: {
     outDir: 'public/build', // Définir le dossier de sortie
     assetsDir: 'assets', // Définir où les assets seront stockés
-  },
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, 'resources/js'),
-    },
   },
 });
