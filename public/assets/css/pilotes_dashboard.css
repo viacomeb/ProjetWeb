@@ -11,7 +11,7 @@
   --warning-color: #f59e0b;
   --danger-color: #ef4444;
   --gray-light: #f8fafc;
-  --gray-medium: #e2e8f0;
+  --gray-medium: #b9bec5;
 }
 
 * {
@@ -56,6 +56,106 @@ body {
   width: 90%;
   max-width: 600px;
   position: relative;
+}
+
+#internshipDetailsModal .modal-content {
+  max-width: 600px;
+  padding: 20px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+
+#internshipDetailsModal h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: var(--primary-color);
+}
+
+#internshipDetailsModal .modal-section {
+  margin-bottom: 15px;
+}
+
+#internshipDetailsModal .modal-section strong {
+  display: block;
+  font-size: 1rem;
+  color: var(--secondary-color);
+  margin-bottom: 5px;
+}
+
+#internshipDetailsModal .modal-section p {
+  font-size: 0.95rem;
+  color: #1e293b;
+}
+
+#internshipDetailsModal .modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+#internshipDetailsModal h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+#internshipDetailsModal p {
+  font-size: 1rem;
+  color: var(--secondary-color);
+  margin-bottom: 20px;
+}
+
+#internshipDetailsModal .modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+#deleteConfirmationModal .modal-content {
+  text-align: center;
+  padding: 30px;
+  max-width: 400px;
+}
+
+#deleteConfirmationModal h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: var(--danger-color);
+}
+
+#deleteConfirmationModal p {
+  font-size: 1rem;
+  color: var(--secondary-color);
+  margin-bottom: 20px;
+}
+
+#deleteConfirmationModal .modal-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+#deleteConfirmationModal .btn-danger {
+  background-color: var(--danger-color);
+  color: white;
+  padding: 10px 20px;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+}
+
+#deleteConfirmationModal .btn-danger:hover {
+  background-color: #c53030;
+}
+
+#deleteConfirmationModal .btn-secondary {
+  background-color: var(--gray-medium);
+  color: white;
+  padding: 10px 20px;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+}
+
+#deleteConfirmationModal .btn-secondary:hover {
+  background-color: var(--secondary-color);
 }
 
 .close {
@@ -427,6 +527,22 @@ body {
   font-size: 0.9rem;
 }
 
+.internship-actions {
+  display: flex;
+  justify-content: flex-end; /* Align buttons to the right */
+  gap: 10px;
+  margin-top: auto; /* Push buttons to the bottom */
+}
+
+.delete-internship {
+  background-color: var(--danger-color); /* Red background */
+  color: white;
+}
+
+.delete-internship:hover {
+  background-color: #c53030; /* Darker red on hover */
+}
+
 /* Companies Section */
 .companies-list {
   display: grid;
@@ -777,6 +893,56 @@ body {
   color: var(--secondary-color);
 }
 
+/* Recent Activities */
+.recent-activities {
+  margin-top: 30px;
+}
+
+.recent-activities h2 {
+  margin-bottom: 20px;
+  color: var(--secondary-color);
+}
+
+.activity-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.activity-card {
+  background-color: var(--white);
+  padding: 20px;
+  border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: var(--shadow);
+}
+
+.activity-icon {
+  width: 50px;
+  height: 50px;
+  background-color: #e0e7ff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-color);
+  font-size: 1.5rem;
+}
+
+.activity-details p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.activity-details span {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.8rem;
+  color: var(--secondary-color);
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .sidebar {
@@ -841,4 +1007,156 @@ body {
   .stat-card.wide {
     grid-column: auto;
   }
+}
+
+/* Modal Actions */
+.modal-actions {
+  display: flex;
+  justify-content: space-between; /* Align buttons to opposite sides */
+  gap: 10px;
+}
+
+.modal-actions .btn-danger {
+  background-color: var(--danger-color); /* Red background */
+  color: white;
+  border: none; /* Remove border */
+}
+
+.modal-actions .btn-danger:hover {
+  background-color: #c53030; /* Darker red on hover */
+}
+
+/* Company Details Modal */
+#companyDetailsModal .modal-content {
+  max-width: 600px;
+  padding: 20px;
+  text-align: center;
+}
+
+#companyDetailsModal h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: var(--primary-color);
+}
+
+#companyDetailsModal .modal-section {
+  margin-bottom: 15px;
+}
+
+#companyDetailsModal .modal-section strong {
+  display: block;
+  font-size: 1rem;
+  color: var(--secondary-color);
+  margin-bottom: 5px;
+}
+
+#companyDetailsModal .modal-section p {
+  font-size: 0.95rem;
+  color: #1e293b;
+}
+
+/* Star Rating System */
+.rating-section {
+  margin-top: 20px;
+}
+
+.rating-section h3 {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: var(--secondary-color);
+}
+
+.star-rating {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.star-rating i {
+  font-size: 30px;
+  color: var(--gray-medium);
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.star-rating i.full {
+  color: var(--primary-color);
+}
+
+.star-rating i:hover {
+  transform: scale(1.2);
+}
+
+#ratingValue {
+  font-size: 1rem;
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+/* Edit Company Modal */
+#editCompanyModal .modal-content {
+  max-width: 600px;
+  padding: 20px;
+  text-align: center;
+}
+
+#editCompanyModal h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: var(--primary-color);
+}
+
+#editCompanyModal .form-group {
+  margin-bottom: 15px;
+}
+
+#editCompanyModal .form-group label {
+  display: block;
+  font-size: 1rem;
+  color: var(--secondary-color);
+  margin-bottom: 5px;
+}
+
+#editCompanyModal .form-group input,
+#editCompanyModal .form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--gray-medium);
+  border-radius: var(--border-radius);
+  font-size: 0.95rem;
+}
+
+#editCompanyModal .form-group textarea {
+  resize: vertical;
+}
+
+#editCompanyModal .form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+#editCompanyModal .btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 10px 20px;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+}
+
+#editCompanyModal .btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+#editCompanyModal .btn-secondary {
+  background-color: var(--gray-medium);
+  color: white;
+  padding: 10px 20px;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+}
+
+#editCompanyModal .btn-secondary:hover {
+  background-color: var(--secondary-color);
 }
