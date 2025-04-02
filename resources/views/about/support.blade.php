@@ -25,6 +25,14 @@
                     d'amélioration, nous sommes à votre écoute.
                 </p>
             </div>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h2>Nos coordonnées</h2>
+                    <p><strong>Email :</strong> contact@projetweb.com</p>
+                    <p><strong>Téléphone :</strong> +33 1 23 45 67 89</p>
+                    <p><strong>Adresse :</strong> 123 Rue de l'Innovation, Paris, France</p>
+                </div>
+            </div>
         </section>
     </div>
 @endsection
