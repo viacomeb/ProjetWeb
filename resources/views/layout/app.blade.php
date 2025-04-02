@@ -14,9 +14,7 @@
     @stack('styles')
 </head>
 
-
 <body>
-
     <header class="header">
         <nav class="container">
             <!-- Logo -->
@@ -124,8 +122,7 @@
     </footer>
 
     <!-- Scripts -->
-    @vite('resources/js/app.js')
-
+    @vite(['resources/js/app.js'])
 </body>
 
 </html>
