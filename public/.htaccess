@@ -4,8 +4,10 @@
     </IfModule>
 
     RewriteEngine On
-
-    RewriteRule ^(.*)$ public/$1 [L]
+    RewriteCond %{REQUEST_URI} !^/index\.php$ [NC]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ /index.php [L]
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
