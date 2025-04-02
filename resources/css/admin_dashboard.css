@@ -876,6 +876,47 @@ input:checked + .slider:before {
   gap: 20px;
 }
 
+/* Pagination Styles */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+  list-style: none; /* Hide bullet points */
+}
+
+.pagination a,
+.pagination span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--color-gray-light);
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  transition: 0.3s ease;
+  border: 2px solid transparent; /* Add border for hover and active effects */
+}
+
+.pagination a:hover {
+  border-color: var(--color-primary); /* Change border color instead of background */
+  color: var(--color-primary); /* Change text color */
+}
+
+.pagination .disabled {
+  color: var(--color-text-secondary);
+  cursor: not-allowed;
+}
+
+.pagination .arrow {
+  font-size: 1.5rem;
+  color: var(--color-text-secondary);
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .sidebar {

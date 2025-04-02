@@ -58,6 +58,8 @@ Route::middleware(AuthMiddleware::class)->group(function () {
         Route::get('/applications', [AdminController::class, 'applications'])->name('applications');
         Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
         Route::post('/internships/store', [OffersController::class, 'store'])->name('internships.store');
+        Route::post('/pilots/store', [AdminController::class, 'storePilot'])->name('pilots.store');
+        Route::post('/companies/store', [CompaniesController::class, 'store'])->name('companies.store');
     });
 
     // Pilot-specific routes
@@ -73,4 +75,49 @@ Route::middleware(AuthMiddleware::class)->group(function () {
         Route::post('/offers/{id}/apply', [OffersController::class, 'apply'])->name('offers.apply');
         Route::post('/offers/{id}/wishlist', [OffersController::class, 'addToWishlist'])->name('offers.wishlist');
     });
+});
+
+// Ajout d'une route API pour récupérer les entreprises
+Route::get('/api/companies', function () {
+    return \App\Models\Company::select('company_id as id', 'company_name as name')->get();
+});
+
+// Correction des routes API pour utiliser les colonnes correctes
+Route::get('/api/students', function () {
+    try {
+        $students = \App\Models\Student::join('Users', 'Students.user_id', '=', 'Users.user_id')
+            ->select('Students.student_id as id', 'Users.first_name', 'Users.last_name')
+            ->get();
+
+        return $students->map(function ($student) {
+            return [
+                'id' => $student->id,
+                'name' => $student->first_name . ' ' . $student->last_name,
+            ];
+        });
+    } catch (\Exception $e) {
+        \Log::error('Erreur dans /api/students : ' . $e->getMessage());
+        return response()->json(['error' => 'Erreur interne'], 500);
+    }
+});
+
+Route::get('/api/pilots', function () {
+    try {
+        $pilots = \App\Models\Pilot::join('Users', 'Pilots.user_id', '=', 'Users.user_id')
+            ->select('Pilots.pilot_id as id', 'Users.first_name', 'Users.last_name')
+            ->get();
+        return $pilots->map(function ($pilot) {
+            return [
+                'id' => $pilot->id,
+                'name' => $pilot->first_name . ' ' . $pilot->last_name,
+            ];
+        });
+    } catch (\Exception $e) {
+        \Log::error('Erreur dans /api/pilots : ' . $e->getMessage());
+        return response()->json(['error' => 'Erreur interne'], 500);
+    }
+});
+
+Route::get('/api/skills', function () {
+    return \App\Models\Skill::select('skill_id as id', 'name')->get();
 });

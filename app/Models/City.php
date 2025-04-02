@@ -30,4 +30,9 @@ class City extends Model
     {
         return $this->hasMany(Company::class, 'city_id');
     }
+
+    public function country()
+    {
+        return $this->hasOneThrough(Country::class, Department::class, 'department_id', 'country_id', 'department_id', 'country_id');
+    }
 }

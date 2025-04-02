@@ -92,17 +92,92 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Gestion des boutons de filtre
-  document.querySelectorAll('.filter-btn').forEach((btn) => {
-    btn.addEventListener('click', function () {
-      const parent = this.parentElement;
-      if (!parent) return;
+  const urlParams = new URLSearchParams(window.location.search);
+  const currentStatus = urlParams.get('status');
 
-      parent
+  document.querySelectorAll('.filter-btn').forEach((btn) => {
+    const filter = btn.textContent.trim().toLowerCase();
+    let status = '';
+    if (filter === 'actives') {
+      status = 'active';
+    } else if (filter === 'inactives') {
+      status = 'inactive';
+    }
+
+    if (status === currentStatus || (!currentStatus && filter === 'toutes')) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+
+    btn.addEventListener('click', function () {
+      document
         .querySelectorAll('.filter-btn')
         .forEach((b) => b.classList.remove('active'));
       this.classList.add('active');
+
+      const url = new URL(window.location.href);
+      url.searchParams.set('status', status);
+      url.searchParams.set('page', 1); // Reset pagination to the first page
+      window.location.href = url.toString();
     });
   });
+
+  // Preserve the filter in pagination links
+  document.querySelectorAll('.pagination a').forEach((link) => {
+    const url = new URL(link.href);
+    if (currentStatus) {
+      url.searchParams.set('status', currentStatus);
+    }
+    link.href = url.toString();
+  });
+
+  // Add functionality for delete buttons with a custom modal
+  const attachDeleteHandlers = () => {
+    document.querySelectorAll('.btn-icon.delete').forEach((btn) => {
+      btn.addEventListener('click', function () {
+        const offerId = this.dataset.id;
+        const modal = document.getElementById('deleteModal');
+        const confirmButton = modal.querySelector('.confirm-delete');
+
+        // Show the modal
+        modal.classList.add('active');
+
+        // Attach confirmation handler
+        confirmButton.onclick = () => {
+          fetch(`/admin/internships/${offerId}`, {
+            method: 'DELETE',
+            headers: {
+              'X-CSRF-TOKEN': document.querySelector('input[name="_token"]')
+                .value,
+            },
+          })
+            .then((response) => {
+              if (response.ok) {
+                alert('Offre supprimée avec succès.');
+                location.reload();
+              } else {
+                alert("Erreur lors de la suppression de l'offre.");
+              }
+            })
+            .catch((error) =>
+              console.error('Erreur lors de la suppression :', error)
+            );
+
+          // Hide the modal
+          modal.classList.remove('active');
+        };
+
+        // Attach cancel handler
+        modal.querySelector('.cancel-delete').onclick = () => {
+          modal.classList.remove('active');
+        };
+      });
+    });
+  };
+
+  // Initialize delete handlers on page load
+  attachDeleteHandlers();
 
   // Gestion des modales
   const toggleModal = (modalId, action) => {
@@ -318,81 +393,171 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  document.addEventListener('DOMContentLoaded', () => {
+    const companySearch = document.getElementById('companySearch');
+    const companyDropdown = document.getElementById('companyDropdown');
+    const selectedCompany = document.getElementById('selectedCompany');
+    const companyIdInput = document.getElementById('company_id');
+
+    companySearch.addEventListener('input', function () {
+      const filter = this.value.toLowerCase();
+      const items = companyDropdown.querySelectorAll('.dropdown-item');
+
+      let hasVisibleItems = false;
+      items.forEach((item) => {
+        if (item.textContent.toLowerCase().includes(filter)) {
+          item.style.display = 'block';
+          hasVisibleItems = true;
+        } else {
+          item.style.display = 'none';
+        }
+      });
+
+      companyDropdown.style.display = hasVisibleItems ? 'block' : 'none';
+    });
+
+    companyDropdown.addEventListener('click', function (e) {
+      if (e.target.classList.contains('dropdown-item')) {
+        const companyName = e.target.textContent;
+        const companyId = e.target.dataset.id;
+
+        selectedCompany.textContent = `Entreprise sélectionnée : ${companyName}`;
+        companyIdInput.value = companyId;
+        companyDropdown.style.display = 'none';
+        companySearch.value = '';
+      }
+    });
+
+    document.addEventListener('click', function (e) {
+      if (
+        !companySearch.contains(e.target) &&
+        !companyDropdown.contains(e.target)
+      ) {
+        companyDropdown.style.display = 'none';
+      }
+    });
+  });
+
   // Suggestions dynamiques pour les étudiants, entreprises et pilotes
-  const students = [
-    { id: 1, name: 'Alice Dupont' },
-    { id: 2, name: 'Bob Martin' },
-    { id: 3, name: 'Charlie Durand' },
-  ];
+  const students = [];
+  const companies = [];
+  const pilots = [];
+  const skills = [];
 
-  const companies = [
-    { id: 1, name: 'TechCorp' },
-    { id: 2, name: 'DataInsight' },
-    { id: 3, name: 'WebSolutions' },
-  ];
+  fetch('/api/students')
+    .then((response) => response.json())
+    .then((data) => {
+      initDropdown('studentSearch', 'studentDropdown', data, (student) => {
+        const selectedTable = document.getElementById('selectedStudentsTable');
+        if (selectedTable) {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${student.name}</td>
+            <td class="action-cell">
+              <button class="btn-icon delete" data-id="${student.id}">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>`;
+          selectedTable.querySelector('tbody').appendChild(row);
 
-  const pilots = [
-    { id: 1, name: 'Jean Martin' },
-    { id: 2, name: 'Claire Dupont' },
-    { id: 3, name: 'Paul Durand' },
-  ];
-
-  initDropdown('studentSearch', 'studentDropdown', students, (student) => {
-    const selectedTable = document.getElementById('selectedStudentsTable');
-    if (selectedTable) {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${student.name}</td>
-        <td class="action-cell">
-          <button class="btn-icon delete" data-id="${student.id}">
-            <i class="fas fa-trash"></i>
-          </button>
-        </td>`;
-      selectedTable.querySelector('tbody').appendChild(row);
-
-      row.querySelector('.delete').addEventListener('click', () => {
-        row.remove();
+          row.querySelector('.delete').addEventListener('click', () => {
+            row.remove();
+          });
+        }
       });
-    }
-  });
+    })
+    .catch((error) =>
+      console.error('Erreur lors de la récupération des étudiants :', error)
+    );
 
-  initDropdown('companySearch', 'companyDropdown', companies, (company) => {
-    document.getElementById(
-      'selectedCompany'
-    ).textContent = `Entreprise sélectionnée : ${company.name}`;
-    document.getElementById('company_id').value = company.id;
-  });
-
-  initDropdown('pilotSearch', 'pilotDropdown', pilots, (pilot) => {
-    document.getElementById(
-      'selectedPilot'
-    ).textContent = `Pilote sélectionné : ${pilot.name}`;
-  });
-
-  const skills = [
-    { id: 1, name: 'JavaScript' },
-    { id: 2, name: 'Python' },
-    { id: 3, name: 'HTML' },
-    { id: 4, name: 'CSS' },
-    { id: 5, name: 'React' },
-  ];
-
-  initDropdown('skillsSearch', 'skillsDropdown', skills, (skill) => {
-    const selectedTable = document.getElementById('selectedSkillsTable');
-    if (selectedTable) {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${skill.name}</td>
-        <td class="action-cell">
-          <button class="btn-icon delete" data-id="${skill.id}">
-            <i class="fas fa-trash"></i>
-          </button>
-        </td>`;
-      selectedTable.querySelector('tbody').appendChild(row);
-
-      row.querySelector('.delete').addEventListener('click', () => {
-        row.remove();
+  fetch('/api/companies')
+    .then((response) => response.json())
+    .then((data) => {
+      initDropdown('companySearch', 'companyDropdown', data, (company) => {
+        document.getElementById(
+          'selectedCompany'
+        ).textContent = `Entreprise sélectionnée : ${company.name}`;
+        document.getElementById('company_id').value = company.id;
       });
-    }
-  });
+    })
+    .catch((error) =>
+      console.error('Erreur lors de la récupération des entreprises :', error)
+    );
+
+  fetch('/api/pilots')
+    .then((response) => response.json())
+    .then((data) => {
+      initDropdown('pilotSearch', 'pilotDropdown', data, (pilot) => {
+        document.getElementById(
+          'selectedPilot'
+        ).textContent = `Pilote sélectionné : ${pilot.name}`;
+      });
+    })
+    .catch((error) =>
+      console.error('Erreur lors de la récupération des pilotes :', error)
+    );
+
+  fetch('/api/skills')
+    .then((response) => response.json())
+    .then((data) => {
+      initDropdown('skillsSearch', 'skillsDropdown', data, (skill) => {
+        const selectedTable = document.getElementById('selectedSkillsTable');
+        if (selectedTable) {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${skill.name}</td>
+            <td class="action-cell">
+              <button class="btn-icon delete" data-id="${skill.id}">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>`;
+          selectedTable.querySelector('tbody').appendChild(row);
+
+          row.querySelector('.delete').addEventListener('click', () => {
+            row.remove();
+          });
+        }
+      });
+    })
+    .catch((error) =>
+      console.error('Erreur lors de la récupération des compétences :', error)
+    );
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Gestion du formulaire d'ajout de pilote
+  const pilotForm = document.getElementById('userForm');
+  if (pilotForm) {
+    pilotForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(pilotForm);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const response = await fetch(pilotForm.action, {
+          method: 'POST',
+          headers: {
+            'X-CSRF-TOKEN': document.querySelector('input[name="_token"]')
+              .value,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+          alert('Pilote ajouté avec succès.');
+          location.reload(); // Recharger la page pour afficher les changements
+        } else {
+          const errorData = await response.json();
+          alert(
+            'Erreur : ' + (errorData.message || 'Une erreur est survenue.')
+          );
+        }
+      } catch (error) {
+        console.error('Erreur lors de la soumission du formulaire :', error);
+        alert('Une erreur est survenue. Veuillez réessayer.');
+      }
+    });
+  }
 });

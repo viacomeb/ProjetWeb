@@ -13,10 +13,9 @@
                 </button>
             </div>
             <div class="filters">
-                <button class="filter-btn active">Toutes</button>
-                <button class="filter-btn">En attente</button>
-                <button class="filter-btn">Validées</button>
-                <button class="filter-btn">Pourvues</button>
+                <button class="filter-btn">Toutes</button>
+                <button class="filter-btn">Actives</button>
+                <button class="filter-btn">Inactives</button>
             </div>
             <div class="data-table">
                 <table>
@@ -30,54 +29,33 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Développeur Full-Stack</td>
-                            <td>
-                                <div class="company-info">
-                                    <img src="https://ui-avatars.com/api/?name=Tech+Corp" alt="Company" />
-                                    <span>TechCorp</span>
-                                </div>
-                            </td>
-                            <td>15</td>
-                            <td>
-                                <span class="status active">Active</span>
-                            </td>
-                            <td>
-                                <div class="actions">
-                                    <button class="btn-icon" title="Modifier">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="btn-icon" title="Supprimer">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Data Analyst</td>
-                            <td>
-                                <div class="company-info">
-                                    <img src="https://ui-avatars.com/api/?name=Data+Insight" alt="Company" />
-                                    <span>DataInsight</span>
-                                </div>
-                            </td>
-                            <td>8</td>
-                            <td>
-                                <span class="status pending">En attente</span>
-                            </td>
-                            <td>
-                                <div class="actions">
-                                    <button class="btn-icon" title="Modifier">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="btn-icon" title="Supprimer">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                        @foreach ($offers as $offer)
+                            <tr>
+                                <td>{{ $offer->title }}</td>
+                                <td>{{ $offer->company->company_name ?? 'Non spécifié' }}</td>
+                                <td>{{ $offer->applications_count ?? 0 }}</td>
+                                <td>
+                                    <span class="status {{ $offer->is_active ? 'active' : 'inactive' }}">
+                                        {{ $offer->is_active ? 'Active' : 'Inactive' }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="actions">
+                                        <button class="btn-icon" title="Modifier">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn-icon" title="Supprimer">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
+            </div>
+            <div class="pagination">
+                {{ $offers->links('pagination::bootstrap-4') }}
             </div>
         </section>
     </div>
@@ -89,6 +67,11 @@
             <h2>Ajouter une offre de stage</h2>
             <form id="internshipForm" method="POST" action="{{ route('admin.internships.store') }}">
                 @csrf
+
+                @php
+                    $companies = \App\Models\Company::select('company_id', 'company_name')->get();
+                @endphp
+
                 <div class="form-group">
                     <label for="title">Titre de l'offre :</label>
                     <input type="text" id="title" name="title" placeholder="Entrez le titre" required />
@@ -97,7 +80,9 @@
                     <label for="companySearch">Rechercher une entreprise :</label>
                     <input type="text" id="companySearch" placeholder="Recherchez une entreprise" />
                     <ul id="companyDropdown" class="dropdown-menu" style="display: none">
-                        <!-- Liste des entreprises générée dynamiquement -->
+                        @foreach ($companies as $company)
+                            <li class="dropdown-item" data-id="{{ $company->company_id }}">{{ $company->company_name }}</li>
+                        @endforeach
                     </ul>
                     <input type="hidden" id="company_id" name="company_id" required />
                     <p id="selectedCompany" style="margin-top: 10px; font-weight: bold"></p>
@@ -146,4 +131,8 @@
             </form>
         </div>
     </div>
+
+    <script>
+
+    </script>
 @endsection
