@@ -51,9 +51,16 @@
                                         <button class="btn-icon" title="Modifier">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        <button class="btn-icon" title="Supprimer">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
+                                        <form method="POST"
+                                            action="{{ route('admin.companies.destroy', $company->company_id) }}"
+                                            style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn-icon delete" title="Supprimer"
+                                                data-id="{{ $company->company_id }}">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>
@@ -77,33 +84,41 @@
                     <input type="text" id="companyName" name="company_name" placeholder="Entrez le nom" required />
                 </div>
                 <div class="form-group">
-                    <label for="sector">Secteur :</label>
-                    <input type="text" id="sector" name="sector" placeholder="Entrez le secteur" required />
+                    <label for="description">Description :</label>
+                    <textarea id="description" name="description" placeholder="Entrez une description"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="address">Adresse :</label>
-                    <div class="address-group">
-                        <div class="form-group">
-                            <label for="streetNumber">Numéro de rue :</label>
-                            <input type="text" id="streetNumber" name="street_number" placeholder="Ex : 123" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="streetName">Nom de la rue :</label>
-                            <input type="text" id="streetName" name="street" placeholder="Ex : Rue de Paris" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="city">Ville :</label>
-                            <input type="text" id="city" name="city_name" placeholder="Ex : Paris" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="postalCode">Code postal :</label>
-                            <input type="text" id="postalCode" name="postal_code" placeholder="Ex : 75000" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="country">Pays :</label>
-                            <input type="text" id="country" name="country_name" placeholder="Ex : France" required />
-                        </div>
-                    </div>
+                    <label for="phone">Téléphone :</label>
+                    <input type="text" id="phone" name="phone" placeholder="Entrez le téléphone" />
+                </div>
+                <div class="form-group">
+                    <label for="email">Email :</label>
+                    <input type="email" id="email" name="email" placeholder="Entrez l'email" />
+                </div>
+                <div class="form-group">
+                    <label for="street">Rue :</label>
+                    <input type="text" id="street" name="street" placeholder="Entrez la rue" />
+                </div>
+                <div class="form-group">
+                    <label for="streetNumber">Numéro de rue :</label>
+                    <input type="number" id="streetNumber" name="street_number" placeholder="Entrez le numéro de rue" />
+                </div>
+                <div class="form-group">
+                    <label for="cityName">Ville :</label>
+                    <input type="text" id="cityName" name="city_name" placeholder="Entrez la ville" required />
+                </div>
+                <div class="form-group">
+                    <label for="postalCode">Code postal :</label>
+                    <input type="number" id="postalCode" name="postal_code" placeholder="Entrez le code postal" required />
+                </div>
+                <div class="form-group">
+                    <label for="departmentName">Département :</label>
+                    <input type="text" id="departmentName" name="department_name" placeholder="Entrez le département"
+                        required />
+                </div>
+                <div class="form-group">
+                    <label for="countryName">Pays :</label>
+                    <input type="text" id="countryName" name="country_name" placeholder="Entrez le pays" required />
                 </div>
                 <div class="modal-actions">
                     <button type="submit" class="btn-primary">Ajouter</button>
@@ -112,6 +127,49 @@
             </form>
         </div>
     </div>
-    </main>
+
+    <!-- Ajout d'un modal de confirmation de suppression -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Confirmer la suppression</h2>
+            <p>Êtes-vous sûr de vouloir supprimer cet élément ?</p>
+            <div class="modal-actions">
+                <button class="btn-secondary close">Annuler</button>
+                <button class="btn-primary confirm-delete">Confirmer</button>
+            </div>
+        </div>
     </div>
+
+    <!-- Ajout d'un script pour gérer l'ouverture et la fermeture du modal -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const deleteButtons = document.querySelectorAll('.btn-icon.delete');
+            const deleteModal = document.getElementById('deleteModal');
+            const closeModalButtons = deleteModal.querySelectorAll('.close');
+            const confirmDeleteButton = deleteModal.querySelector('.confirm-delete');
+
+            let formToSubmit = null;
+
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    formToSubmit = button.closest('form');
+                    deleteModal.classList.add('active');
+                });
+            });
+
+            closeModalButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    deleteModal.classList.remove('active');
+                });
+            });
+
+            confirmDeleteButton.addEventListener('click', () => {
+                if (formToSubmit) {
+                    formToSubmit.submit();
+                }
+            });
+        });
+    </script>
 @endsection

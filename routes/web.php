@@ -24,20 +24,21 @@ Route::middleware(['web'])->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1')->name('login.post');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-});
+    // Closing brace for the commented-out AuthMiddleware group
+    // });
 
-// Register routes
-Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-Route::post('/register', [AuthController::class, 'register'])->name('register.post');
+    // Register routes
+    Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+    Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 
-// Password reset routes
-Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
-Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
+    // Password reset routes
+    Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+    Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+    Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+    Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
-// Authenticated routes
-/* Route::middleware(AuthMiddleware::class)->group(function () { */
+    // Authenticated routes
+    /* Route::middleware(AuthMiddleware::class)->group(function () { */
     Route::get('/companies', [CompaniesController::class, 'list'])->name('companies.list');
     Route::get('/companies/{id}', [CompaniesController::class, 'show'])->name('companies.show');
 
@@ -60,6 +61,8 @@ Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name(
         Route::post('/internships/store', [OffersController::class, 'store'])->name('internships.store');
         Route::post('/pilots/store', [AdminController::class, 'storePilot'])->name('pilots.store');
         Route::post('/companies/store', [CompaniesController::class, 'store'])->name('companies.store');
+        // Correction de la route pour inclure le préfixe admin et le nom complet
+        Route::delete('/companies/{id}', [CompaniesController::class, 'destroy'])->name('companies.destroy');
     });
 
     // Pilot-specific routes

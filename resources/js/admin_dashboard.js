@@ -135,43 +135,35 @@ document.addEventListener('DOMContentLoaded', () => {
   // Add functionality for delete buttons with a custom modal
   const attachDeleteHandlers = () => {
     document.querySelectorAll('.btn-icon.delete').forEach((btn) => {
-      btn.addEventListener('click', function () {
-        const offerId = this.dataset.id;
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        const companyId = this.dataset.id; // Récupérer l'ID depuis data-id
         const modal = document.getElementById('deleteModal');
-        const confirmButton = modal.querySelector('.confirm-delete');
+        if (modal) {
+          const confirmButton = modal.querySelector('.confirm-delete');
+          if (confirmButton) {
+            confirmButton.onclick = () => {
+                fetch(`/admin/companies/${companyId}`, {
+                method: 'DELETE',
+                headers: {
+                  'X-CSRF-TOKEN': document.querySelector('input[name="_token"]')
+                  .value,
+                },
+                })
+                .then((response) => {
+                  if (response.ok) {
+                  location.reload();
+                  }
+                });
 
-        // Show the modal
-        modal.classList.add('active');
-
-        // Attach confirmation handler
-        confirmButton.onclick = () => {
-          fetch(`/admin/internships/${offerId}`, {
-            method: 'DELETE',
-            headers: {
-              'X-CSRF-TOKEN': document.querySelector('input[name="_token"]')
-                .value,
-            },
-          })
-            .then((response) => {
-              if (response.ok) {
-                alert('Offre supprimée avec succès.');
-                location.reload();
-              } else {
-                alert("Erreur lors de la suppression de l'offre.");
-              }
-            })
-            .catch((error) =>
-              console.error('Erreur lors de la suppression :', error)
-            );
-
-          // Hide the modal
-          modal.classList.remove('active');
-        };
-
-        // Attach cancel handler
-        modal.querySelector('.cancel-delete').onclick = () => {
-          modal.classList.remove('active');
-        };
+              modal.classList.remove('active');
+            };
+          } else {
+            console.error('Bouton de confirmation introuvable dans le modal.');
+          }
+        } else {
+          console.error('Modal de suppression introuvable.');
+        }
       });
     });
   };

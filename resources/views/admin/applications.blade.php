@@ -30,7 +30,6 @@
                         <tr>
                             <td>
                                 <div class="student-info">
-                                    <img src="https://ui-avatars.com/api/?name=Alice+Dupont" alt="Student" />
                                     <span>Alice Dupont</span>
                                 </div>
                             </td>
@@ -53,7 +52,6 @@
                         <tr>
                             <td>
                                 <div class="student-info">
-                                    <img src="https://ui-avatars.com/api/?name=Bob+Martin" alt="Student" />
                                     <span>Bob Martin</span>
                                 </div>
                             </td>
