@@ -7,6 +7,7 @@ import { readdirSync } from 'fs';
 import { resolve } from 'path';
 
 export default defineConfig({
+  base: '/',
   server: {
     https: true,
     host: 'workngo.westeurope.cloudapp.azure.com',
