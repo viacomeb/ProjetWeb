@@ -81,6 +81,29 @@ document.addEventListener('DOMContentLoaded', function () {
       '.form-actions .btn-primary'
     ); // Vérifie si le clic est sur le bouton "Soumettre" du formulaire de profil
 
+    const applyButton = event.target.closest('.offer-actions .btn-primary');
+
+    if (applyButton && !applyButton.closest('.modal')) {
+      const offerCard = applyButton.closest('.offer-card');
+      if (!offerCard) {
+        console.error("Impossible de trouver l'offre associée au bouton.");
+        return;
+      }
+
+      const offerTitle =
+        offerCard.querySelector('.offer-info h3')?.textContent ||
+        'Offre inconnue';
+
+      // Changez la couleur du bouton en gris et désactivez-le
+      applyButton.style.backgroundColor = 'gray';
+      applyButton.style.cursor = 'not-allowed';
+      applyButton.disabled = true;
+
+      // Affichez une notification
+      showNotification(`Vous avez postulé à "${offerTitle}".`);
+      return;
+    }
+
     if (wishlistButton) {
       const offerCard = wishlistButton.closest('.offer-card');
       if (!offerCard) {
@@ -748,9 +771,8 @@ document.addEventListener('DOMContentLoaded', function () {
   // Initial rendering for wishlist
   renderWishlist(currentWishlistPage);
   renderWishlistPagination();
-
-  // Gestion de la soumission du formulaire de profil
   const profileForm = document.getElementById('profileForm');
+  // Gestion de la soumission du formulaire de profil
   if (profileForm) {
     profileForm.addEventListener('submit', (event) => {
       event.preventDefault(); // Empêche le rechargement de la page
@@ -777,4 +799,171 @@ document.addEventListener('DOMContentLoaded', function () {
   } else {
     console.warn('Le formulaire de profil "profileForm" est introuvable.');
   }
+
+  // Fonction de validation des fichiers
+  const validateFile = (fileInput) => {
+    const file = fileInput.files[0];
+    const errorMessage = document.createElement('p');
+    errorMessage.className = 'file-error';
+    errorMessage.style.color = 'red';
+
+    // Supprimez les anciens messages d'erreur
+    const existingError = fileInput.parentElement.querySelector('.file-error');
+    if (existingError) existingError.remove();
+
+    if (file) {
+      const isPDF = file.type === 'application/pdf';
+      const isUnder2MB = file.size <= 2 * 1024 * 1024; // 2 Mo
+
+      if (!isPDF) {
+        errorMessage.textContent = 'Seuls les fichiers PDF sont autorisés.';
+        fileInput.parentElement.appendChild(errorMessage);
+        fileInput.value = ''; // Réinitialise le champ
+        console.log("Validation échouée : le fichier n'est pas un PDF.");
+        return false;
+      }
+
+      if (!isUnder2MB) {
+        errorMessage.textContent =
+          'La taille du fichier ne doit pas dépasser 2 Mo.';
+        fileInput.parentElement.appendChild(errorMessage);
+        fileInput.value = ''; // Réinitialise le champ
+        console.log('Validation échouée : le fichier dépasse 2 Mo.');
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  // Ajoutez des écouteurs pour les champs de fichier
+  const cvFileInput = document.getElementById('cvFile');
+  const coverLetterFileInput = document.getElementById('coverLetterFile');
+
+  if (cvFileInput) {
+    cvFileInput.addEventListener('change', () => validateFile(cvFileInput));
+  }
+
+  if (coverLetterFileInput) {
+    coverLetterFileInput.addEventListener('change', () =>
+      validateFile(coverLetterFileInput)
+    );
+  }
+
+  // Fonction pour téléverser les fichiers
+  const uploadFile = (fileInput, folder, newFileName) => {
+    const file = fileInput.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('folder', folder);
+    formData.append('newFileName', newFileName);
+
+    fetch('http://localhost:3000/upload', {
+      // Update URL to use localhost
+      method: 'POST',
+      body: formData,
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log(`Fichier téléversé avec succès : ${newFileName}`);
+        } else {
+          console.error('Erreur lors du téléversement du fichier.');
+        }
+      })
+      .catch((error) => {
+        console.error('Erreur réseau lors du téléversement :', error);
+      });
+  };
+
+  // Soumettre le formulaire de modification
+  if (profileForm) {
+    profileForm.addEventListener('submit', (event) => {
+      event.preventDefault(); // Empêche le rechargement de la page
+
+      const Name = document.getElementById('Name')?.value || '';
+      const firstName = document.getElementById('firstName')?.value || '';
+      const cvFileInput = document.getElementById('cvFile');
+      const coverLetterFileInput = document.getElementById('coverLetterFile');
+
+      // Téléversement des fichiers
+      if (cvFileInput && cvFileInput.files.length > 0) {
+        const cvFileName = `${Name}_${firstName}_CV.pdf`;
+        uploadFile(cvFileInput, 'CV', cvFileName);
+        document.getElementById('cvFileName').textContent = cvFileName;
+      }
+
+      if (coverLetterFileInput && coverLetterFileInput.files.length > 0) {
+        const coverLetterFileName = `${Name}_${firstName}_LDM.pdf`;
+        uploadFile(coverLetterFileInput, 'LDM', coverLetterFileName);
+        document.getElementById('coverLetterFileName').textContent =
+          coverLetterFileName;
+      }
+
+      // Mettre à jour les informations affichées
+      document.getElementById('profileName').textContent = Name;
+      document.getElementById('profileFirstName').textContent = firstName;
+      document.getElementById('profileEmail').textContent =
+        document.getElementById('email')?.value || '';
+      document.getElementById('profilePhone').textContent =
+        document.getElementById('phone')?.value || '';
+
+      // Réinitialiser l'affichage
+      document.getElementById('profileInfo').classList.remove('hidden');
+      profileForm.classList.add('hidden');
+      document.getElementById('editProfile').style.display = 'block';
+
+      console.log('Profil mis à jour avec succès.');
+    });
+  }
+
+  // Soumettre le formulaire de modification
+
+  if (profileForm) {
+    profileForm.addEventListener('submit', (event) => {
+      if (!validateFile(cvFileInput) || !validateFile(coverLetterFileInput)) {
+        event.preventDefault();
+        console.log("Formulaire non soumis en raison d'erreurs de validation.");
+      }
+    });
+  }
+
+  // Ajoutez un événement pour les boutons "Postuler" dans le modal
+  document.addEventListener('click', function (event) {
+    const modalApplyButton = event.target.closest('#offerModal .btn-primary');
+    if (modalApplyButton) {
+      const offerTitle =
+        document.getElementById('offerModalTitle')?.textContent ||
+        'Offre inconnue';
+
+      // Fermez le modal
+      const modal = modalApplyButton.closest('.modal');
+      if (modal) {
+        modal.classList.remove('active');
+      }
+
+      // Changez l'état du bouton "Postuler" dans le modal
+      modalApplyButton.style.backgroundColor = 'gray';
+      modalApplyButton.style.cursor = 'not-allowed';
+      modalApplyButton.disabled = true;
+
+      // Changez l'état du bouton "Postuler" en dehors du modal
+      const offerCards = document.querySelectorAll('.offer-card');
+      offerCards.forEach((card) => {
+        const cardTitle = card.querySelector('.offer-info h3')?.textContent;
+        if (cardTitle === offerTitle) {
+          const cardApplyButton = card.querySelector('.btn-primary');
+          if (cardApplyButton) {
+            cardApplyButton.style.backgroundColor = 'gray';
+            cardApplyButton.style.cursor = 'not-allowed';
+            cardApplyButton.disabled = true;
+          }
+        }
+      });
+
+      // Affichez une notification
+      showNotification(`Vous avez postulé à "${offerTitle}".`);
+    }
+  });
 });
