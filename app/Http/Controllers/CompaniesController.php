@@ -195,13 +195,43 @@ class CompaniesController extends Controller
 
     public function modal($id)
     {
-        $company = Company::with(['city', 'city.department.country'])->find($id);
+        $company = Company::with(['city', 'city.department.country', 'ratings'])->find($id);
 
         if (!$company) {
             return response()->json(['error' => 'Company not found'], 404);
         }
 
+        // Calculate the average rating
+        $averageRating = $company->ratings()->avg('rating');
+
         // Return a partial view for the modal content
-        return view('students.partials.company_modal', compact('company'));
+        return view('students.partials.company_modal', compact('company', 'averageRating'));
+    }
+
+    public function saveOrUpdateRating($userId, $companyId, $newRating)
+    {
+        // Check if the user has already rated the company
+        $existingRating = \App\Models\Rating::where('user_id', $userId)
+            ->where('company_id', $companyId)
+            ->first();
+
+        if ($existingRating) {
+            if ($existingRating->rating != $newRating) {
+                // Update the existing rating if it's different
+                $existingRating->update(['rating' => $newRating]);
+                return 'Rating updated successfully.';
+            } else {
+                // Do nothing if the rating is the same
+                return 'Rating is the same. No changes made.';
+            }
+        } else {
+            // Create a new rating if none exists
+            \App\Models\Rating::create([
+                'user_id' => $userId,
+                'company_id' => $companyId,
+                'rating' => $newRating,
+            ]);
+            return 'New rating created successfully.';
+        }
     }
 }

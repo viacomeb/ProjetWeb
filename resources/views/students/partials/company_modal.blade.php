@@ -17,7 +17,22 @@
         <strong>Adresse:</strong>
         <p>{{ $company->street ?? '' }} {{ $company->street_number ?? '' }}, {{ $company->city->city_name ?? 'Ville non disponible' }}</p>
     </div>
+    <div class="form-group">
+        <strong>Note moyenne:</strong>
+        <p id="averageRating">{{ $averageRating ? number_format($averageRating, 1) : 'Pas encore notée' }}</p>
+    </div>
+    <div class="form-group">
+        <strong>Noter cette entreprise:</strong>
+        <div class="star-rating" id="starRating" data-company-id="{{ $company->company_id }}" data-user-id="{{ auth()->id() }}">
+            @for ($i = 1; $i <= 5; $i++)
+                <i class="far fa-star" data-value="{{ $i }}"></i>
+                @endfor
+        </div>
+    </div>
     <div class="modal-actions">
         <button class="btn-secondary close" onclick="closeCompanyModal()">Fermer</button>
     </div>
 </div>
+
+<script>
+</script>
