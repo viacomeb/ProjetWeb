@@ -42,6 +42,9 @@
             <p>Aucune offre dans votre wishlist.</p>
             @endforelse
         </div>
+        <div class="pagination" id="wishlistPagination">
+            {{ $wishlist->links('pagination::bootstrap-4') }}
+        </div>
     </section>
 </div>
 @endsection

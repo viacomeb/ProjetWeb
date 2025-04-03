@@ -280,11 +280,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalEndDate = document.getElementById('modalOfferEndDate');
 
     offerRows.forEach((row) => {
-      if (e.target.closest('.btn-icon')) return;
-      row.addEventListener('click', () => {
+      row.addEventListener('click', (event) => {
+        // Prevent row click if a button inside the row is clicked
+        if (event.target.closest('.btn-icon')) return;
+
         const offerId = row.getAttribute('data-offer-id');
 
-        // Use the controller route to fetch offer details
+        // Fetch offer details using the controller route
         fetch(`/admin/internships/${offerId}`)
           .then((response) => {
             if (!response.ok) {
@@ -356,3 +358,85 @@ if (searchOfferInput) {
     });
   });
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  const setupForms = () => {
+    const internshipForm = document.getElementById('internshipForm');
+    if (internshipForm) {
+      internshipForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const title = document.getElementById('title').value.trim();
+        const companyId = document.getElementById('company_id').value.trim();
+
+        if (!title || !companyId) {
+          alert('Veuillez remplir tous les champs obligatoires.');
+          return;
+        }
+
+        const formData = new FormData(internshipForm);
+        fetch(internshipForm.action, {
+          method: 'POST',
+          body: formData,
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('Erreur lors de la soumission du formulaire.');
+            }
+            return response.json();
+          })
+          .then(() => {
+            alert('Offre ajoutée avec succès.');
+            location.reload();
+          })
+          .catch((error) => {
+            console.error('Erreur :', error);
+            alert('Une erreur est survenue.');
+          });
+      });
+    }
+  };
+
+  const setupEditForm = () => {
+    const editForm = document.getElementById('editInternshipForm');
+    if (editForm) {
+      editForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const offerId = document.getElementById('edit_offer_id').value.trim();
+        const title = document.getElementById('edit_title').value.trim();
+        const companyId = document
+          .getElementById('edit_company_id')
+          .value.trim();
+
+        if (!offerId || !title || !companyId) {
+          alert('Veuillez remplir tous les champs obligatoires.');
+          return;
+        }
+
+        const formData = new FormData(editForm);
+        fetch(editForm.action, {
+          method: 'POST',
+          body: formData,
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Erreur lors de la mise à jour de l'offre.");
+            }
+            return response.json();
+          })
+          .then(() => {
+            alert('Offre mise à jour avec succès.');
+            location.reload();
+          })
+          .catch((error) => {
+            console.error('Erreur :', error);
+            alert('Une erreur est survenue.');
+          });
+      });
+    }
+  };
+
+  setupForms();
+  setupEditForm();
+});
