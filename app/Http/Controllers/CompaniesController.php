@@ -20,6 +20,12 @@ class CompaniesController extends Controller
         return response()->json($companies);
     }
 
+    public function publiclist()
+    {
+        $companies = Company::all();
+        return view('companies.list', ['companies' => $companies, 'page' => $this->page]);
+    }
+
     public function show($id)
     {
         try {

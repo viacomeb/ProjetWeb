@@ -30,7 +30,7 @@
             <div class="nav-links">
                 <a href="{{ route('home') }}" class="nav-link">Accueil</a>
                 <a href="{{ route('offers.list') }}" class="nav-link">Offres</a>
-                <a href="{{ route('companies.list') }}" class="nav-link">Entreprises</a>
+                <a href="{{ route('companies.publiclist') }}" class="nav-link">Entreprises</a>
                 <a href="{{ route('contact') }}" class="nav-link">Contact</a>
             </div>
 
