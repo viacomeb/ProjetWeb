@@ -72,7 +72,7 @@ class StudentsController extends Controller
                 return redirect()->route('student.dashboard')->with('error', 'Profil étudiant non trouvé.');
             }
 
-            $wishlist = $student->wishlist()->with(['offer.company.city'])->get();
+            $wishlist = $student->wishlist()->with(['offer.company.city'])->paginate(10); // Add pagination
 
             return view('students.wishlist', [
                 'wishlist' => $wishlist,
