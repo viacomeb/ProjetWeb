@@ -1056,7 +1056,7 @@ body {
 }
 
 .modal-content {
-  background-color: var(--white);
+  background-color: var(--color-surface);
   padding: 40px;
   border-radius: var(--border-radius);
   width: 90%;
@@ -1073,6 +1073,7 @@ body {
 
 .modal-content h2 {
   font-size: 2rem;
+  margin-top: 40px; /* Ajoute un espacement supplémentaire au-dessus du titre */
   margin-bottom: 25px;
   color: var(--primary-color);
   text-align: center;
@@ -1081,7 +1082,7 @@ body {
 
 .modal-content p {
   font-size: 1rem;
-  color: var(--secondary-color);
+  color: var(--color-text-secondary);
   margin-bottom: 20px;
   line-height: 1.6; /* Amélioration de l'espacement des lignes */
 }

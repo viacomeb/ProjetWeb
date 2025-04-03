@@ -23,7 +23,7 @@
                     <img src="https://ui-avatars.com/api/?name={{ urlencode($offer->company->company_name ?? 'Non spécifié') }}" alt="Company Logo" class="company-logo" />
                     <div class="offer-info">
                         <h3>{{ $offer->title }}</h3>
-                        <div class="company-box" data-id="{{ $offer->company->company_id  }}" onclick="openCompanyModal({{ $offer->company_id}})">
+                        <div class="company-box" data-id="{{ $offer->company->company_id }}" onclick="openCompanyModal(event, {{ $offer->company->company_id }})">
                             <p>{{ $offer->company->company_name ?? 'Non spécifié' }}</p>
                         </div>
                     </div>
@@ -84,7 +84,8 @@
         document.getElementById('offerModalContent').innerHTML = '';
     }
 
-    function openCompanyModal(companyId) {
+    function openCompanyModal(event, companyId) {
+        event.stopPropagation(); // Prevent the click event from propagating to the parent
         const modal = document.getElementById('companyModal');
         const modalContent = document.getElementById('companyModalContent');
 
