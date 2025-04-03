@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Company;
 use App\Models\City;
 use App\Models\Student;
+use App\Models\Application;
 
 class AdminController extends Controller
 {
@@ -50,7 +51,7 @@ class AdminController extends Controller
         return view('admin.internships', [
             'page' => 'internships',
             'offers' => $offers,
-            'companies'=> $companies,
+            'companies' => $companies,
         ]);
     }
 
@@ -124,10 +125,12 @@ class AdminController extends Controller
 
     public function applications()
     {
-        // Logique pour récupérer les données des candidatures
+        $applications = Application::with(['student.user', 'offer.company', 'status'])
+            ->paginate(10); // Fetch applications with related data
+
         return view('admin.applications', [
             'page' => 'applications',
-            // Ajoutez ici les données nécessaires pour les candidatures
+            'applications' => $applications, // Pass paginated applications to the view
         ]);
     }
 
