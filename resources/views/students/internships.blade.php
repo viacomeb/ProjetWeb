@@ -34,7 +34,7 @@
                 </div>
                 <div class="offer-actions">
                     <button class="btn-primary"><i class="fas fa-paper-plane"></i> Postuler</button>
-                    <button class="btn-secondary"><i class="fas fa-bookmark"></i> Ajouter aux favoris</button>
+                    <button class="btn-secondary" onclick="event.stopPropagation(); toggleWishlist({{ $offer->offer_id }}, this)"><i class="fas fa-bookmark"></i> Ajouter aux favoris</button>
                 </div>
             </div>
             @endforeach
@@ -111,6 +111,55 @@
         const modal = document.getElementById('companyModal');
         modal.classList.remove('active');
         document.getElementById('companyModalContent').innerHTML = '';
+    }
+
+    function toggleWishlist(offerId, button) {
+        const csrfToken = document
+            .querySelector('meta[name="csrf-token"]')
+            ?.getAttribute('content');
+        const studentId = document
+            .querySelector('meta[name="student-id"]')
+            ?.getAttribute('content');
+
+        if (!csrfToken || !studentId) {
+            console.error(
+                'CSRF token or student ID not found. Ensure the meta tags are present in the HTML.'
+            );
+            return;
+        }
+
+        fetch(`/offers/${offerId}/wishlist/${studentId}`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                },
+            })
+            .then((response) => {
+                if (!response.ok) {
+                    return response.json().then((err) => {
+                        console.error('Server error response:', err);
+                        throw new Error(err.error || 'Failed to toggle wishlist');
+                    });
+                }
+                return response.json();
+            })
+            .then((data) => {
+                if (data.action === 'added') {
+                    button.classList.add('active');
+                    button.innerHTML =
+                        '<i class="fas fa-bookmark"></i> Retirer des favoris';
+                    alert('Offre ajoutée aux favoris.');
+                } else if (data.action === 'removed') {
+                    button.classList.remove('active');
+                    button.innerHTML =
+                        '<i class="fas fa-bookmark"></i> Ajouter aux favoris';
+                    alert('Offre retirée des favoris.');
+                }
+            })
+            .catch((error) => {
+                console.error('Error toggling wishlist:', error);
+                alert(`Une erreur est survenue : ${error.message}`);
+            });
     }
 </script>
 @endsection

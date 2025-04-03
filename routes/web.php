@@ -49,8 +49,10 @@ Route::get('/offers', [OffersController::class, 'list'])->name('offers.list');
 Route::get('/offers/{id}', [OffersController::class, 'show'])->name('offers.show');
 Route::put('/offers/{id}', [OffersController::class, 'update'])->name('offers.update');
 Route::get('/offers/modal/{id}', [OffersController::class, 'modal'])->name('offers.modal');
+Route::post('/offers/{offerId}/wishlist/{studentId}', [OffersController::class, 'toggleWishlist'])->name('offers.toggleWishlist');
 
 Route::middleware(['auth'])->group(function () {
+
     // Admin-specific routes
     Route::middleware(['auth', RoleMiddleware::class . ':admin'])->prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');

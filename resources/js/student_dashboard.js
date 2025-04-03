@@ -1,6 +1,37 @@
 document.addEventListener('DOMContentLoaded', function () {
   console.log('Script chargé : student_dashboard.js');
 
+  const starRating = document.querySelector('.star-rating');
+  const ratingValue = document.getElementById('ratingValue'); // Déclarez `ratingValue` ici
+
+  // Fonction pour mettre à jour l'affichage des étoiles
+  function updateStarDisplay(rating) {
+    const stars = starRating.querySelectorAll('i'); // Sélectionnez toutes les étoiles
+    stars.forEach((star) => {
+      const starValue = parseInt(star.getAttribute('data-value'), 10); // Récupérez la valeur de chaque étoile
+      if (starValue <= rating) {
+        star.classList.remove('far'); // Supprime la classe "far" (contour)
+        star.classList.add('fas', 'yellow'); // Ajoute la classe "fas" (plein) et "yellow" (jaune)
+      } else {
+        star.classList.remove('fas', 'yellow'); // Supprime les classes "fas" et "yellow"
+        star.classList.add('far'); // Ajoute la classe "far" (contour)
+      }
+    });
+  }
+
+  if (starRating && ratingValue) {
+    starRating.addEventListener('click', (event) => {
+      const star = event.target.closest('i');
+      if (star) {
+        const rating = parseInt(star.dataset.value, 10);
+        console.log(`Étoile cliquée : ${rating}`); // Debug : Affiche l'étoile cliquée
+        ratingValue.textContent = `Note : ${rating}`;
+        updateStarDisplay(rating);
+        console.log(`Entreprise notée avec ${rating} étoiles.`);
+      }
+    });
+  }
+
   const offerModal = document.getElementById('offerModal');
   const companyModal = document.getElementById('companyModal'); // Modal pour les entreprises
   const companyModalTitle = document.getElementById('companyModalTitle');
@@ -33,19 +64,9 @@ document.addEventListener('DOMContentLoaded', function () {
     return;
   }
 
-  const starRating = document.getElementById('starRating');
-
-  if (starRating) {
-    starRating.addEventListener('click', function (event) {
-      const star = event.target.closest('i'); // Get the clicked star
-      if (!star) return;
-
-      alert('Étoile pressed'); // Display a simple message
-    });
-  }
-
   // Gestion des clics sur les boxes et le nom de l'entreprise
   document.addEventListener('click', function (event) {
+    const clickedStar = event.target.closest('i');
     const closeButton = event.target.closest('.close'); // Vérifie si le clic est sur un bouton "Fermer"
     const wishlistButton = event.target.closest(
       '.offer-actions .btn-secondary'
@@ -81,6 +102,23 @@ document.addEventListener('DOMContentLoaded', function () {
       // Affichez une notification
       showNotification(`Vous avez postulé à "${offerTitle}".`);
       return;
+    }
+    if (clickedStar) {
+      const rating = parseInt(clickedStar.getAttribute('data-value'), 10); // Récupérez la valeur de l'étoile cliquée
+      console.log(`Étoile cliquée : ${rating}`); // Debug : Affiche la valeur cliquée
+
+      // Mettez à jour l'affichage des étoiles
+      updateStarDisplay(rating);
+
+      // Mettez à jour la note affichée
+      ratingValue.textContent = `Note : ${rating}/5`;
+    } else if (closeButton) {
+      const modal = closeButton.closest('.modal');
+      if (modal) {
+        modal.classList.remove('active');
+        console.log('Modal fermé.');
+      }
+      return; // Ignore les autres actions si le clic est sur un bouton "Fermer"
     }
 
     if (wishlistButton) {
@@ -954,4 +992,18 @@ document.addEventListener('DOMContentLoaded', function () {
       if (modal) modal.classList.remove('active');
     });
   });
-});
+
+  // Function to toggle wishlist
+  function toggleWishlist(offerId, button) {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');st buttons
+    const studentId = document.querySelector('meta[name="student-id"]')?.getAttribute('content');event) {
+.target.closest('.btn-secondary');
+    if (!csrfToken || !studentId) {listButton.closest('.offer-card')) {
+        console.error('CSRF token or student ID not found. Ensure the meta tags are present in the HTML.');lick from propagating to the offer card
+        return;Button.closest('.offer-card');
+    }      const offerId = offerCard.getAttribute('data-id');
+istButton);
+    fetch(`/offers/${offerId}/wishlist/${studentId}`, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': csrfToken,        },    })    .then(response => {        if (!response.ok) {            return response.json().then(err => {                console.error('Server error response:', err);                throw new Error(err.error || 'Failed to toggle wishlist');            });        }        return response.json();    })    .then(data => {        if (data.action === 'added') {            button.classList.add('active');            button.innerHTML = '<i class="fas fa-bookmark"></i> Retirer des favoris';            alert('Offre ajoutée aux favoris.');        } else if (data.action === 'removed') {            button.classList.remove('active');            button.innerHTML = '<i class="fas fa-bookmark"></i> Ajouter aux favoris';            alert('Offre retirée des favoris.');        }    })    .catch(error => {        console.error('Error toggling wishlist:', error);        alert(`Une erreur est survenue : ${error.message}`);    });}  // Event listener for wishlist buttons  document.addEventListener('click', function (event) {    const wishlistButton = event.target.closest('.btn-secondary');    if (wishlistButton && wishlistButton.closest('.offer-card')) {      event.stopPropagation(); // Prevent the click from propagating to the offer card      const offerCard = wishlistButton.closest('.offer-card');      const offerId = offerCard.getAttribute('data-id');      toggleWishlist(offerId, wishlistButton);    }  });});

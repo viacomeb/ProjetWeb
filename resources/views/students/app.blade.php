@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="student-id" content="{{ auth()->user()->student->student_id ?? '' }}">
+
     <title>WorknGo - @yield('title')</title>
     <link rel="icon" href="{{ asset('images/WorknGo_logo.png') }}">
     @vite('resources/css/student_dashboard.css')
@@ -83,6 +86,9 @@
         </main>
     </div>
     @vite('resources/js/student_dashboard.js')
+    <script>
+
+    </script>
 </body>
 
 </html>
