@@ -23,22 +23,22 @@
                 <li class="{{ request()->routeIs('student.dashboard') ? 'active' : '' }}">
                     <a href="{{ route('student.dashboard') }}"><i class="fas fa-home"></i> Vue d'ensemble</a>
                 </li>
-                <li class="{{ request()->routeIs('students.internships') ? 'active' : '' }}">
+                <li class="{{ request()->routeIs('student.internships') ? 'active' : '' }}">
                     <a href="{{ route('student.internships') }}"><i class="fas fa-briefcase"></i> Offres de stage</a>
                 </li>
-                <li class="{{ request()->routeIs('students.wishlist') ? 'active' : '' }}">
+                <li class="{{ request()->routeIs('student.wishlist') ? 'active' : '' }}">
                     <a href="{{ route('student.wishlist') }}"><i class="fas fa-bookmark"></i> Wishlist</a>
                 </li>
-                <li class="{{ request()->routeIs('students.challenges') ? 'active' : '' }}">
+                <li class="{{ request()->routeIs('student.challenges') ? 'active' : '' }}">
                     <a href="{{ route('student.challenges') }}"><i class="fas fa-trophy"></i> Challenges</a>
                 </li>
-                <li class="{{ request()->routeIs('students.community') ? 'active' : '' }}">
+                <li class="{{ request()->routeIs('student.community') ? 'active' : '' }}">
                     <a href="{{ route('student.community') }}"><i class="fas fa-users"></i> Communauté</a>
                 </li>
-                <li class="{{ request()->routeIs('students.messages') ? 'active' : '' }}">
+                <li class="{{ request()->routeIs('student.messages') ? 'active' : '' }}">
                     <a href="{{ route('student.messages') }}"><i class="fas fa-envelope"></i> Messagerie</a>
                 </li>
-                <li class="{{ request()->routeIs('students.settings') ? 'active' : '' }}">
+                <li class="{{ request()->routeIs('student.settings') ? 'active' : '' }}">
                     <a href="{{ route('student.settings') }}"><i class="fas fa-user"></i> Mon Profil</a>
                 </li>
             </ul>

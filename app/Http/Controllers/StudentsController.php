@@ -3,98 +3,64 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth; // Ajoutez cette ligne
+
 
 class StudentsController extends Controller
 {
     public function dashboard()
     {
-        $user = auth()->user();
-
-        if (!$user || !$user->student) {
-            return redirect()->route('login')->withErrors('Vous devez être connecté en tant qu\'étudiant.');
-        }
-
         return view('students.dashboard', [
-            'student' => $user->student,
             'page' => 'dashboard',
-        ]);
-    }
-
-    public function internships()
-    {
-        $user = auth()->user();
-        if (!$user || !$user->student) {
-            return redirect()->route('login')->withErrors('Vous devez être connecté en tant qu\'étudiant.');
-        }
-
-        return view('students.internships', [
-            'student' => $user->student,
-            'page' => 'internships',
-        ]);
-    }
-
-    public function wishlist()
-    {
-        $user = auth()->user();
-        if (!$user || !$user->student) {
-            return redirect()->route('login')->withErrors('Vous devez être connecté en tant qu\'étudiant.');
-        }
-
-        return view('students.wishlist', [
-            'student' => $user->student,
-            'page' => 'wishlist',
+            // Ajoutez ici les données nécessaires pour le tableau de bord
         ]);
     }
 
     public function challenges()
     {
-        $user = auth()->user();
-        if (!$user || !$user->student) {
-            return redirect()->route('login')->withErrors('Vous devez être connecté en tant qu\'étudiant.');
-        }
-
         return view('students.challenges', [
-            'student' => $user->student,
             'page' => 'challenges',
+            // Ajoutez ici les données nécessaires pour le tableau de bord
         ]);
     }
 
     public function community()
     {
-        $user = auth()->user();
-        if (!$user || !$user->student) {
-            return redirect()->route('login')->withErrors('Vous devez être connecté en tant qu\'étudiant.');
-        }
-
         return view('students.community', [
-            'student' => $user->student,
-            'page' => 'communauté',
+            'page' => 'community',
+            // Ajoutez ici les données nécessaires pour le tableau de bord
+        ]);
+    }
+
+    public function internships()
+    {
+        return view('students.internships', [
+            'page' => 'internships',
+            // Ajoutez ici les données nécessaires pour le tableau de bord
         ]);
     }
 
     public function messages()
     {
-        $user = auth()->user();
-        if (!$user || !$user->student) {
-            return redirect()->route('login')->withErrors('Vous devez être connecté en tant qu\'étudiant.');
-        }
-
         return view('students.messages', [
-            'student' => $user->student,
-            'page' => 'messagerie',
+            'page' => 'messages',
+            // Ajoutez ici les données nécessaires pour le tableau de bord
         ]);
     }
 
     public function settings()
     {
-        $user = auth()->user();
-        if (!$user || !$user->student) {
-            return redirect()->route('login')->withErrors('Vous devez être connecté en tant qu\'étudiant.');
-        }
-
         return view('students.settings', [
-            'student' => $user->student,
-            'page' => 'profil',
+            'page' => 'settings',
+            // Ajoutez ici les données nécessaires pour le tableau de bord
+        ]);
+    }
+
+    public function wishlist()
+    {
+        return view('students.wishlist', [
+            'page' => 'wishlist',
+            // Ajoutez ici les données nécessaires pour le tableau de bord
         ]);
     }
 }
