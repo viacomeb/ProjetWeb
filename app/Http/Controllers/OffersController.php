@@ -72,6 +72,57 @@ class OffersController extends Controller
         return redirect()->back()->with('success', 'Offer added to your wishlist.');
     }
 
+    public function toggleWishlist($offerId, $studentId)
+    {
+        try {
+            \Log::info('toggleWishlist called', ['offer_id' => $offerId, 'student_id' => $studentId]);
+
+            // Validate input
+            if (!$offerId || !$studentId) {
+                \Log::error('Missing offer_id or student_id', ['offer_id' => $offerId, 'student_id' => $studentId]);
+                return response()->json(['error' => 'Missing offer_id or student_id.'], 400);
+            }
+
+            // Check if the student exists
+            $student = \App\Models\Student::find($studentId);
+            if (!$student) {
+                \Log::error('Student not found', ['student_id' => $studentId]);
+                return response()->json(['error' => 'Student not found.'], 404);
+            }
+
+            // Check if the offer exists
+            $offer = \App\Models\Offer::find($offerId);
+            if (!$offer) {
+                \Log::error('Offer not found', ['offer_id' => $offerId]);
+                return response()->json(['error' => 'Offer not found.'], 404);
+            }
+
+            // Check if the offer is already in the wishlist
+            $wishlistItem = $student->wishlist()->where('offer_id', $offerId)->first();
+            \Log::info('Wishlist item check', ['offer_id' => $offerId, 'exists' => $wishlistItem ? true : false]);
+
+            if ($wishlistItem) {
+                // Remove from wishlist
+                $wishlistItem->delete();
+                \Log::info('Wishlist item removed', ['offer_id' => $offerId]);
+                return response()->json(['action' => 'removed']);
+            } else {
+                // Add to wishlist
+                $student->wishlist()->create(['offer_id' => $offerId]);
+                \Log::info('Wishlist item added', ['offer_id' => $offerId]);
+                return response()->json(['action' => 'added']);
+            }
+        } catch (\Exception $e) {
+            \Log::error('Error toggling wishlist', [
+                'message' => $e->getMessage(),
+                'stack' => $e->getTraceAsString(),
+                'offer_id' => $offerId ?? null,
+                'student_id' => $studentId ?? null,
+            ]);
+            return response()->json(['error' => 'An error occurred while toggling the wishlist.'], 500);
+        }
+    }
+
     public function store(Request $request)
     {
         $validatedData = $request->validate([

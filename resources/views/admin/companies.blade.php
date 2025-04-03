@@ -8,15 +8,12 @@
         <section id="companies" class="section-content active">
             <div class="section-header">
                 <h1>Gestion des Entreprises</h1>
+                <div class="search-bar">
+                    <input type="text" id="companySearch" placeholder="Rechercher une entreprise..." />
+                </div>
                 <button class="btn btn-primary" id="addCompany">
                     <i class="fas fa-plus"></i> Nouvelle entreprise
                 </button>
-            </div>
-            <div class="filters">
-                <button class="filter-btn active">Toutes</button>
-                <button class="filter-btn">Tech</button>
-                <button class="filter-btn">Finance</button>
-                <button class="filter-btn">Marketing</button>
             </div>
             <div class="data-table">
                 <table>
@@ -33,7 +30,7 @@
                     </thead>
                     <tbody>
                         @foreach ($companies as $company)
-                            <tr>
+                            <tr class="company-row">
                                 <td>
                                     <div class="company-info">
                                         <span>{{ $company->company_name }}</span>
@@ -52,7 +49,7 @@
                                             action="{{ route('admin.companies.update', $company->company_id) }}"
                                             style="display:inline;">
                                             @csrf
-                                            <button class="btn-icon" class="btn-icon edit" title="Modifier">
+                                            <button class="btn-icon edit" title="Modifier">
                                                 <i class="fas fa-edit"></i>
                                             </button>
                                         </form>
@@ -195,6 +192,28 @@
         </div>
     </div>
 
+    <!-- Modal for viewing company details -->
+    <div id="viewCompanyModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Détails de l'entreprise</h2>
+            <div class="company-details">
+                <p><strong>Nom :</strong> <span id="viewCompanyName"></span></p>
+                <p><strong>Description :</strong> <span id="viewDescription"></span></p>
+                <p><strong>Téléphone :</strong> <span id="viewPhone"></span></p>
+                <p><strong>Email :</strong> <span id="viewEmail"></span></p>
+                <p><strong>Adresse :</strong> <span id="viewAddress"></span></p>
+                <p><strong>Ville :</strong> <span id="viewCity"></span></p>
+                <p><strong>Code postal :</strong> <span id="viewPostalCode"></span></p>
+                <p><strong>Département :</strong> <span id="viewDepartment"></span></p>
+                <p><strong>Pays :</strong> <span id="viewCountry"></span></p>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary close">Fermer</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Ajout d'un modal de confirmation de suppression -->
     <div id="deleteModal" class="modal">
         <div class="modal-content">
@@ -208,7 +227,6 @@
         </div>
     </div>
 
-    <!-- Ajout d'un script pour gérer l'ouverture et la fermeture du modal -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const deleteButtons = document.querySelectorAll('.btn-icon.delete');
@@ -290,6 +308,67 @@
             closeModalButtonsEdit.forEach(button => {
                 button.addEventListener('click', () => {
                     editModal.classList.remove('active');
+                });
+            });
+
+            const companyRows = document.querySelectorAll('.company-row');
+            const viewModal = document.getElementById('viewCompanyModal');
+            const closeModalButtonsView = viewModal.querySelectorAll('.close');
+            let isFetching = false; // Prevent multiple simultaneous requests
+
+            companyRows.forEach(row => {
+                row.addEventListener('click', async (e) => {
+                    // Prevent triggering if the click is on a button inside the row
+                    if (e.target.closest('.btn-icon')) return;
+
+                    e.preventDefault();
+                    if (isFetching) return; // Skip if a request is already in progress
+                    isFetching = true;
+
+                    const companyId = row.querySelector('.delete').dataset.id;
+
+                    try {
+                        // Fetch company data from the server
+                        const response = await fetch(`/admin/companies/${companyId}`);
+                        if (!response.ok) {
+                            throw new Error('Failed to fetch company data');
+                        }
+
+                        const company = await response.json();
+
+                        // Populate modal fields with fetched data
+                        document.getElementById('viewCompanyName').textContent = company
+                            .company_name || '';
+                        document.getElementById('viewDescription').textContent = company
+                            .description || '';
+                        document.getElementById('viewPhone').textContent = company.phone || '';
+                        document.getElementById('viewEmail').textContent = company.email || '';
+                        document.getElementById('viewAddress').textContent =
+                            `${company.street_number || ''} ${company.street || ''}`;
+                        document.getElementById('viewCity').textContent = company.city
+                            .city_name || '';
+                        document.getElementById('viewPostalCode').textContent = company.city
+                            .postal_code || '';
+                        document.getElementById('viewDepartment').textContent = company.city
+                            .department.department_name || '';
+                        document.getElementById('viewCountry').textContent = company.city
+                            .department.country.country_name || '';
+
+                        viewModal.classList.add('active');
+                    } catch (error) {
+                        console.error('Error fetching company data:', error);
+                        alert(
+                            'Une erreur est survenue lors de la récupération des données de l\'entreprise.'
+                        );
+                    } finally {
+                        isFetching = false; // Reset fetching state
+                    }
+                });
+            });
+
+            closeModalButtonsView.forEach(button => {
+                button.addEventListener('click', () => {
+                    viewModal.classList.remove('active');
                 });
             });
         });

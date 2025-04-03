@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Gestion des clics sur les boxes et le nom de l'entreprise
   document.addEventListener('click', function (event) {
-    const clickedStar = event.target.closest('i'); // Vérifiez si un élément <i> a été cliqué
+    const clickedStar = event.target.closest('i');
     const closeButton = event.target.closest('.close'); // Vérifie si le clic est sur un bouton "Fermer"
     const wishlistButton = event.target.closest(
       '.offer-actions .btn-secondary'
@@ -102,6 +102,23 @@ document.addEventListener('DOMContentLoaded', function () {
       // Affichez une notification
       showNotification(`Vous avez postulé à "${offerTitle}".`);
       return;
+    }
+    if (clickedStar) {
+      const rating = parseInt(clickedStar.getAttribute('data-value'), 10); // Récupérez la valeur de l'étoile cliquée
+      console.log(`Étoile cliquée : ${rating}`); // Debug : Affiche la valeur cliquée
+
+      // Mettez à jour l'affichage des étoiles
+      updateStarDisplay(rating);
+
+      // Mettez à jour la note affichée
+      ratingValue.textContent = `Note : ${rating}/5`;
+    } else if (closeButton) {
+      const modal = closeButton.closest('.modal');
+      if (modal) {
+        modal.classList.remove('active');
+        console.log('Modal fermé.');
+      }
+      return; // Ignore les autres actions si le clic est sur un bouton "Fermer"
     }
 
     if (wishlistButton) {
@@ -188,16 +205,7 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
-    if (clickedStar) {
-      const rating = parseInt(clickedStar.getAttribute('data-value'), 10); // Récupérez la valeur de l'étoile cliquée
-      console.log(`Étoile cliquée : ${rating}`); // Debug : Affiche la valeur cliquée
-
-      // Mettez à jour l'affichage des étoiles
-      updateStarDisplay(rating);
-
-      // Mettez à jour la note affichée
-      ratingValue.textContent = `Note : ${rating}/5`;
-    } else if (closeButton) {
+    if (closeButton) {
       const modal = closeButton.closest('.modal');
       if (modal) {
         modal.classList.remove('active');
@@ -984,4 +992,18 @@ document.addEventListener('DOMContentLoaded', function () {
       if (modal) modal.classList.remove('active');
     });
   });
-});
+
+  // Function to toggle wishlist
+  function toggleWishlist(offerId, button) {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');st buttons
+    const studentId = document.querySelector('meta[name="student-id"]')?.getAttribute('content');event) {
+.target.closest('.btn-secondary');
+    if (!csrfToken || !studentId) {listButton.closest('.offer-card')) {
+        console.error('CSRF token or student ID not found. Ensure the meta tags are present in the HTML.');lick from propagating to the offer card
+        return;Button.closest('.offer-card');
+    }      const offerId = offerCard.getAttribute('data-id');
+istButton);
+    fetch(`/offers/${offerId}/wishlist/${studentId}`, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': csrfToken,        },    })    .then(response => {        if (!response.ok) {            return response.json().then(err => {                console.error('Server error response:', err);                throw new Error(err.error || 'Failed to toggle wishlist');            });        }        return response.json();    })    .then(data => {        if (data.action === 'added') {            button.classList.add('active');            button.innerHTML = '<i class="fas fa-bookmark"></i> Retirer des favoris';            alert('Offre ajoutée aux favoris.');        } else if (data.action === 'removed') {            button.classList.remove('active');            button.innerHTML = '<i class="fas fa-bookmark"></i> Ajouter aux favoris';            alert('Offre retirée des favoris.');        }    })    .catch(error => {        console.error('Error toggling wishlist:', error);        alert(`Une erreur est survenue : ${error.message}`);    });}  // Event listener for wishlist buttons  document.addEventListener('click', function (event) {    const wishlistButton = event.target.closest('.btn-secondary');    if (wishlistButton && wishlistButton.closest('.offer-card')) {      event.stopPropagation(); // Prevent the click from propagating to the offer card      const offerCard = wishlistButton.closest('.offer-card');      const offerId = offerCard.getAttribute('data-id');      toggleWishlist(offerId, wishlistButton);    }  });});

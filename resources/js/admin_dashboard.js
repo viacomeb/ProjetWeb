@@ -4,6 +4,22 @@ import Chart from 'chart.js/auto';
 console.log('admin_dashboard.js chargé avec succès');
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Vérification pour éviter les conflits avec le script de filtrage des entreprises
+  const companySearchInput = document.getElementById('companySearch');
+  if (companySearchInput) {
+    companySearchInput.addEventListener('input', () => {
+      const searchValue = companySearchInput.value.toLowerCase();
+      const companyRows = document.querySelectorAll('.company-row');
+
+      companyRows.forEach((row) => {
+        const companyName = row
+          .querySelector('.company-info span')
+          .textContent.toLowerCase();
+        row.style.display = companyName.includes(searchValue) ? '' : 'none';
+      });
+    });
+  }
+
   // Gestion de la navigation entre les sections
   const setupNavigation = () => {
     document.querySelectorAll('.nav-links li').forEach((item) => {
@@ -256,7 +272,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const offerRows = document.querySelectorAll('.offer-row');
     const modal = document.getElementById('offerDetailsModal');
     const closeModal = document.getElementById('closeOfferDetailsModal');
-
     const modalTitle = document.getElementById('modalOfferTitle');
     const modalDescription = document.getElementById('modalOfferDescription');
     const modalSalary = document.getElementById('modalOfferSalary');
@@ -265,6 +280,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalEndDate = document.getElementById('modalOfferEndDate');
 
     offerRows.forEach((row) => {
+      if (e.target.closest('.btn-icon')) return;
       row.addEventListener('click', () => {
         const offerId = row.getAttribute('data-offer-id');
 
@@ -282,8 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
             modalSalary.textContent = data.salary
               ? `${data.salary} €`
               : 'Non renseigné';
-            modalCompany.textContent =
-              data.company_id.company_name || 'Non renseignée';
+            modalCompany.textContent = data.company_name || 'Non renseignée';
             modalStartDate.textContent = data.start_date || 'Non renseignée';
             modalEndDate.textContent = data.end_date || 'Non renseignée';
 

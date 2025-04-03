@@ -44,17 +44,20 @@ Route::get('/companies', [CompaniesController::class, 'list'])->name('companies.
 Route::get('/companies', [CompaniesController::class, 'publiclist'])->name('companies.publiclist');
 Route::get('/companies/{id}', [CompaniesController::class, 'show'])->name('companies.show');
 Route::get('/companies/modal/{id}', [CompaniesController::class, 'modal'])->name('companies.modal');
+Route::post('/companies/{id}/rate', [CompaniesController::class, 'rate'])->name('companies.rate');
 
 Route::get('/offers', [OffersController::class, 'list'])->name('offers.list');
 Route::get('/offers/{id}', [OffersController::class, 'show'])->name('offers.show');
 Route::put('/offers/{id}', [OffersController::class, 'update'])->name('offers.update');
 Route::get('/offers/modal/{id}', [OffersController::class, 'modal'])->name('offers.modal');
+Route::post('/offers/{offerId}/wishlist/{studentId}', [OffersController::class, 'toggleWishlist'])->name('offers.toggleWishlist');
 
 // Route for applying to an offer
 Route::get('/apply/{offerId}', [ApplyController::class, 'modal'])->name('apply.modal');
 Route::post('/apply/{offerId}', [ApplyController::class, 'submitApplication'])->name('apply.submit');
 
 Route::middleware(['auth'])->group(function () {
+
     // Admin-specific routes
     Route::middleware(['auth', RoleMiddleware::class . ':admin'])->prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
@@ -111,6 +114,17 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/messages', [StudentsController::class, 'messages'])->name('messages');
         Route::get('/settings', [StudentsController::class, 'settings'])->name('settings');
     });
+
+    // Route to save or update a rating
+    Route::post('/companies/{id}/rate', function (Request $request, $id) {
+        $userId = Auth::id(); // Get the authenticated user's ID
+        $newRating = $request->input('rating'); // Get the rating from the request
+
+        $controller = app(App\Http\Controllers\CompaniesController::class);
+        $result = $controller->saveOrUpdateRating($userId, $id, $newRating);
+
+        return response()->json(['message' => $result]);
+    })->name('companies.rate');
 });
 
 // General routes
