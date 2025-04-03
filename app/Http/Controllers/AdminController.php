@@ -57,7 +57,7 @@ class AdminController extends Controller
             ->select('Users.first_name', 'Users.last_name', 'Users.email', 'Pilots.*')
             ->paginate(10);
 
-        $cities = City::all();
+        $cities = City::select('city_id', 'city_name')->orderBy('city_name', 'asc')->get(); // Sort cities alphabetically
 
         return view('admin.pilots', [
             'page' => 'pilots',
@@ -76,14 +76,12 @@ class AdminController extends Controller
                 'password' => 'required|string|min:8',
                 'street' => 'nullable|string|max:50',
                 'street_number' => 'nullable|integer',
-                'city_name' => 'required|string|max:100',
+                'city_id' => 'required|exists:cities,city_id',
             ]);
 
             if ($validator->fails()) {
                 return response()->json(['errors' => $validator->errors()], 422);
             }
-
-            $city = City::firstOrCreate(['city_name' => $request->input('city_name')]);
 
             $user = new User();
             $user->first_name = $request->input('first_name');
@@ -92,7 +90,7 @@ class AdminController extends Controller
             $user->password = bcrypt($request->input('password'));
             $user->street = $request->input('street');
             $user->street_number = $request->input('street_number');
-            $user->city_id = $city->id;
+            $user->city_id = $request->input('city_id');
             $user->save();
 
             $pilot = new Pilot();
