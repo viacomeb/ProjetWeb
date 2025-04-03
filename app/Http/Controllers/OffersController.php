@@ -109,7 +109,8 @@ class OffersController extends Controller
         return redirect()->route('offers.list')->with('success', 'Offre mise à jour avec succès.');
     }
 
-    public function count() {
+    public function count()
+    {
         $count = Offer::count();
         return response()->json(['count' => $count]);
     }
