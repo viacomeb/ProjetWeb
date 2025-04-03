@@ -394,85 +394,6 @@ document.addEventListener('DOMContentLoaded', function () {
     `;
   document.head.appendChild(style);
 
-  // Forum Post Interactions
-  document.querySelectorAll('.post-actions button').forEach((button) => {
-    button.addEventListener('click', function () {
-      const post = this.closest('.forum-post');
-      const postAuthor = post.querySelector('h4').textContent;
-
-      // Create reply form
-      const replyForm = document.createElement('div');
-      replyForm.className = 'reply-form';
-      replyForm.innerHTML = `
-          <textarea placeholder="Répondre à ${postAuthor}..." class="reply-input"></textarea>
-          <div class="reply-actions">
-            <button class="send-reply">Envoyer</button>
-            <button class="cancel-reply">Annuler</button>
-          </div>
-        `;
-
-      // Add styles
-      const textarea = replyForm.querySelector('textarea');
-      textarea.style.cssText = `
-          width: 100%;
-          padding: 10px;
-          margin: 10px 0;
-          border: 1px solid var(--gray-medium);
-          border-radius: 8px;
-          resize: vertical;
-        `;
-
-      const actions = replyForm.querySelector('.reply-actions');
-      actions.style.cssText = `
-          display: flex;
-          gap: 10px;
-          justify-content: flex-end;
-        `;
-
-      // Only add form if it doesn't exist yet
-      if (!post.querySelector('.reply-form')) {
-        post.appendChild(replyForm);
-      }
-    });
-  });
-
-  // Handle likes
-  document.querySelectorAll('.post-actions span').forEach((likeCounter) => {
-    likeCounter.style.cursor = 'pointer';
-    let liked = false;
-
-    likeCounter.addEventListener('click', function () {
-      const likesText = this.textContent;
-      const currentLikes = parseInt(likesText.match(/\d+/)[0]);
-
-      if (!liked) {
-        this.textContent = likesText.replace(currentLikes, currentLikes + 1);
-        this.style.color = '#ef4444';
-        liked = true;
-      } else {
-        this.textContent = likesText.replace(currentLikes, currentLikes - 1);
-        this.style.color = 'var(--secondary-color)';
-        liked = false;
-      }
-    });
-  });
-
-  // Contact Mentor Functionality
-  document.querySelectorAll('.contact-mentor').forEach((button) => {
-    button.addEventListener('click', function () {
-      const mentorName =
-        this.closest('.mentor-card').querySelector('h4').textContent;
-
-      // Show chat interface (simplified example)
-      showNotification(`Chat ouvert avec ${mentorName}`);
-
-      // Change button state
-      this.textContent = 'En discussion';
-      this.style.backgroundColor = '#10b981';
-      this.disabled = true;
-    });
-  });
-
   // Progress Animation
   function animateProgress() {
     document.querySelectorAll('.progress-bar .progress').forEach((bar) => {
@@ -486,22 +407,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Run progress animation on page load
   animateProgress();
-
-  // Filter Functionality
-  document.querySelectorAll('.filter-btn').forEach((btn) => {
-    btn.addEventListener('click', function () {
-      // Remove active class from all buttons in the same filter group
-      this.parentElement.querySelectorAll('.filter-btn').forEach((b) => {
-        b.classList.remove('active');
-      });
-      // Add active class to clicked button
-      this.classList.add('active');
-
-      // Filter logic would go here
-      // For now, just show animation
-      animateProgress();
-    });
-  });
 
   const offers = [
     // Exemple de données d'offres
