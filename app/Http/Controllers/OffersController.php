@@ -115,24 +115,16 @@ class OffersController extends Controller
         return response()->json(['count' => $count]);
     }
 
-    public function edit($id)
+    public function modal($id)
     {
-        try {
-            $offer = Offer::with(['company'])->findOrFail($id);
+        $offer = Offer::with(['company', 'company.city'])->find($id);
 
-            return response()->json($offer);
-        } catch (\Exception $e) {
-            \Log::error('Error fetching offer data: ' . $e->getMessage());
-            return response()->json(['error' => 'Failed to fetch offer data.'], 500);
+        if (!$offer) {
+            return response()->json(['error' => 'Offer not found'], 404);
         }
-    }
 
-    public function destroy($id)
-    {
-        $offer = Offer::findOrFail($id);
-        $offer->delete();
-
-        return redirect()->route('admin.internships')->with('success', 'Offre supprimée avec succès.');
+        // Return a partial view for the modal content
+        return view('students.partials.offer_modal', compact('offer'));
     }
     // Autres méthodes pour créer, mettre à jour, supprimer des offres
 }

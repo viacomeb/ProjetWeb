@@ -162,7 +162,8 @@ class CompaniesController extends Controller
         return redirect()->route('admin.companies')->with('success', 'Entreprise supprimée avec succès.');
     }
 
-    public function count() {
+    public function count()
+    {
         $count = Company::count();
         return response()->json(['count' => $count]);
     }
@@ -190,5 +191,17 @@ class CompaniesController extends Controller
             \Log::error('Error fetching company data: ' . $e->getMessage());
             return response()->json(['error' => 'Failed to fetch company data.'], 500);
         }
+    }
+
+    public function modal($id)
+    {
+        $company = Company::with(['city', 'city.department.country'])->find($id);
+
+        if (!$company) {
+            return response()->json(['error' => 'Company not found'], 404);
+        }
+
+        // Return a partial view for the modal content
+        return view('students.partials.company_modal', compact('company'));
     }
 }
