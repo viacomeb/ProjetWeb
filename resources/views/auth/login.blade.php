@@ -36,10 +36,6 @@
                     </div>
                 </div>
                 <div class="form-footer">
-                    <label class="remember-me">
-                        <input type="checkbox" name="remember">
-                        <span>Se souvenir de moi</span>
-                    </label>
                     <a href="{{ route('password.request') }}" class="forgot-password">Mot de passe oublié ?</a>
                 </div>
                 <button type="submit" class="btn btn-secondary">
