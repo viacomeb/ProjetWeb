@@ -48,13 +48,13 @@ class ApplyController extends Controller
         // Vérifier si l'offre existe
         $offer = Offer::find($offerId);
         if (!$offer) {
-            return response()->json(['error' => 'Offre non trouvée.'], 404);
+            return false;
         }
 
         // Vérifier si l'utilisateur est authentifié et est un étudiant
         $student = Auth::user()->student;
         if (!$student) {
-            return response()->json(['error' => 'Utilisateur non autorisé.'], 403);
+            return false;
         }
 
         // Vérifier si une candidature existe déjà pour cet étudiant et cette offre
@@ -63,7 +63,7 @@ class ApplyController extends Controller
             ->first();
 
         if ($existingApplication) {
-            return response()->json(['error' => 'Vous avez déjà postulé à cette offre.'], 400);
+            return false;
         }
 
         // Gérer le téléchargement du fichier
@@ -77,5 +77,8 @@ class ApplyController extends Controller
             'student_id' => $student->student_id,
             'status_id' => 1, // Statut par défaut (par exemple, "En attente")
         ]);
+
+        // Refresh the page without a success message
+        return redirect()->back();
     }
 }
