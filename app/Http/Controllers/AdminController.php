@@ -142,4 +142,47 @@ class AdminController extends Controller
             // Ajoutez ici les données nécessaires pour les paramètres
         ]);
     }
+
+    public function editPilot($id)
+    {
+        try {
+            $pilot = \App\Models\Pilot::findOrFail($id);
+            return view('admin.pilots.edit', compact('pilot'));
+        } catch (\Exception $e) {
+            \Log::error('Error fetching pilot data: ' . $e->getMessage());
+            return redirect()->route('admin.pilots')->with('error', 'Une erreur est survenue lors de la récupération des données du pilote.');
+        }
+    }
+
+    public function updatePilot(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|max:100',
+            'phone' => 'nullable|string|max:20',
+        ]);
+
+        try {
+            $pilot = \App\Models\Pilot::findOrFail($id);
+            $pilot->update($validatedData);
+
+            return redirect()->route('admin.pilots')->with('success', 'Pilote mis à jour avec succès.');
+        } catch (\Exception $e) {
+            \Log::error('Error updating pilot: ' . $e->getMessage());
+            return redirect()->route('admin.pilots')->with('error', 'Une erreur est survenue lors de la mise à jour du pilote.');
+        }
+    }
+
+    public function destroyPilot($id)
+    {
+        try {
+            $pilot = \App\Models\Pilot::findOrFail($id);
+            $pilot->delete();
+
+            return redirect()->route('admin.pilots')->with('success', 'Pilote supprimé avec succès.');
+        } catch (\Exception $e) {
+            \Log::error('Error deleting pilot: ' . $e->getMessage());
+            return redirect()->route('admin.pilots')->with('error', 'Une erreur est survenue lors de la suppression du pilote.');
+        }
+    }
 }

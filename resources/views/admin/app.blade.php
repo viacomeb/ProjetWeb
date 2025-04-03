@@ -75,6 +75,7 @@
         </main>
     </div>
     @vite('resources/js/admin_dashboard.js')
+    @stack('scripts')
 </body>
 
 </html>
