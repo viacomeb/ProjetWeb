@@ -17,6 +17,9 @@
         <section id="pilots" class="section-content active">
             <div class="section-header">
                 <h1>Gestion des Pilotes</h1>
+                <div class="search-bar">
+                    <input type="text" id="searchPilot" placeholder="Rechercher un pilote..." />
+                </div>
                 <button class="btn btn-primary" id="addPilot">
                     <i class="fas fa-plus"></i> Nouveau pilote
                 </button>
@@ -30,7 +33,7 @@
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="pilotTableBody">
                         @foreach ($pilots as $pilot)
                             <tr>
                                 <td>{{ $pilot->first_name }} {{ $pilot->last_name }}</td>
@@ -108,7 +111,7 @@
                         <label for="pilotCity">Ville :</label>
                         <select id="pilotCity" name="city_id" required>
                             @foreach ($cities as $city)
-                                <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                <option value="{{ $city->city_id }}">{{ $city->city_name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -120,4 +123,90 @@
             </form>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const deleteButtons = document.querySelectorAll('.btn-icon.delete');
+            const deleteModal = document.getElementById('deleteModal');
+            const closeModalButtons = deleteModal.querySelectorAll('.close');
+            const confirmDeleteButton = deleteModal.querySelector('.confirm-delete');
+
+            let formToSubmit = null;
+
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    formToSubmit = button.closest('form');
+                    deleteModal.classList.add('active');
+                });
+            });
+
+            closeModalButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    deleteModal.classList.remove('active');
+                });
+            });
+
+            confirmDeleteButton.addEventListener('click', () => {
+                if (formToSubmit) {
+                    formToSubmit.submit();
+                }
+            });
+
+            const editButtons = document.querySelectorAll('.btn-icon[title="Modifier"]');
+            const editModal = document.getElementById('editCompanyModal');
+            const closeModalButtonsEdit = editModal.querySelectorAll('.close');
+            const editForm = document.getElementById('editCompanyForm');
+
+            editButtons.forEach(button => {
+                button.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    const companyId = button.closest('tr').querySelector('.delete').dataset.id;
+
+                    try {
+                        // Fetch company data from the server
+                        const response = await fetch(`/admin/companies/${companyId}`);
+                        if (!response.ok) {
+                            throw new Error('Failed to fetch company data');
+                        }
+
+                        const company = await response.json();
+
+                        // Populate modal fields with fetched data
+                        editForm.action = `/admin/companies/update/${companyId}`;
+                        document.getElementById('editCompanyId').value = company.company_id;
+                        document.getElementById('editCompanyName').value = company.company_name;
+                        document.getElementById('editDescription').value = company
+                            .description || '';
+                        document.getElementById('editPhone').value = company.phone || '';
+                        document.getElementById('editEmail').value = company.email || '';
+                        document.getElementById('editStreet').value = company.street || '';
+                        document.getElementById('editStreetNumber').value = company
+                            .street_number || '';
+                        document.getElementById('editCityName').value = company.city
+                            .city_name || '';
+                        document.getElementById('editPostalCode').value = company.city
+                            .postal_code || '';
+                        document.getElementById('editDepartmentName').value = company.city
+                            .department.department_name || '';
+                        document.getElementById('editCountryName').value = company.city
+                            .department.country.country_name || '';
+
+                        editModal.classList.add('active');
+                    } catch (error) {
+                        console.error('Error fetching company data:', error);
+                        alert(
+                            'Une erreur est survenue lors de la récupération des données de l\'entreprise.'
+                        );
+                    }
+                });
+            });
+
+            closeModalButtonsEdit.forEach(button => {
+                button.addEventListener('click', () => {
+                    editModal.classList.remove('active');
+                });
+            });
+        });
+    </script>
 @endsection
