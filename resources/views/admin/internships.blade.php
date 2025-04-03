@@ -67,11 +67,6 @@
             <h2>Ajouter une offre de stage</h2>
             <form id="internshipForm" method="POST" action="{{ route('admin.internships.store') }}">
                 @csrf
-
-                @php
-                    $companies = \App\Models\Company::select('company_id', 'company_name')->get();
-                @endphp
-
                 <div class="form-group">
                     <label for="title">Titre de l'offre :</label>
                     <input type="text" id="title" name="title" placeholder="Entrez le titre" required />
@@ -79,13 +74,12 @@
                 <div class="form-group">
                     <label for="companySearch">Rechercher une entreprise :</label>
                     <input type="text" id="companySearch" placeholder="Recherchez une entreprise" />
-                    <ul id="companyDropdown" class="dropdown-menu" style="display: none">
+                    <ul id="companyDropdown" class="dropdown-menu" style="display: none;">
                         @foreach ($companies as $company)
                             <li class="dropdown-item" data-id="{{ $company->company_id }}">{{ $company->company_name }}</li>
                         @endforeach
                     </ul>
                     <input type="hidden" id="company_id" name="company_id" required />
-                    <p id="selectedCompany" style="margin-top: 10px; font-weight: bold"></p>
                 </div>
                 <div class="form-group">
                     <label for="description">Description de l'offre :</label>
@@ -145,5 +139,52 @@
         </div>
     </div>
 
-    <script></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const companySearch = document.getElementById('companySearch');
+            const companyDropdown = document.getElementById('companyDropdown');
+            const companyIdInput = document.getElementById('company_id');
+            const selectedCompany = document.getElementById('selectedCompany');
+            const dropdownItems = companyDropdown.querySelectorAll('.dropdown-item');
+
+            // Filter dropdown items based on input
+            companySearch.addEventListener('input', function() {
+                const searchValue = companySearch.value.toLowerCase();
+                let hasVisibleItems = false;
+
+                dropdownItems.forEach(item => {
+                    const itemText = item.textContent.toLowerCase();
+                    if (itemText.includes(searchValue)) {
+                        item.style.display = 'block';
+                        hasVisibleItems = true;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                companyDropdown.style.display = hasVisibleItems ? 'block' : 'none';
+            });
+
+            // Hide dropdown when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!companySearch.contains(event.target) && !companyDropdown.contains(event.target)) {
+                    companyDropdown.style.display = 'none';
+                }
+            });
+
+            // Handle dropdown item selection
+            companyDropdown.addEventListener('click', function(event) {
+                if (event.target.classList.contains('dropdown-item')) {
+                    const companyId = event.target.getAttribute('data-id');
+                    const companyName = event.target.textContent;
+
+                    companyIdInput.value = companyId;
+                    selectedCompany.textContent = `Entreprise sélectionnée : ${companyName}`;
+                    companyDropdown.style.display = 'none';
+                    companySearch.value = '';
+                }
+            });
+        });
+    </script>
+
 @endsection

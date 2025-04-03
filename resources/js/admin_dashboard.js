@@ -269,7 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const offerId = row.getAttribute('data-offer-id');
 
         // Use the controller route to fetch offer details
-        fetch(`/offers/${offerId}`)
+        fetch(`/admin/internships/${offerId}`)
           .then((response) => {
             if (!response.ok) {
               throw new Error('Failed to fetch offer details');
@@ -282,7 +282,8 @@ document.addEventListener('DOMContentLoaded', () => {
             modalSalary.textContent = data.salary
               ? `${data.salary} €`
               : 'Non renseigné';
-            modalCompany.textContent = data.company_name || 'Non renseignée';
+            modalCompany.textContent =
+              data.company_id.company_name || 'Non renseignée';
             modalStartDate.textContent = data.start_date || 'Non renseignée';
             modalEndDate.textContent = data.end_date || 'Non renseignée';
 

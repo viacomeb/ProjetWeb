@@ -51,18 +51,27 @@ Route::middleware(['auth'])->group(function () {
     // Admin-specific routes
     Route::middleware(['auth', RoleMiddleware::class . ':admin'])->prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-        Route::get('/companies', [AdminController::class, 'companies'])->name('companies');
-        Route::get('/internships', [AdminController::class, 'internships'])->name('internships');
-        Route::get('/pilots', [AdminController::class, 'pilots'])->name('pilots');
         Route::get('/students', [AdminController::class, 'students'])->name('students');
         Route::get('/applications', [AdminController::class, 'applications'])->name('applications');
         Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
-        Route::post('/internships/store', [OffersController::class, 'store'])->name('internships.store');
-        Route::post('/pilots/store', [AdminController::class, 'storePilot'])->name('pilots.store');
+
+        // Companies management
+        Route::get('/companies', [AdminController::class, 'companies'])->name('companies');
         Route::post('/companies/store', [CompaniesController::class, 'store'])->name('companies.store');
         Route::put('/companies/update/{id}', [CompaniesController::class, 'update'])->name('companies.update');
         Route::delete('/companies/destroy/{id}', [CompaniesController::class, 'destroy'])->name('companies.destroy');
         Route::get('/companies/{id}', [CompaniesController::class, 'edit'])->name('companies.edit');
+
+        // Internship management
+        Route::get('/internships', [AdminController::class, 'internships'])->name('internships');
+        Route::post('/internships/store', [OffersController::class, 'store'])->name('internships.store');
+        Route::put('/internships/update/{id}', [OffersController::class, 'update'])->name('internships.update');
+        Route::delete('/internships/destroy/{id}', [OffersController::class, 'destroy'])->name('internships.destroy');
+        Route::get('/internships/{id}', [OffersController::class, 'edit'])->name('internships.edit');
+
+        // Pilot management
+        Route::get('/pilots', [AdminController::class, 'pilots'])->name('pilots');
+        Route::post('/pilots/store', [AdminController::class, 'storePilot'])->name('pilots.store');
     });
 
     Route::middleware([RoleMiddleware::class . ':pilot'])->prefix('pilots')->name('pilots.')->group(function () {
