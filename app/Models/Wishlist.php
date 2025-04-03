@@ -10,6 +10,7 @@ class Wishlist extends Model
     use HasFactory;
 
     protected $table = 'Wishlists';
+    public $timestamps = false;
 
     protected $fillable = [
         'offer_id',

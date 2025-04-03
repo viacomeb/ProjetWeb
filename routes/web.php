@@ -109,6 +109,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', [StudentsController::class, 'dashboard'])->name('dashboard');
         Route::get('/internships', [StudentsController::class, 'internships'])->name('internships');
         Route::get('/wishlist', [StudentsController::class, 'wishlist'])->name('wishlist');
+        Route::post('/wishlist/toggle/{offerId}', [OffersController::class, 'toggleWishlist'])->name('wishlist.toggle');
         Route::get('/challenges', [StudentsController::class, 'challenges'])->name('challenges');
         Route::get('/community', [StudentsController::class, 'community'])->name('community');
         Route::get('/messages', [StudentsController::class, 'messages'])->name('messages');
