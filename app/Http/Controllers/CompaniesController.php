@@ -92,7 +92,7 @@ class CompaniesController extends Controller
         ]);
 
         // Create the company
-        $company = \App\Models\Company::create([
+        $company = Company::create([
             'company_name' => $validatedData['company_name'],
             'description' => $validatedData['description'],
             'phone' => $validatedData['phone'],

@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-  console.log('Script chargé : student_dashboard2.js');
+  console.log('Script chargé : student_dashboard.js');
 
   const starRating = document.querySelector('.star-rating');
   const ratingValue = document.getElementById('ratingValue'); // Déclarez `ratingValue` ici
