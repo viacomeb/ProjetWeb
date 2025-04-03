@@ -64,10 +64,6 @@
                     <input type="text" placeholder="Rechercher..." />
                 </div>
                 <div class="user-menu">
-                    <div class="notifications">
-                        <i class="fas fa-bell"></i>
-                        <span class="badge">5</span>
-                    </div>
                     <div class="profile">
                         <img src="https://ui-avatars.com/api/?name=Admin" alt="Profile" />
                         <span>Administrateur</span>
