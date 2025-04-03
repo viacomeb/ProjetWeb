@@ -114,5 +114,17 @@ class OffersController extends Controller
         $count = Offer::count();
         return response()->json(['count' => $count]);
     }
+
+    public function modal($id)
+    {
+        $offer = Offer::with(['company', 'company.city'])->find($id);
+
+        if (!$offer) {
+            return response()->json(['error' => 'Offer not found'], 404);
+        }
+
+        // Return a partial view for the modal content
+        return view('students.partials.offer_modal', compact('offer'));
+    }
     // Autres méthodes pour créer, mettre à jour, supprimer des offres
 }

@@ -261,11 +261,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const box = event.target.closest('.offer-card'); // Vérifie si le clic est sur une box
     if (box) {
-      const boxId = box.id; // Récupère l'ID de la box cliquée
-      console.log(`Box cliquée : ${boxId}`);
+      const boxId = box.dataset.id; // Use data-id instead of id
+      if (!boxId) {
+        console.error("L'attribut data-id de l'offre est introuvable.");
+        return;
+      }
 
-      // Récupération des données directement depuis la box
       const [title, company] = boxId.split('--');
+      if (!title || !company) {
+        console.error("Impossible de récupérer les informations de l'offre.");
+        return;
+      }
+
       const offer = {
         title: title.replace(/_/g, ' '),
         company: company.replace(/_/g, ' '),
@@ -276,11 +283,6 @@ document.addEventListener('DOMContentLoaded', function () {
           box.querySelector('.offer-salary')?.textContent.trim() ||
           'Non spécifiée',
       };
-
-      if (!offer.title || !offer.company) {
-        console.error("Impossible de récupérer les informations de l'offre.");
-        return;
-      }
 
       console.log("Informations de l'offre récupérées :", offer);
 
@@ -677,7 +679,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const offerCard = document.createElement('div');
       offerCard.className = 'offer-card';
       offerCard.innerHTML = `
-          <div class="box_offer" id="${offer.title}_${offer.company}">
+          <div class="box_offer" data-id="${offer.title}_${offer.company}">
             <div class="offer-header">
           <img src="https://ui-avatars.com/api/?name=${offer.company}" alt="Company Logo" class="company-logo" />
           <div class="offer-info">
@@ -925,5 +927,63 @@ document.addEventListener('DOMContentLoaded', function () {
       // Affichez une notification
       showNotification(`Vous avez postulé à "${offerTitle}".`);
     }
+  });
+
+  // Function to open the modal with offer details
+  function openOfferModal(offer) {
+    offerModalTitle.textContent = offer.title || 'Titre non disponible';
+    offerModalCompany.textContent =
+      offer.company?.company_name || 'Entreprise non spécifiée';
+    offerModalLocation.textContent =
+      offer.company?.city?.city_name || 'Localisation non spécifiée';
+    offerModalSalary.textContent = offer.salary || 'Rémunération non spécifiée';
+    offerModalDetails.textContent =
+      offer.description || 'Description non disponible';
+
+    // Show the modal
+    offerModal.classList.add('active');
+  }
+
+  // Event listener for clicking on an offer card
+  document.addEventListener('click', function (event) {
+    const offerCard = event.target.closest('.offer-card');
+    if (offerCard) {
+      const offerId = offerCard.dataset.id;
+
+      // Fetch offer details from the backend
+      fetch(`/offers/${offerId}`)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((offer) => {
+          openOfferModal(offer);
+        })
+        .catch((error) => {
+          console.error('Error fetching offer details:', error);
+          alert(
+            "Une erreur est survenue lors de la récupération des détails de l'offre."
+          );
+        });
+    }
+  });
+
+  // Close the modal when clicking the close button
+  document.querySelectorAll('.modal .close').forEach((closeButton) => {
+    closeButton.addEventListener('click', function () {
+      const modal = this.closest('.modal');
+      if (modal) modal.classList.remove('active');
+    });
+  });
+
+  // Close the modal when clicking outside the modal content
+  document.querySelectorAll('.modal').forEach((modal) => {
+    modal.addEventListener('click', function (event) {
+      if (event.target === modal) {
+        modal.classList.remove('active');
+      }
+    });
   });
 });

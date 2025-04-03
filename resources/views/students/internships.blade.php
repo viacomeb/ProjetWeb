@@ -18,7 +18,7 @@
         </div>
         <div class="offers-grid" id="offersGrid">
             @foreach ($offers as $offer)
-            <div class="offer-card" data-id="{{ $offer->offer_id }}">
+            <div class="offer-card" data-id="{{ $offer->offer_id }}" onclick="openOfferModal({{ $offer->offer_id }})">
                 <div class="offer-header">
                     <img src="https://ui-avatars.com/api/?name={{ urlencode($offer->company->company_name ?? 'Non spécifié') }}" alt="Company Logo" class="company-logo" />
                     <div class="offer-info">
@@ -43,71 +43,39 @@
         </div>
     </section>
 
+    <!-- Modal Container -->
     <div id="offerModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2 id="offerModalTitle"></h2>
-            <div class="form-group">
-                <strong>Entreprise:</strong>
-                <p id="offerModalCompany"></p>
-            </div>
-            <div class="form-group">
-                <strong>Localisation:</strong>
-                <p id="offerModalLocation"></p>
-            </div>
-            <div class="form-group">
-                <strong>Rémunération:</strong>
-                <p id="offerModalSalary"></p>
-            </div>
-            <div class="form-group">
-                <strong>Description:</strong>
-                <div id="offerModalDetails"></div>
-            </div>
-            <div class="modal-actions">
-                <button class="btn-primary">Postuler</button>
-                <button class="btn-secondary close">Fermer</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="companyModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2 id="companyModalTitle" class="modal-title"></h2>
-            <div id="companyModalDetails">
-                <div class="form-group">
-                    <strong>Description :</strong>
-                    <p id="companyDescription"></p>
-                </div>
-                <div class="form-group">
-                    <strong>Téléphone :</strong>
-                    <p id="companyPhone"></p>
-                </div>
-                <div class="form-group">
-                    <strong>Email :</strong>
-                    <p id="companyEmail"></p>
-                </div>
-                <div class="form-group">
-                    <strong>Adresse :</strong>
-                    <p id="companyAddress"></p>
-                </div>
-            </div>
-            <!-- Section de notation -->
-            <div class="rating-section">
-                <h3>Noter cette entreprise :</h3>
-                <div class="star-rating">
-                    <i class="far fa-star" data-value="1"></i>
-                    <i class="far fa-star" data-value="2"></i>
-                    <i class="far fa-star" data-value="3"></i>
-                    <i class="far fa-star" data-value="4"></i>
-                    <i class="far fa-star" data-value="5"></i>
-                </div>
-                <p id="ratingValue">Note : 0/5</p>
-            </div>
-            <div class="modal-actions">
-                <button class="btn-secondary close">Fermer</button>
-            </div>
-        </div>
+        <div id="offerModalContent"></div>
     </div>
 </div>
+
+<script>
+    function openOfferModal(offerId) {
+        const modal = document.getElementById('offerModal');
+        const modalContent = document.getElementById('offerModalContent');
+
+        // Fetch the modal content from the server
+        fetch(`/offers/modal/${offerId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load modal content');
+                }
+                return response.text();
+            })
+            .then(html => {
+                modalContent.innerHTML = html;
+                modal.classList.add('active');
+            })
+            .catch(error => {
+                console.error('Error loading modal content:', error);
+                alert('Une erreur est survenue lors du chargement des détails de l\'offre.');
+            });
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('offerModal');
+        modal.classList.remove('active');
+        document.getElementById('offerModalContent').innerHTML = '';
+    }
+</script>
 @endsection
