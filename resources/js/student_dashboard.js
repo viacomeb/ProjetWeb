@@ -206,41 +206,57 @@ document.addEventListener('DOMContentLoaded', function () {
       return; // Ignore les autres actions si le clic est sur un bouton "Fermer"
     }
 
-    const companyNameElement = event.target.closest('.offer-info p'); // Vérifie si le clic est sur le nom de l'entreprise
+    const companyNameElement = event.target.closest('.offer-info p'); // Check if the company name was clicked
     if (companyNameElement) {
       const companyName = companyNameElement.textContent.trim();
       console.log(`Nom de l'entreprise cliqué : ${companyName}`);
 
+      // Generate companyId by replacing spaces with underscores and converting to lowercase
       const companyId = companyName.toLowerCase().replace(/\s+/g, '_');
+      console.log(`Generated companyId: ${companyId}`);
 
+      // Fetch company data
       fetch(`/companies/${companyId}`)
         .then((response) => {
           if (!response.ok) {
-            throw new Error('Failed to fetch company data');
+            throw new Error(`HTTP error! Status: ${response.status}`);
           }
-          return response.json();
+          return response.text(); // Read the response as text
         })
-        .then((data) => {
-          // Populate modal with company data
-          companyModalTitle.textContent = data.company_name;
-          companyDescription.textContent = data.description || 'Non renseignée';
-          companyPhone.textContent = data.phone || 'Non renseigné';
-          companyEmail.textContent = data.email || 'Non renseigné';
-          companyAddress.textContent = `${data.street || ''} ${
-            data.street_number || ''
-          }, ${data.city_name || ''}`;
+        .then((responseText) => {
+          try {
+            const data = JSON.parse(responseText); // Attempt to parse JSON
+            console.log('Company data fetched successfully:', data);
 
-          // Show the modal
-          companyModal.classList.add('active');
+            // Populate modal with company data
+            companyModalTitle.textContent =
+              data.company_name || 'Nom non disponible';
+            companyDescription.textContent =
+              data.description || 'Description non renseignée';
+            companyPhone.textContent = data.phone || 'Téléphone non renseigné';
+            companyEmail.textContent = data.email || 'Email non renseigné';
+            companyAddress.textContent = `${data.street || ''} ${
+              data.street_number || ''
+            }, ${data.city_name || ''}`;
+
+            // Show the modal
+            companyModal.classList.add('active');
+          } catch (error) {
+            console.error('Error parsing JSON response:', error);
+            console.error('Response text:', responseText);
+            alert(
+              "Une erreur est survenue lors de la récupération des données de l'entreprise. La réponse n'est pas au format JSON attendu."
+            );
+          }
         })
         .catch((error) => {
           console.error('Error fetching company data:', error);
           alert(
-            "Une erreur est survenue lors de la récupération des données de l'entreprise."
+            `Une erreur est survenue lors de la récupération des données de l'entreprise. Détails : ${error.message}`
           );
         });
 
-      return; // Empêche l'ouverture du modal d'offre
+      return; // Prevent opening the offer modal
     }
 
     const box = event.target.closest('.offer-card'); // Vérifie si le clic est sur une box
@@ -513,84 +529,18 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  const offers = [
-    // Exemple de données d'offres
-    {
-      title: 'Développeur Full-Stack',
-      company: 'TechCorp',
-      location: 'Paris (Hybride)',
-      salary: '1000€ - 1200€',
-    },
-    {
-      title: 'Data Analyst',
-      company: 'DataInsight',
-      location: 'Lyon (Remote)',
-      salary: '800€ - 1000€',
-    },
-    // Ajoutez plus d'offres ici...
-  ];
-
-  const offersPerPage = 10;
-  let currentPage = 1;
-
-  function renderOffers(page) {
-    const offersGrid = document.getElementById('offersGrid');
-    offersGrid.innerHTML = '';
-
-    const start = (page - 1) * offersPerPage;
-    const end = start + offersPerPage;
-    const paginatedOffers = offers.slice(start, end);
-
-    paginatedOffers.forEach((offer) => {
-      const offerId = `${offer.title.replace(
-        /\s+/g,
-        '_'
-      )}--${offer.company.replace(/\s+/g, '_')}`;
-      const offerCard = document.createElement('div');
-      offerCard.className = 'offer-card';
-      offerCard.id = offerId; // Ajout de l'ID personnalisé
-      offerCard.innerHTML = `
-          <div class="offer-header">
-            <img src="https://ui-avatars.com/api/?name=${offer.company}" alt="Company Logo" class="company-logo" />
-            <div class="offer-info">
-              <h3>${offer.title}</h3>
-              <p>${offer.company}</p>
-            </div>
-          </div>
-          <div class="offer-details">
-            <p class="offer-location"><i class="fas fa-map-marker-alt"></i> ${offer.location}</p>
-            <p class="offer-salary"><i class="fas fa-euro-sign"></i> ${offer.salary}</p>
-          </div>
-          <div class="offer-actions">
-            <button class="btn-primary"><i class="fas fa-paper-plane"></i> Postuler</button>
-            <button class="btn-secondary"><i class="fas fa-bookmark"></i> Ajouter aux favoris</button>
-          </div>
-        `;
-      offersGrid.appendChild(offerCard);
-    });
+  // Remove hardcoded offers and rely on backend-rendered data
+  function renderOffers() {
+    console.log('Offers are now rendered dynamically from the backend.');
   }
 
+  // Remove hardcoded pagination logic if not needed
   function renderPagination() {
-    const pagination = document.getElementById('pagination');
-    pagination.innerHTML = '';
-
-    const totalPages = Math.ceil(offers.length / offersPerPage);
-
-    for (let i = 1; i <= totalPages; i++) {
-      const button = document.createElement('button');
-      button.textContent = i;
-      button.className = i === currentPage ? 'active' : '';
-      button.addEventListener('click', () => {
-        currentPage = i;
-        renderOffers(currentPage);
-        renderPagination();
-      });
-      pagination.appendChild(button);
-    }
+    console.log('Pagination is handled dynamically if required.');
   }
 
-  // Initial rendering
-  renderOffers(currentPage);
+  // Initial rendering (no longer needed for hardcoded data)
+  renderOffers();
   renderPagination();
 
   const posts = [

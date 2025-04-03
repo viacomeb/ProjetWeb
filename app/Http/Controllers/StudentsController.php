@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; // Ajoutez cette ligne
-
+use App\Models\Offer;
 
 class StudentsController extends Controller
 {
@@ -34,10 +34,11 @@ class StudentsController extends Controller
 
     public function internships()
     {
-        return view('students.internships', [
-            'page' => 'internships',
-            // Ajoutez ici les données nécessaires pour le tableau de bord
-        ]);
+        // Fetch offers with pagination (10 per page)
+        $offers = Offer::with(['company', 'company.city'])->paginate(10);
+
+        // Pass the paginated offers to the view
+        return view('students.internships', compact('offers'));
     }
 
     public function messages()
