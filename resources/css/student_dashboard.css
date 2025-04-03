@@ -1098,6 +1098,11 @@ body {
   gap: 10px; /* Espacement interne des éléments dans une catégorie */
 }
 
+.form-group div {
+  color: var(--color-text-secondary);
+  margin-bottom: 15px;
+}
+
 .form-group-inline {
   display: flex;
   gap: 20px; /* Espacement entre les champs dans une ligne */

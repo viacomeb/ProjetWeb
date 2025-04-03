@@ -969,21 +969,19 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
   });
-
-  // Close the modal when clicking the close button
-  document.querySelectorAll('.modal .close').forEach((closeButton) => {
-    closeButton.addEventListener('click', function () {
-      const modal = this.closest('.modal');
-      if (modal) modal.classList.remove('active');
-    });
-  });
-
   // Close the modal when clicking outside the modal content
   document.querySelectorAll('.modal').forEach((modal) => {
     modal.addEventListener('click', function (event) {
       if (event.target === modal) {
         modal.classList.remove('active');
       }
+    });
+  });
+  // Close the modal when clicking the close button
+  document.querySelectorAll('.modal .close').forEach((closeButton) => {
+    closeButton.addEventListener('click', function () {
+      const modal = this.closest('.modal');
+      if (modal) modal.classList.remove('active');
     });
   });
 });

@@ -15,7 +15,7 @@
     </div>
     <div class="form-group">
         <strong>Description:</strong>
-        <div>{{ $offer->description ?? 'Description non disponible' }}</div>
+        <div> {{$offer->description ?? 'Description non disponible' }}</div>
     </div>
     <div class="modal-actions">
         <button class="btn-primary">Postuler</button>

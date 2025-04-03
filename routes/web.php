@@ -42,6 +42,7 @@ Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name(
 Route::get('/companies', [CompaniesController::class, 'list'])->name('companies.list');
 Route::get('/companies', [CompaniesController::class, 'publiclist'])->name('companies.publiclist');
 Route::get('/companies/{id}', [CompaniesController::class, 'show'])->name('companies.show');
+Route::get('/companies/modal/{id}', [CompaniesController::class, 'modal'])->name('companies.modal');
 
 Route::get('/offers', [OffersController::class, 'list'])->name('offers.list');
 Route::get('/offers/{id}', [OffersController::class, 'show'])->name('offers.show');

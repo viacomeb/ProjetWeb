@@ -23,7 +23,9 @@
                     <img src="https://ui-avatars.com/api/?name={{ urlencode($offer->company->company_name ?? 'Non spécifié') }}" alt="Company Logo" class="company-logo" />
                     <div class="offer-info">
                         <h3>{{ $offer->title }}</h3>
-                        <p>{{ $offer->company->company_name ?? 'Non spécifié' }}</p>
+                        <div class="company-box" data-id="{{ $offer->company->company_id  }}" onclick="openCompanyModal({{ $offer->company_id}})">
+                            <p>{{ $offer->company->company_name ?? 'Non spécifié' }}</p>
+                        </div>
                     </div>
                 </div>
                 <div class="offer-details">
@@ -46,6 +48,10 @@
     <!-- Modal Container -->
     <div id="offerModal" class="modal">
         <div id="offerModalContent"></div>
+    </div>
+
+    <div id="companyModal" class="modal">
+        <div id="companyModalContent"></div>
     </div>
 </div>
 
@@ -76,6 +82,34 @@
         const modal = document.getElementById('offerModal');
         modal.classList.remove('active');
         document.getElementById('offerModalContent').innerHTML = '';
+    }
+
+    function openCompanyModal(companyId) {
+        const modal = document.getElementById('companyModal');
+        const modalContent = document.getElementById('companyModalContent');
+
+        // Fetch the modal content from the server
+        fetch(`/companies/modal/${companyId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load modal content');
+                }
+                return response.text();
+            })
+            .then(html => {
+                modalContent.innerHTML = html;
+                modal.classList.add('active');
+            })
+            .catch(error => {
+                console.error('Error loading modal content:', error);
+                alert('Une erreur est survenue lors du chargement des détails de l\'entreprise.');
+            });
+    }
+
+    function closeCompanyModal() {
+        const modal = document.getElementById('companyModal');
+        modal.classList.remove('active');
+        document.getElementById('companyModalContent').innerHTML = '';
     }
 </script>
 @endsection
