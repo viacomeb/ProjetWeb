@@ -91,4 +91,6 @@
         </div>
     </div>
 </div>
+</main>
+</div>
 @endsection

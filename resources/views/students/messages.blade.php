@@ -97,4 +97,6 @@
     </section>
 
 </div>
+</main>
+</div>
 @endsection

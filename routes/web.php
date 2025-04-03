@@ -63,6 +63,18 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/companies/{id}', [CompaniesController::class, 'destroy'])->name('companies.destroy');
     });
 
+    Route::middleware([RoleMiddleware::class . ':pilot'])->prefix('pilots')->name('pilots.')->group(function () {
+        Route::get('/dashboard', [PilotsController::class, 'dashboard'])->name('dashboard');
+        Route::get('/companies', [PilotsController::class, 'companies'])->name('companies');
+        Route::get('/internships', [PilotsController::class, 'internships'])->name('internships');
+        Route::get('/students', [PilotsController::class, 'students'])->name('students');
+        Route::get('/applications', [PilotsController::class, 'applications'])->name('applications');
+        Route::get('/settings', [PilotsController::class, 'settings'])->name('settings');
+        Route::post('/internships/store', [OffersController::class, 'store'])->name('internships.store');
+        Route::post('/companies/store', [CompaniesController::class, 'store'])->name('companies.store');
+        Route::delete('/companies/{id}', [CompaniesController::class, 'destroy'])->name('companies.destroy');
+    });
+
     // Pilot-specific routes
     Route::middleware([RoleMiddleware::class . ':pilot'])->group(function () {
         Route::get('/pilot/create-student', [AuthController::class, 'showRegisterForm'])->name('pilot.create.student');
