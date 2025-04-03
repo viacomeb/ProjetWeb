@@ -256,7 +256,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const offerRows = document.querySelectorAll('.offer-row');
     const modal = document.getElementById('offerDetailsModal');
     const closeModal = document.getElementById('closeOfferDetailsModal');
-
     const modalTitle = document.getElementById('modalOfferTitle');
     const modalDescription = document.getElementById('modalOfferDescription');
     const modalSalary = document.getElementById('modalOfferSalary');
@@ -282,8 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
             modalSalary.textContent = data.salary
               ? `${data.salary} €`
               : 'Non renseigné';
-            modalCompany.textContent =
-              data.company_id.company_name || 'Non renseignée';
+            modalCompany.textContent = data.company_name || 'Non renseignée';
             modalStartDate.textContent = data.start_date || 'Non renseignée';
             modalEndDate.textContent = data.end_date || 'Non renseignée';
 
