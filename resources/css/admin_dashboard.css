@@ -943,6 +943,11 @@ input:checked + .slider:before {
   color: var(--color-text-secondary);
 }
 
+.pagination .active {
+  border: 2px solid var(--color-primary); /* Add primary-colored border */
+  border-radius: 50%;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .sidebar {

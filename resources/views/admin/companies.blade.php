@@ -277,7 +277,8 @@
                     } catch (error) {
                         console.error('Error fetching company data:', error);
                         alert(
-                            'Une erreur est survenue lors de la récupération des données de l\'entreprise.');
+                            'Une erreur est survenue lors de la récupération des données de l\'entreprise.'
+                            );
                     }
                 });
             });

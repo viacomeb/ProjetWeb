@@ -18,7 +18,7 @@ class OffersController extends Controller
     public function list()
     {
         // Récupérer toutes les offres
-        $offers = Offer::all();
+        $offers = Offer::query()->paginate(10); // Utiliser la pagination Laravel
         return view('offers.list', ['offers' => $offers, 'page' => $this->page]);
     }
 

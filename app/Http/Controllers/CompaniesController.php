@@ -22,8 +22,12 @@ class CompaniesController extends Controller
 
     public function publiclist()
     {
-        $companies = Company::all();
-        return view('companies.list', ['companies' => $companies, 'page' => $this->page]);
+        $companies = Company::query()->paginate(10); // Utiliser la pagination Laravel
+
+        return view('companies.list', [
+            'page' => 'companies',
+            'companies' => $companies, // Passer les entreprises avec les villes à la vue
+        ]);
     }
 
     public function show($id)
