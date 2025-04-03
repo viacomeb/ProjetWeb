@@ -162,7 +162,7 @@
                             alt="Antoine Roure">
                         <div>
                             <h3>Antoine Roure</h3>
-                            <p>Gros neuille</p>
+                            <p>Etudiant en Ressources Humaines</p>
                         </div>
                     </div>
                     <div class="testimonial-content">

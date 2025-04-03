@@ -40,6 +40,7 @@ Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name(
 
 // Authenticated routes
 Route::get('/companies', [CompaniesController::class, 'list'])->name('companies.list');
+Route::get('/companies', [CompaniesController::class, 'publiclist'])->name('companies.publiclist');
 Route::get('/companies/{id}', [CompaniesController::class, 'show'])->name('companies.show');
 Route::put('/companies/{id}', [CompaniesController::class, 'update'])->name('companies.update');
 

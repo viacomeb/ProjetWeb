@@ -20,6 +20,16 @@ class CompaniesController extends Controller
         return response()->json($companies);
     }
 
+    public function publiclist()
+    {
+        $companies = Company::query()->paginate(10); // Utiliser la pagination Laravel
+
+        return view('companies.list', [
+            'page' => 'companies',
+            'companies' => $companies, // Passer les entreprises avec les villes à la vue
+        ]);
+    }
+
     public function show($id)
     {
         try {
