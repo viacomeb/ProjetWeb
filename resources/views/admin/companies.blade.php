@@ -8,15 +8,12 @@
         <section id="companies" class="section-content active">
             <div class="section-header">
                 <h1>Gestion des Entreprises</h1>
+                <div class="search-bar">
+                    <input type="text" id="companySearch" placeholder="Rechercher une entreprise..." />
+                </div>
                 <button class="btn btn-primary" id="addCompany">
                     <i class="fas fa-plus"></i> Nouvelle entreprise
                 </button>
-            </div>
-            <div class="filters">
-                <button class="filter-btn active">Toutes</button>
-                <button class="filter-btn">Tech</button>
-                <button class="filter-btn">Finance</button>
-                <button class="filter-btn">Marketing</button>
             </div>
             <div class="data-table">
                 <table>
@@ -52,7 +49,7 @@
                                             action="{{ route('admin.companies.update', $company->company_id) }}"
                                             style="display:inline;">
                                             @csrf
-                                            <button class="btn-icon" class="btn-icon edit" title="Modifier">
+                                            <button class="btn-icon edit" title="Modifier">
                                                 <i class="fas fa-edit"></i>
                                             </button>
                                         </form>

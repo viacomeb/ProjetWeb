@@ -8,6 +8,9 @@
         <section id="internships" class="section-content active">
             <div class="section-header">
                 <h1>Gestion des Offres</h1>
+                <div class="search-bar">
+                    <input type="text" id="offerSearch" placeholder="Rechercher une offre par titre..." />
+                </div>
                 <button class="btn btn-primary" id="addInternship">
                     <i class="fas fa-plus"></i> Nouvelle offre
                 </button>
@@ -182,6 +185,19 @@
                     companyDropdown.style.display = 'none';
                     companySearch.value = '';
                 }
+            });
+
+            const offerSearch = document.getElementById('offerSearch');
+            const offerRows = document.querySelectorAll('.offer-row');
+
+            // Filter offers based on search input
+            offerSearch.addEventListener('input', function() {
+                const searchValue = offerSearch.value.toLowerCase();
+
+                offerRows.forEach(row => {
+                    const title = row.querySelector('td:first-child').textContent.toLowerCase();
+                    row.style.display = title.includes(searchValue) ? '' : 'none';
+                });
             });
         });
     </script>
