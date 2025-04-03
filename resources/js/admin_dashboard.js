@@ -316,3 +316,27 @@ document.addEventListener('DOMContentLoaded', () => {
   setupForms();
   setupOfferDetails();
 });
+
+document.getElementById('searchPilot').addEventListener('input', function () {
+  const filter = this.value.toLowerCase();
+  const rows = document.querySelectorAll('#pilotTableBody tr');
+  rows.forEach((row) => {
+    const name = row.querySelector('td:first-child').textContent.toLowerCase();
+    row.style.display = name.includes(filter) ? '' : 'none';
+  });
+});
+
+const searchOfferInput = document.getElementById('searchOffer');
+if (searchOfferInput) {
+  searchOfferInput.addEventListener('input', function () {
+    const filter = this.value.toLowerCase();
+    const rows = document.querySelectorAll('#offerTableBody tr');
+    rows.forEach((row) => {
+      const titleCell = row.querySelector('td:first-child');
+      if (titleCell) {
+        const name = titleCell.textContent.toLowerCase();
+        row.style.display = name.includes(filter) ? '' : 'none';
+      }
+    });
+  });
+}
