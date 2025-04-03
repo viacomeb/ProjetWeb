@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; // Ajoutez cette ligne
 use App\Models\Student;
+use App\Models\Offer;
 
 
 class StudentsController extends Controller
