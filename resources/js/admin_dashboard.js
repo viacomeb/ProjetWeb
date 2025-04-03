@@ -256,7 +256,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const offerRows = document.querySelectorAll('.offer-row');
     const modal = document.getElementById('offerDetailsModal');
     const closeModal = document.getElementById('closeOfferDetailsModal');
-
     const modalTitle = document.getElementById('modalOfferTitle');
     const modalDescription = document.getElementById('modalOfferDescription');
     const modalSalary = document.getElementById('modalOfferSalary');
@@ -269,7 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const offerId = row.getAttribute('data-offer-id');
 
         // Use the controller route to fetch offer details
-        fetch(`/offers/${offerId}`)
+        fetch(`/admin/internships/${offerId}`)
           .then((response) => {
             if (!response.ok) {
               throw new Error('Failed to fetch offer details');

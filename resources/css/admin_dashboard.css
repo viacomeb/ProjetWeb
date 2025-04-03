@@ -1040,3 +1040,8 @@ input:checked + .slider:before {
   background-color: #28313d;
   transition: background-color 0.3s ease;
 }
+
+.company-row:hover {
+  background-color: #28313d;
+  transition: background-color 0.3s ease;
+}

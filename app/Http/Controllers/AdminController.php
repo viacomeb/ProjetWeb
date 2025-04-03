@@ -45,9 +45,12 @@ class AdminController extends Controller
 
         $offers = $query->paginate(10);
 
+        $companies = Company::select('company_id', 'company_name')->orderBy('company_name', 'asc')->get(); // Sort companies alphabetically
+
         return view('admin.internships', [
             'page' => 'internships',
             'offers' => $offers,
+            'companies'=> $companies,
         ]);
     }
 
