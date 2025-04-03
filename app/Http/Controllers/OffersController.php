@@ -126,6 +126,7 @@ class OffersController extends Controller
         // Return a partial view for the modal content
         return view('students.partials.offer_modal', compact('offer'));
     }
+    
     public function edit($id)
     {
         try {
