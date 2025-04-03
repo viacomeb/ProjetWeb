@@ -264,6 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalEndDate = document.getElementById('modalOfferEndDate');
 
     offerRows.forEach((row) => {
+      if (e.target.closest('.btn-icon')) return;
       row.addEventListener('click', () => {
         const offerId = row.getAttribute('data-offer-id');
 

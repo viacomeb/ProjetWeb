@@ -230,13 +230,6 @@
         </div>
     </div>
 
-    <!-- Ajout d'un script pour gérer l'ouverture et la fermeture du modal -->
-    <style>
-        .company-row {
-            cursor: pointer;
-        }
-    </style>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const deleteButtons = document.querySelectorAll('.btn-icon.delete');
@@ -368,7 +361,8 @@
                     } catch (error) {
                         console.error('Error fetching company data:', error);
                         alert(
-                            'Une erreur est survenue lors de la récupération des données de l\'entreprise.');
+                            'Une erreur est survenue lors de la récupération des données de l\'entreprise.'
+                        );
                     } finally {
                         isFetching = false; // Reset fetching state
                     }
