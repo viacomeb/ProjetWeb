@@ -34,25 +34,6 @@ class OffersController extends Controller
         return view('offers.show', ['offer' => $offer, 'page' => $this->page]);
     }
 
-    public function apply($id)
-    {
-        $offer = Offer::findOrFail($id);
-
-        // Logic to mark the offer as applied by the authenticated student
-        $user = Auth::user();
-        if ($user->role !== 'student') {
-            abort(403, 'Only students can apply to offers.');
-        }
-
-        // Check if the application already exists
-        if ($user->applications()->where('offer_id', $offer->id)->exists()) {
-            return redirect()->back()->with('error', 'You have already applied to this offer.');
-        }
-
-        $user->applications()->create(['offer_id' => $offer->id]);
-        return redirect()->back()->with('success', 'You have successfully applied to the offer.');
-    }
-
     public function addToWishlist($id)
     {
         $offer = Offer::findOrFail($id);
@@ -70,6 +51,58 @@ class OffersController extends Controller
 
         $user->wishlist()->create(['offer_id' => $offer->id]);
         return redirect()->back()->with('success', 'Offer added to your wishlist.');
+    }
+
+    public function toggleWishlist($offerId)
+    {
+        try {
+            \Log::info('toggleWishlist called', ['offer_id' => $offerId]);
+
+            // Get the authenticated user
+            $user = Auth::user();
+            if (!$user) {
+                \Log::error('User not authenticated');
+                return response()->json(['error' => 'Unauthorized.'], 403);
+            }
+
+            // Check if the user is a student
+            if (!$user->student) {
+                \Log::error('User is not a student', ['user_id' => $user->id]);
+                return response()->json(['error' => 'Only students can manage their wishlist.'], 403);
+            }
+
+            $student = $user->student;
+
+            // Check if the offer exists
+            $offer = Offer::find($offerId);
+            if (!$offer) {
+                \Log::error('Offer not found', ['offer_id' => $offerId]);
+                return response()->json(['error' => 'Offer not found.'], 404);
+            }
+
+            // Check if the offer is already in the wishlist
+            $exists = $student->wishlist()->where('offer_id', $offerId)->exists();
+            \Log::info('Wishlist item check', ['offer_id' => $offerId, 'exists' => $exists]);
+
+            if ($exists) {
+                // Remove from wishlist using the composite key
+                $student->wishlist()->where('offer_id', $offerId)->delete();
+                \Log::info('Wishlist item removed', ['offer_id' => $offerId]);
+                return response()->json(['action' => 'removed']);
+            } else {
+                // Add to wishlist
+                $student->wishlist()->create(['offer_id' => $offerId]);
+                \Log::info('Wishlist item added', ['offer_id' => $offerId]);
+                return response()->json(['action' => 'added']);
+            }
+        } catch (\Exception $e) {
+            \Log::error('Error toggling wishlist', [
+                'message' => $e->getMessage(),
+                'stack' => $e->getTraceAsString(),
+                'offer_id' => $offerId ?? null,
+            ]);
+            return response()->json(['error' => 'An error occurred while toggling the wishlist.'], 500);
+        }
     }
 
     public function store(Request $request)
@@ -155,5 +188,44 @@ class OffersController extends Controller
 
         return redirect()->route('admin.internships')->with('success', 'Offre supprimée avec succès.');
     }
+
+    public function wishlist()
+    {
+        try {
+            \Log::info('Accessing wishlist method');
+
+            $user = Auth::user();
+            if (!$user) {
+                \Log::error('No authenticated user found');
+                return redirect()->route('login');
+            }
+
+            \Log::info('User found', ['user_id' => $user->id]);
+
+            $student = $user->student;
+            if (!$student) {
+                \Log::error('No student profile found for user', ['user_id' => $user->id]);
+                return redirect()->route('student.dashboard')->with('error', 'Profil étudiant non trouvé.');
+            }
+
+            \Log::info('Student profile found', ['student_id' => $student->student_id]);
+
+            $wishlist = $student->wishlist()->with(['offer.company.city'])->get();
+            \Log::info('Wishlist retrieved', ['count' => $wishlist->count()]);
+
+            return view('students.wishlist', [
+                'wishlist' => $wishlist,
+                'student' => $student,
+                'page' => 'wishlist'
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Error in wishlist method', [
+                'message' => $e->getMessage(),
+                'stack' => $e->getTraceAsString()
+            ]);
+            return redirect()->route('student.dashboard')->with('error', 'Une erreur est survenue lors du chargement de vos favoris.');
+        }
+    }
+
     // Autres méthodes pour créer, mettre à jour, supprimer des offres
 }

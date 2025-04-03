@@ -61,10 +61,30 @@ class StudentsController extends Controller
 
     public function wishlist()
     {
-        return view('students.wishlist', [
-            'page' => 'wishlist',
-            // Ajoutez ici les données nécessaires pour le tableau de bord
-        ]);
+        try {
+            $user = Auth::user();
+            if (!$user) {
+                return redirect()->route('login');
+            }
+
+            $student = $user->student;
+            if (!$student) {
+                return redirect()->route('student.dashboard')->with('error', 'Profil étudiant non trouvé.');
+            }
+
+            $wishlist = $student->wishlist()->with(['offer.company.city'])->paginate(10); // Add pagination
+
+            return view('students.wishlist', [
+                'wishlist' => $wishlist,
+                'page' => 'wishlist'
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Error in wishlist method', [
+                'message' => $e->getMessage(),
+                'stack' => $e->getTraceAsString()
+            ]);
+            return redirect()->route('student.dashboard')->with('error', 'Une erreur est survenue lors du chargement de vos favoris.');
+        }
     }
 
     public function count()

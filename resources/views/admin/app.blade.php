@@ -16,7 +16,7 @@
         <!-- Sidebar -->
         <nav class="sidebar">
             <div class="logo">
-                <i class="fas fa-shield-alt"></i>
+                <img src="{{ asset('images/WorknGo_logo.png') }}" alt="WorknGo Logo" class="logo-img" style="width: 45px; height: auto;">
                 <span>Admin Panel</span>
             </div>
             <ul class="nav-links">

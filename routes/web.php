@@ -14,6 +14,7 @@ use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ApplyController;
 
 // Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -49,8 +50,14 @@ Route::get('/offers', [OffersController::class, 'list'])->name('offers.list');
 Route::get('/offers/{id}', [OffersController::class, 'show'])->name('offers.show');
 Route::put('/offers/{id}', [OffersController::class, 'update'])->name('offers.update');
 Route::get('/offers/modal/{id}', [OffersController::class, 'modal'])->name('offers.modal');
+Route::post('/offers/{offerId}/wishlist/{studentId}', [OffersController::class, 'toggleWishlist'])->name('offers.toggleWishlist');
+
+// Route for applying to an offer
+Route::get('/apply/{offerId}', [ApplyController::class, 'modal'])->name('apply.modal');
+Route::post('/apply/{offerId}', [ApplyController::class, 'submitApplication'])->name('apply.submit');
 
 Route::middleware(['auth'])->group(function () {
+
     // Admin-specific routes
     Route::middleware(['auth', RoleMiddleware::class . ':admin'])->prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
@@ -58,7 +65,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/applications', [AdminController::class, 'applications'])->name('applications');
         Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
 
-        // Companies management
+        // Companies management&
         Route::get('/companies', [AdminController::class, 'companies'])->name('companies');
         Route::post('/companies/store', [CompaniesController::class, 'store'])->name('companies.store');
         Route::put('/companies/update/{id}', [CompaniesController::class, 'update'])->name('companies.update');
@@ -102,6 +109,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', [StudentsController::class, 'dashboard'])->name('dashboard');
         Route::get('/internships', [StudentsController::class, 'internships'])->name('internships');
         Route::get('/wishlist', [StudentsController::class, 'wishlist'])->name('wishlist');
+        Route::post('/wishlist/toggle/{offerId}', [OffersController::class, 'toggleWishlist'])->name('wishlist.toggle');
         Route::get('/challenges', [StudentsController::class, 'challenges'])->name('challenges');
         Route::get('/community', [StudentsController::class, 'community'])->name('community');
         Route::get('/messages', [StudentsController::class, 'messages'])->name('messages');
