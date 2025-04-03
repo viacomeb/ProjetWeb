@@ -34,25 +34,6 @@ class OffersController extends Controller
         return view('offers.show', ['offer' => $offer, 'page' => $this->page]);
     }
 
-    public function apply($id)
-    {
-        $offer = Offer::findOrFail($id);
-
-        // Logic to mark the offer as applied by the authenticated student
-        $user = Auth::user();
-        if ($user->role !== 'student') {
-            abort(403, 'Only students can apply to offers.');
-        }
-
-        // Check if the application already exists
-        if ($user->applications()->where('offer_id', $offer->id)->exists()) {
-            return redirect()->back()->with('error', 'You have already applied to this offer.');
-        }
-
-        $user->applications()->create(['offer_id' => $offer->id]);
-        return redirect()->back()->with('success', 'You have successfully applied to the offer.');
-    }
-
     public function addToWishlist($id)
     {
         $offer = Offer::findOrFail($id);
@@ -177,7 +158,7 @@ class OffersController extends Controller
         // Return a partial view for the modal content
         return view('students.partials.offer_modal', compact('offer'));
     }
-    
+
     public function edit($id)
     {
         try {

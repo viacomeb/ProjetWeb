@@ -992,18 +992,4 @@ document.addEventListener('DOMContentLoaded', function () {
       if (modal) modal.classList.remove('active');
     });
   });
-
-  // Function to toggle wishlist
-  function toggleWishlist(offerId, button) {
-    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');st buttons
-    const studentId = document.querySelector('meta[name="student-id"]')?.getAttribute('content');event) {
-.target.closest('.btn-secondary');
-    if (!csrfToken || !studentId) {listButton.closest('.offer-card')) {
-        console.error('CSRF token or student ID not found. Ensure the meta tags are present in the HTML.');lick from propagating to the offer card
-        return;Button.closest('.offer-card');
-    }      const offerId = offerCard.getAttribute('data-id');
-istButton);
-    fetch(`/offers/${offerId}/wishlist/${studentId}`, {
-        method: 'POST',
-        headers: {
-            'X-CSRF-TOKEN': csrfToken,        },    })    .then(response => {        if (!response.ok) {            return response.json().then(err => {                console.error('Server error response:', err);                throw new Error(err.error || 'Failed to toggle wishlist');            });        }        return response.json();    })    .then(data => {        if (data.action === 'added') {            button.classList.add('active');            button.innerHTML = '<i class="fas fa-bookmark"></i> Retirer des favoris';            alert('Offre ajoutée aux favoris.');        } else if (data.action === 'removed') {            button.classList.remove('active');            button.innerHTML = '<i class="fas fa-bookmark"></i> Ajouter aux favoris';            alert('Offre retirée des favoris.');        }    })    .catch(error => {        console.error('Error toggling wishlist:', error);        alert(`Une erreur est survenue : ${error.message}`);    });}  // Event listener for wishlist buttons  document.addEventListener('click', function (event) {    const wishlistButton = event.target.closest('.btn-secondary');    if (wishlistButton && wishlistButton.closest('.offer-card')) {      event.stopPropagation(); // Prevent the click from propagating to the offer card      const offerCard = wishlistButton.closest('.offer-card');      const offerId = offerCard.getAttribute('data-id');      toggleWishlist(offerId, wishlistButton);    }  });});
+});
