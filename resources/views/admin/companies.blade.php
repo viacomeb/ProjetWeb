@@ -8,15 +8,12 @@
         <section id="companies" class="section-content active">
             <div class="section-header">
                 <h1>Gestion des Entreprises</h1>
+                <div class="search-bar">
+                    <input type="text" id="companySearch" placeholder="Rechercher une entreprise..." />
+                </div>
                 <button class="btn btn-primary" id="addCompany">
                     <i class="fas fa-plus"></i> Nouvelle entreprise
                 </button>
-            </div>
-            <div class="filters">
-                <button class="filter-btn active">Toutes</button>
-                <button class="filter-btn">Tech</button>
-                <button class="filter-btn">Finance</button>
-                <button class="filter-btn">Marketing</button>
             </div>
             <div class="data-table">
                 <table>
@@ -52,7 +49,7 @@
                                             action="{{ route('admin.companies.update', $company->company_id) }}"
                                             style="display:inline;">
                                             @csrf
-                                            <button class="btn-icon" class="btn-icon edit" title="Modifier">
+                                            <button class="btn-icon edit" title="Modifier">
                                                 <i class="fas fa-edit"></i>
                                             </button>
                                         </form>
@@ -230,13 +227,6 @@
         </div>
     </div>
 
-    <!-- Ajout d'un script pour gérer l'ouverture et la fermeture du modal -->
-    <style>
-        .company-row {
-            cursor: pointer;
-        }
-    </style>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const deleteButtons = document.querySelectorAll('.btn-icon.delete');
@@ -328,6 +318,9 @@
 
             companyRows.forEach(row => {
                 row.addEventListener('click', async (e) => {
+                    // Prevent triggering if the click is on a button inside the row
+                    if (e.target.closest('.btn-icon')) return;
+
                     e.preventDefault();
                     if (isFetching) return; // Skip if a request is already in progress
                     isFetching = true;
@@ -366,7 +359,7 @@
                         console.error('Error fetching company data:', error);
                         alert(
                             'Une erreur est survenue lors de la récupération des données de l\'entreprise.'
-                            );
+                        );
                     } finally {
                         isFetching = false; // Reset fetching state
                     }

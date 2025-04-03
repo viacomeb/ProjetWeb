@@ -4,6 +4,22 @@ import Chart from 'chart.js/auto';
 console.log('admin_dashboard.js chargé avec succès');
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Vérification pour éviter les conflits avec le script de filtrage des entreprises
+  const companySearchInput = document.getElementById('companySearch');
+  if (companySearchInput) {
+    companySearchInput.addEventListener('input', () => {
+      const searchValue = companySearchInput.value.toLowerCase();
+      const companyRows = document.querySelectorAll('.company-row');
+
+      companyRows.forEach((row) => {
+        const companyName = row
+          .querySelector('.company-info span')
+          .textContent.toLowerCase();
+        row.style.display = companyName.includes(searchValue) ? '' : 'none';
+      });
+    });
+  }
+
   // Gestion de la navigation entre les sections
   const setupNavigation = () => {
     document.querySelectorAll('.nav-links li').forEach((item) => {
@@ -264,6 +280,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalEndDate = document.getElementById('modalOfferEndDate');
 
     offerRows.forEach((row) => {
+      if (e.target.closest('.btn-icon')) return;
       row.addEventListener('click', () => {
         const offerId = row.getAttribute('data-offer-id');
 
