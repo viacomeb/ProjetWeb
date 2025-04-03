@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Company;
 use App\Models\City;
 use App\Models\Student;
+use App\Models\Application;
 
 class PilotsController extends Controller
 {
@@ -68,10 +69,12 @@ class PilotsController extends Controller
 
     public function applications()
     {
-        // Logique pour récupérer les données des candidatures
+        $applications = Application::with(['student.user', 'offer.company'])
+            ->paginate(10); // Fetch applications with related data
+
         return view('pilots.applications', [
             'page' => 'applications',
-            // Ajoutez ici les données nécessaires pour les candidatures
+            'applications' => $applications, // Pass paginated applications to the view
         ]);
     }
 
