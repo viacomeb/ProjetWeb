@@ -18,7 +18,7 @@ class Company extends Model
 
     public function city()
     {
-        return $this->belongsTo(City::class, 'city_id');
+        return $this->belongsTo(City::class, 'city_id')->with('department.country');
     }
 
     public function offers()
@@ -29,5 +29,10 @@ class Company extends Model
     public function ratings()
     {
         return $this->hasMany(Rating::class, 'company_id');
+    }
+
+    public static function getLastAdded()
+    {
+        return self::orderBy('company_id', 'desc')->first()->company_name;
     }
 }

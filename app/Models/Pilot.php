@@ -18,4 +18,10 @@ class Pilot extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public static function getLastAdded()
+    {
+        $lastPilot = self::orderBy('pilot_id', 'desc')->first();
+        return $lastPilot->user->first_name . ' ' . $lastPilot->user->last_name;
+    }
 }

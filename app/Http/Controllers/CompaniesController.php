@@ -162,5 +162,33 @@ class CompaniesController extends Controller
         return redirect()->route('admin.companies')->with('success', 'Entreprise supprimée avec succès.');
     }
 
-    // Autres méthodes pour créer, mettre à jour, supprimer des entreprises
+    public function count() {
+        $count = Company::count();
+        return response()->json(['count' => $count]);
+    }
+
+    public function offerCount($id)
+    {
+        try {
+            $company = Company::findOrFail($id);
+            $offerCount = $company->offers()->count(); // Assurez-vous que la relation 'offers' existe dans le modèle Company
+
+            return response()->json(['offer_count' => $offerCount]);
+        } catch (\Exception $e) {
+            \Log::error('Error fetching offer count: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to fetch offer count.'], 500);
+        }
+    }
+
+    public function edit($id)
+    {
+        try {
+            $company = Company::with(['city.department.country'])->findOrFail($id);
+
+            return response()->json($company);
+        } catch (\Exception $e) {
+            \Log::error('Error fetching company data: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to fetch company data.'], 500);
+        }
+    }
 }
