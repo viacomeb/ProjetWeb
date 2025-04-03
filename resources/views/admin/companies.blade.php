@@ -328,6 +328,9 @@
 
             companyRows.forEach(row => {
                 row.addEventListener('click', async (e) => {
+                    // Prevent triggering if the click is on a button inside the row
+                    if (e.target.closest('.btn-icon')) return;
+
                     e.preventDefault();
                     if (isFetching) return; // Skip if a request is already in progress
                     isFetching = true;
@@ -365,8 +368,7 @@
                     } catch (error) {
                         console.error('Error fetching company data:', error);
                         alert(
-                            'Une erreur est survenue lors de la récupération des données de l\'entreprise.'
-                            );
+                            'Une erreur est survenue lors de la récupération des données de l\'entreprise.');
                     } finally {
                         isFetching = false; // Reset fetching state
                     }

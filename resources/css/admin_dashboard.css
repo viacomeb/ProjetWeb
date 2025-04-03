@@ -1044,4 +1044,5 @@ input:checked + .slider:before {
 .company-row:hover {
   background-color: #28313d;
   transition: background-color 0.3s ease;
+  cursor: pointer;
 }
