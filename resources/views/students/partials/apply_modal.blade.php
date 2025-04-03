@@ -2,7 +2,7 @@
     <h2>Postuler à l'offre</h2>
     <div>
         <label>Date et heure d'envoi :</label>
-        <p>{{ \Carbon\Carbon::now()->format('d/m/Y H:i') }}</p>
+        <p>{{ \Carbon\Carbon::now()->setTimezone('Europe/Paris')->format('d/m/Y H:i') }}</p>
     </div>
     <form id="applyForm_{{ $offer->offer_id }}" method="POST" enctype="multipart/form-data"
         action="{{ route('apply.submit', ['offerId' => $offer->offer_id]) }}">
