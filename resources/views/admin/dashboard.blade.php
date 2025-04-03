@@ -13,7 +13,7 @@
                         <i class="fas fa-building"></i>
                     </div>
                     <div class="stat-details">
-                        <h3>156</h3>
+                        <h3>{{ \App\Models\Company::count() }}</h3>
                         <p>Entreprises enregistrées</p>
                     </div>
                 </div>
@@ -22,7 +22,7 @@
                         <i class="fas fa-briefcase"></i>
                     </div>
                     <div class="stat-details">
-                        <h3>284</h3>
+                        <h3>{{ \App\Models\Offer::count() }}</h3>
                         <p>Offres actives</p>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
                         <i class="fas fa-user-graduate"></i>
                     </div>
                     <div class="stat-details">
-                        <h3>523</h3>
+                        <h3>{{ \App\Models\Student::count() }}</h3>
                         <p>Étudiants inscrits</p>
                     </div>
                 </div>
@@ -62,14 +62,15 @@
                         <i class="fas fa-plus-circle"></i>
                         <div class="activity-details">
                             <p>
-                                Nouvelle entreprise ajoutée : <strong>TechCorp</strong>
+                                Nouvelle entreprise ajoutée :
+                                <strong>{{ \App\Models\Company::getLastAdded() }}</strong>
                             </p>
                         </div>
                     </div>
                     <div class="activity-item">
                         <i class="fas fa-user-plus"></i>
                         <div class="activity-details">
-                            <p>Nouveau pilote créé : <strong>Jean Martin</strong></p>
+                            <p>Nouveau pilote créé : <strong>{{ \App\Models\Pilot::getLastAdded() }}</strong></p>
                         </div>
                     </div>
                 </div>

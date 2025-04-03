@@ -42,7 +42,6 @@ Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name(
 Route::get('/companies', [CompaniesController::class, 'list'])->name('companies.list');
 Route::get('/companies', [CompaniesController::class, 'publiclist'])->name('companies.publiclist');
 Route::get('/companies/{id}', [CompaniesController::class, 'show'])->name('companies.show');
-Route::put('/companies/{id}', [CompaniesController::class, 'update'])->name('companies.update');
 
 Route::get('/offers', [OffersController::class, 'list'])->name('offers.list');
 Route::get('/offers/{id}', [OffersController::class, 'show'])->name('offers.show');
@@ -61,7 +60,9 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/internships/store', [OffersController::class, 'store'])->name('internships.store');
         Route::post('/pilots/store', [AdminController::class, 'storePilot'])->name('pilots.store');
         Route::post('/companies/store', [CompaniesController::class, 'store'])->name('companies.store');
-        Route::delete('/companies/{id}', [CompaniesController::class, 'destroy'])->name('companies.destroy');
+        Route::put('/companies/update/{id}', [CompaniesController::class, 'update'])->name('companies.update');
+        Route::delete('/companies/destroy/{id}', [CompaniesController::class, 'destroy'])->name('companies.destroy');
+        Route::get('/companies/{id}', [CompaniesController::class, 'edit'])->name('companies.edit');
     });
 
     Route::middleware([RoleMiddleware::class . ':pilot'])->prefix('pilots')->name('pilots.')->group(function () {

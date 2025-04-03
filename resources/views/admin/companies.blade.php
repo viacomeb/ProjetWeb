@@ -48,9 +48,14 @@
                                 <td>{{ $company->city->city_name }}</td>
                                 <td>
                                     <div class="actions">
-                                        <button class="btn-icon" title="Modifier">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
+                                        <form method="GET"
+                                            action="{{ route('admin.companies.update', $company->company_id) }}"
+                                            style="display:inline;">
+                                            @csrf
+                                            <button class="btn-icon" class="btn-icon edit" title="Modifier">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                        </form>
                                         <form method="POST"
                                             action="{{ route('admin.companies.destroy', $company->company_id) }}"
                                             style="display:inline;">
@@ -241,12 +246,11 @@
             editButtons.forEach(button => {
                 button.addEventListener('click', async (e) => {
                     e.preventDefault();
-                    const companyId = button.closest('tr').querySelector('form button').dataset
-                        .id;
+                    const companyId = button.closest('tr').querySelector('.delete').dataset.id;
 
                     try {
                         // Fetch company data from the server
-                        const response = await fetch(`/companies/${companyId}`);
+                        const response = await fetch(`/admin/companies/${companyId}`);
                         if (!response.ok) {
                             throw new Error('Failed to fetch company data');
                         }
@@ -254,8 +258,8 @@
                         const company = await response.json();
 
                         // Populate modal fields with fetched data
-                        editForm.action = `/companies/${companyId}`;
-                        document.getElementById('editCompanyId').value = companyId;
+                        editForm.action = `/admin/companies/update/${companyId}`;
+                        document.getElementById('editCompanyId').value = company.company_id;
                         document.getElementById('editCompanyName').value = company.company_name;
                         document.getElementById('editDescription').value = company
                             .description || '';
@@ -278,7 +282,7 @@
                         console.error('Error fetching company data:', error);
                         alert(
                             'Une erreur est survenue lors de la récupération des données de l\'entreprise.'
-                            );
+                        );
                     }
                 });
             });

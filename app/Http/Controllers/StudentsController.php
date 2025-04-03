@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; // Ajoutez cette ligne
-use App\Models\Offer;
+use App\Models\Student;
+
 
 class StudentsController extends Controller
 {
@@ -63,5 +64,11 @@ class StudentsController extends Controller
             'page' => 'wishlist',
             // Ajoutez ici les données nécessaires pour le tableau de bord
         ]);
+    }
+
+    public function count()
+    {
+        $count = Student::count();
+        return response()->json(['count' => $count]);
     }
 }
