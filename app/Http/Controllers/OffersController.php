@@ -126,5 +126,24 @@ class OffersController extends Controller
         // Return a partial view for the modal content
         return view('students.partials.offer_modal', compact('offer'));
     }
+    public function edit($id)
+    {
+        try {
+            $offer = Offer::with(['company'])->findOrFail($id);
+
+            return response()->json($offer);
+        } catch (\Exception $e) {
+            \Log::error('Error fetching offer data: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to fetch offer data.'], 500);
+        }
+    }
+
+    public function destroy($id)
+    {
+        $offer = Offer::findOrFail($id);
+        $offer->delete();
+
+        return redirect()->route('admin.internships')->with('success', 'Offre supprimée avec succès.');
+    }
     // Autres méthodes pour créer, mettre à jour, supprimer des offres
 }
