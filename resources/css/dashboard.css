@@ -405,7 +405,7 @@ button:hover {
 }
 
 /* Responsive design */
-@media (min-width: 768px) {
+@media (min-width: 242px) {
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, 1fr);
   }
