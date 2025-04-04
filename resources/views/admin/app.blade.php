@@ -16,7 +16,7 @@
         <!-- Sidebar -->
         <nav class="sidebar">
             <div class="logo">
-                <i class="fas fa-shield-alt"></i>
+                <img src="{{ asset('images/WorknGo_logo.png') }}" alt="WorknGo Logo" class="logo-img" style="width: 45px; height: auto;">
                 <span>Admin Panel</span>
             </div>
             <ul class="nav-links">
@@ -42,7 +42,18 @@
                     <a href="{{ route('admin.settings') }}"><i class="fas fa-cog"></i> Paramètres</a>
                 </li>
             </ul>
+            <div class="sidebar-footer">
+                <form id="logoutForm" action="{{ route('logout') }}" method="POST"
+                    style="display: none; text-decoration: none;">
+                    @csrf
+                </form>
+                <a href="#" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();"
+                    class="logout-btn">
+                    Déconnexion
+                </a>
+            </div>
         </nav>
+
 
         <!-- Main content -->
         <main class="main-content">
@@ -53,10 +64,6 @@
                     <input type="text" placeholder="Rechercher..." />
                 </div>
                 <div class="user-menu">
-                    <div class="notifications">
-                        <i class="fas fa-bell"></i>
-                        <span class="badge">5</span>
-                    </div>
                     <div class="profile">
                         <img src="https://ui-avatars.com/api/?name=Admin" alt="Profile" />
                         <span>Administrateur</span>
@@ -68,6 +75,7 @@
         </main>
     </div>
     @vite('resources/js/admin_dashboard.js')
+    @stack('scripts')
 </body>
 
 </html>

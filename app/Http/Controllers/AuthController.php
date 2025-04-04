@@ -33,7 +33,7 @@ class AuthController extends Controller
 
             // Redirection en fonction du rôle
             $redirectUrl = match (true) {
-                Auth::user()->student !== null => route('students.dashboard'),
+                Auth::user()->student !== null => route('student.dashboard'),
                 Auth::user()->pilot !== null => route('pilots.dashboard'),
                 Auth::user()->admin !== null => route('admin.dashboard'),
                 default => route('home'),
@@ -73,33 +73,5 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('home');
-    }
-
-    // Afficher la page d'inscription
-    public function showRegisterForm()
-    {
-        return view('auth.register', ['page' => 'register']);
-    }
-
-    // Gérer l'inscription
-    public function register(Request $request)
-    {
-        $data = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|in:pilot,student' // Only pilots and students can be created
-        ]);
-
-        // Restrict role assignment based on the current user's role
-        if (Auth::user()->pilot && $data['role'] !== 'student') {
-            return back()->withErrors(['role' => 'Pilots can only create student accounts.']);
-        }
-
-        $data['password'] = bcrypt($data['password']);
-        $user = User::create($data);
-
-        return redirect()->route('home')->with('success', 'Account created successfully.');
     }
 }

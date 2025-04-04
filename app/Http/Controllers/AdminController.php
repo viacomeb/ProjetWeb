@@ -3,6 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Pilot;
+use Illuminate\Support\Facades\Validator;
+use App\Models\User;
+use App\Models\Company;
+use App\Models\City;
+use App\Models\Student;
+use App\Models\Application;
 
 class AdminController extends Controller
 {
@@ -17,46 +24,113 @@ class AdminController extends Controller
 
     public function companies()
     {
-        // Logique pour récupérer les données des entreprises
+        $companies = Company::with('city')->paginate(10); // Utiliser la pagination Laravel
+
         return view('admin.companies', [
             'page' => 'companies',
-            // Ajoutez ici les données nécessaires pour les entreprises
+            'companies' => $companies, // Passer les entreprises avec les villes à la vue
         ]);
     }
 
-    public function internships()
+    public function internships(Request $request)
     {
-        // Logique pour récupérer les données des offres de stage
+        $status = $request->query('status'); // Récupérer le statut depuis la requête
+
+        $query = \App\Models\Offer::with('company');
+
+        if ($status === 'active') {
+            $query->where('is_active', true);
+        } elseif ($status === 'inactive') {
+            $query->where('is_active', false);
+        }
+
+        $offers = $query->paginate(10);
+
+        $companies = Company::select('company_id', 'company_name')->orderBy('company_name', 'asc')->get(); // Sort companies alphabetically
+
         return view('admin.internships', [
             'page' => 'internships',
-            // Ajoutez ici les données nécessaires pour les offres de stage
+            'offers' => $offers,
+            'companies' => $companies,
         ]);
     }
 
     public function pilots()
     {
-        // Logique pour récupérer les données des pilotes
+        $pilots = Pilot::join('Users', 'Pilots.user_id', '=', 'Users.user_id')
+            ->select('Users.first_name', 'Users.last_name', 'Users.email', 'Pilots.*')
+            ->paginate(10);
+
+        $cities = City::select('city_id', 'city_name')->orderBy('city_name', 'asc')->get(); // Sort cities alphabetically
+
         return view('admin.pilots', [
             'page' => 'pilots',
-            // Ajoutez ici les données nécessaires pour les pilotes
+            'pilots' => $pilots,
+            'cities' => $cities,
         ]);
+    }
+
+    public function storePilot(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'first_name' => 'required|string|max:50',
+                'last_name' => 'required|string|max:50',
+                'email' => 'required|email|max:50|unique:users,email',
+                'password' => 'required|string|min:8',
+                'street' => 'nullable|string|max:50',
+                'street_number' => 'nullable|integer',
+                'city_id' => 'required|exists:cities,city_id',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+            }
+
+            $user = new User();
+            $user->first_name = $request->input('first_name');
+            $user->last_name = $request->input('last_name');
+            $user->email = $request->input('email');
+            $user->password = bcrypt($request->input('password'));
+            $user->street = $request->input('street');
+            $user->street_number = $request->input('street_number');
+            $user->city_id = $request->input('city_id');
+            $user->save();
+
+            $pilot = new Pilot();
+            $pilot->user_id = $user->user_id;
+            $pilot->save();
+
+            return response()->json(['message' => 'Pilote créé avec succès'], 201);
+        } catch (\Exception $e) {
+            \Log::error('Erreur dans storePilot : ' . $e->getMessage());
+            return response()->json(['error' => 'Erreur interne'], 500);
+        }
     }
 
     public function students()
     {
-        // Logique pour récupérer les données des étudiants
+        $students = Student::join('Users', 'Students.user_id', '=', 'Users.user_id')
+            ->select('Users.first_name', 'Users.last_name', 'Users.email', 'Students.*')
+            ->paginate(10); // Removed get() before paginate()
+
+        $cities = City::all();
+
         return view('admin.students', [
             'page' => 'students',
-            // Ajoutez ici les données nécessaires pour les étudiants
+            'students' => $students,
+            'cities' => $cities,
         ]);
     }
 
     public function applications()
     {
-        // Logique pour récupérer les données des candidatures
+        $applications = Application::with(['student.user', 'offer.company', 'status'])
+            ->paginate(10); // Fetch applications with related data
+
         return view('admin.applications', [
             'page' => 'applications',
-            // Ajoutez ici les données nécessaires pour les candidatures
+            'applications' => $applications, // Pass paginated applications to the view
         ]);
     }
 
@@ -67,5 +141,48 @@ class AdminController extends Controller
             'page' => 'settings',
             // Ajoutez ici les données nécessaires pour les paramètres
         ]);
+    }
+
+    public function editPilot($id)
+    {
+        try {
+            $pilot = \App\Models\Pilot::findOrFail($id);
+            return view('admin.pilots.edit', compact('pilot'));
+        } catch (\Exception $e) {
+            \Log::error('Error fetching pilot data: ' . $e->getMessage());
+            return redirect()->route('admin.pilots')->with('error', 'Une erreur est survenue lors de la récupération des données du pilote.');
+        }
+    }
+
+    public function updatePilot(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|max:100',
+            'phone' => 'nullable|string|max:20',
+        ]);
+
+        try {
+            $pilot = \App\Models\Pilot::findOrFail($id);
+            $pilot->update($validatedData);
+
+            return redirect()->route('admin.pilots')->with('success', 'Pilote mis à jour avec succès.');
+        } catch (\Exception $e) {
+            \Log::error('Error updating pilot: ' . $e->getMessage());
+            return redirect()->route('admin.pilots')->with('error', 'Une erreur est survenue lors de la mise à jour du pilote.');
+        }
+    }
+
+    public function destroyPilot($id)
+    {
+        try {
+            $pilot = \App\Models\Pilot::findOrFail($id);
+            $pilot->delete();
+
+            return redirect()->route('admin.pilots')->with('success', 'Pilote supprimé avec succès.');
+        } catch (\Exception $e) {
+            \Log::error('Error deleting pilot: ' . $e->getMessage());
+            return redirect()->route('admin.pilots')->with('error', 'Une erreur est survenue lors de la suppression du pilote.');
+        }
     }
 }

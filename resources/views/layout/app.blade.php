@@ -26,28 +26,39 @@
                 </div>
             </a>
 
-            <!-- Liens de navigation -->
+            <!-- Navigation Links -->
             <div class="nav-links">
-                <a href="{{ route('home') }}" class="nav-link">Accueil</a>
-                <a href="{{ route('offers.list') }}" class="nav-link">Offres</a>
-                <a href="{{ route('companies.list') }}" class="nav-link">Entreprises</a>
-                <a href="{{ route('contact') }}" class="nav-link">Contact</a>
-            </div>
+                <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Accueil</a>
+                <a href="{{ route('about') }}" class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}">À propos</a>
+                <a href="{{ route('careers') }}" class="nav-link {{ request()->routeIs('careers') ? 'active' : '' }}">Carrières</a>
+                <a href="{{ route('contact') }}" class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a>
 
-            <!-- Boutons d'authentification -->
-            <div class="auth-buttons">
-                @if (Auth::check())
-                    <form id="logoutForm" action="{{ route('logout') }}" method="POST"
-                        style="display: none; text-decoration: none;">
+                <!-- Mobile Auth Buttons -->
+                <div class="mobile-auth-buttons">
+                    @if (Auth::check())
+                    <form id="logoutForm" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
                     </form>
-                    <a href="#" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();"
-                        class="btn btn-primary">
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();" class="btn btn-primary">
                         Déconnexion
                     </a>
+                    @else
+                    <a href="{{ route('login') }}" class="btn btn-primary">Se connecter</a>
+                    @endif
+                </div>
+            </div>
+
+            <!-- Desktop Auth Buttons -->
+            <div class="auth-buttons">
+                @if (Auth::check())
+                <form id="logoutForm" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+                <a href="#" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();" class="btn btn-primary">
+                    Déconnexion
+                </a>
                 @else
-                    <button onclick="window.location.href='{{ route('login') }}'" class="btn btn-primary">Se
-                        connecter</button>
+                <a href="{{ route('login') }}" class="btn btn-primary">Se connecter</a>
                 @endif
             </div>
 
@@ -82,7 +93,6 @@
                     <h3>À propos</h3>
                     <ul>
                         <li><a href="{{ route('about') }}">Qui sommes-nous</a></li>
-                        <li><a href="{{ route('blog') }}">Blog</a></li>
                         <li><a href="{{ route('careers') }}">Carrières</a></li>
                     </ul>
                 </div>
@@ -90,18 +100,17 @@
                 <div class="footer-section">
                     <h3>Ressources</h3>
                     <ul>
-                        <li><a href="#">Guide</a></li>
-                        <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Support</a></li>
+                        <li><a href="{{ route('guide') }}">Guide</a></li>
+                        <li><a href="{{ route('support') }}">Support</a></li>
                     </ul>
                 </div>
                 <!-- Section "Légal" -->
                 <div class="footer-section">
                     <h3>Légal</h3>
                     <ul>
-                        <li><a href="#">Mentions légales</a></li>
-                        <li><a href="#">CGU</a></li>
-                        <li><a href="#">Confidentialité</a></li>
+                        <li><a href="{{ route('legal') }}">Mentions légales</a></li>
+                        <li><a href="{{ route('cgu') }}">CGU</a></li>
+                        <li><a href="{{ route('privacy') }}">Confidentialité</a></li>
                     </ul>
                 </div>
                 <!-- Section "Suivez-nous" -->

@@ -2,58 +2,58 @@
 
 @section('title', ucfirst($page))
 
-@push('styles')
-    @vite(['file' => "resources/css/{$page}.css"])
-@endpush
-
 @section('content')
     <div class="container">
-        <h1>Liste des Entreprises</h1>
-
-        <!-- Vérifier si des entreprises existent -->
-        @if ($companies->isEmpty())
-            <div class="alert alert-warning">
-                Aucune entreprise trouvée.
-            </div>
-        @else
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Nom de l'entreprise</th>
-                        <th>Description</th>
-                        <th>Téléphone</th>
-                        <th>Email</th>
-                        <th>Candidatures</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($companies as $company)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td> <!-- Affiche le numéro d'ordre de l'entreprise -->
-                            <td>{{ $company->company_name }}</td>
-                            <td>{{ Str::limit($company->description, 50) }}
-                                <!-- Limite la description à 50 caractères -->
-                            </td>
-                            <td>{{ $company->phone }}</td>
-                            <td>{{ $company->email }}</td>
-                            <td>{{ $company->candidatures }}</td>
-                            <td>
-                                <!-- Lien vers la page de détails de l'entreprise -->
-                                <a href="{{ route('companies.show', ['id' => $company->company_id]) }}"
-                                    class="btn btn-outline">Voir</a>
-
-
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-outline-danger">Supprimer</button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        @endif
+        <section class="about-section">
+            <h1>Liste des Entreprises</h1>
+            <!-- Vérifier si des offres existent -->
+            @if ($companies->isEmpty())
+                <div class="alert alert-warning">
+                    Aucune entreprise trouvée.
+                </div>
+            @else
+                <div class="data-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Entreprise</th>
+                                <th>Description</th>
+                                <th>Téléphone</th>
+                                <th>Email</th>
+                                <th>Ville</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($companies as $company)
+                                <tr>
+                                    <td>
+                                        <div class="company-info">
+                                            <span>{{ $company->company_name }}</span>
+                                        </div>
+                                    </td>
+                                    <td>{{ Str::limit($company->description, 30) }}</td>
+                                    <!-- Limiter la description à 50 caractères -->
+                                    <td>{{ preg_replace('/\s+/', '', $company->phone) }}</td>
+                                    <!-- Supprimer les espaces dans le numéro de téléphone -->
+                                    <td>{{ $company->email }}</td>
+                                    <td>{{ $company->city->city_name }}</td>
+                                    <td>
+                                        <!-- Lien vers la page de détails de l'entreprise -->
+                                        <a href="{{ route('companies.show', ['id' => $company->company_id]) }}"
+                                            class="btn btn-outline">Voir</a>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination">
+                    {{ $companies->links('pagination::bootstrap-4') }}
+                </div>
+            @endif
+        </section>
     </div>
 @endsection

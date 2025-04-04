@@ -11,18 +11,15 @@
     <section class="hero">
         <div class="container">
             <h1>Trouvez votre stage comme jamais auparavant</h1>
-            <p>Une plateforme innovante qui révolutionne la recherche de stages grâce à l'IA</p>
+            <p>Une plateforme innovante qui révolutionne la recherche de stages</p>
             <div class="hero-buttons">
-                <button class="btn btn-primary">
+                <button onclick="window.location.href='{{ route('login') }}'" class="btn btn-primary">
                     Je suis étudiant
                     <!-- Icône fléchée dans le bouton -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="m9 18 6-6-6-6" />
                     </svg>
-                </button>
-                <button class="btn btn-outline">
-                    Je suis une entreprise
                 </button>
             </div>
         </div>
@@ -42,7 +39,7 @@
                         <path d="M19 11h2" />
                         <path d="M19 15h2" />
                     </svg>
-                    <h3>IA Matching</h3>
+                    <h3>Matching</h3>
                     <p>Trouvez les stages parfaits grâce à notre algorithme de matching intelligent</p>
                 </div>
                 <!-- FEATURE CARD 2: Suivi en temps réel -->
@@ -109,11 +106,11 @@
                 <!-- Testimonial 1 -->
                 <div class="testimonial-card">
                     <div class="testimonial-header">
-                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3"
-                            alt="Sophie Martin">
+                        <img src="https://media.licdn.com/dms/image/v2/D4E03AQHsTWVT8Y9Ntg/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1728739304770?e=1749081600&v=beta&t=Pr02Z7OeI3TWr794hfkll2KNq2BaK8OgjKZ78qmYOOc"
+                            alt="Martin Caparros">
                         <div>
-                            <h3>Sophie Martin</h3>
-                            <p>Étudiante en Marketing Digital</p>
+                            <h3>Martin Caparros</h3>
+                            <p>Étudiant en Marketing Digital</p>
                         </div>
                     </div>
                     <div class="testimonial-content">
@@ -125,7 +122,7 @@
                             <path
                                 d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
                         </svg>
-                        <p>WorknGo a complètement changé ma recherche de stage ! L'IA m'a trouvé le stage parfait en
+                        <p>WorknGo a complètement changé ma recherche de stage ! J'ai trouvé le stage parfait en
                             quelques jours seulement.</p>
                     </div>
                     <div class="testimonial-rating">
@@ -135,10 +132,10 @@
                 <!-- Testimonial 2 -->
                 <div class="testimonial-card">
                     <div class="testimonial-header">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3"
+                        <img src="https://media.licdn.com/dms/image/v2/D4E03AQEEV4C4nOtDLg/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1724408433618?e=1749081600&v=beta&t=Z2JR-MR3-bYsgD9kDwiJQEpugPuvWFxWhdxVJwhCpmw"
                             alt="Thomas Dubois">
                         <div>
-                            <h3>Thomas Dubois</h3>
+                            <h3>Arthur Roux</h3>
                             <p>Étudiant en Informatique</p>
                         </div>
                     </div>
@@ -151,8 +148,8 @@
                             <path
                                 d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
                         </svg>
-                        <p>Une plateforme incroyable qui m'a permis de trouver un stage dans une startup innovante. Le
-                            matching par IA est vraiment efficace !</p>
+                        <p>Une plateforme incroyable qui m'a permis de trouver un stage dans une startup innovante. Je
+                            recommande !</p>
                     </div>
                     <div class="testimonial-rating">
                         ★★★★★
@@ -165,7 +162,7 @@
                             alt="Antoine Roure">
                         <div>
                             <h3>Antoine Roure</h3>
-                            <p>Gros neuille</p>
+                            <p>Etudiant en Ressources Humaines</p>
                         </div>
                     </div>
                     <div class="testimonial-content">

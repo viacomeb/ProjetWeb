@@ -30,4 +30,9 @@ class City extends Model
     {
         return $this->hasMany(Company::class, 'city_id');
     }
+
+    public function country()
+    {
+        return $this->belongsToThrough(Country::class, Department::class, 'department_id', 'country_id');
+    }
 }

@@ -279,6 +279,30 @@ body {
   color: var(--color-text);
 }
 
+.sidebar-footer {
+  margin-top: auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--color-text-secondary);
+  background-color: var(--color-gray-light);
+  padding: 12px 15px;
+  border-radius: var(--border-radius);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
 /* Main Content Styles */
 .main-content {
   flex: 1;
@@ -876,6 +900,54 @@ input:checked + .slider:before {
   gap: 20px;
 }
 
+/* Pagination Styles */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+  list-style: none; /* Hide bullet points */
+}
+
+.pagination a,
+.pagination span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--color-gray-light);
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  transition: 0.3s ease;
+  border: 2px solid transparent; /* Add border for hover and active effects */
+}
+
+.pagination a:hover {
+  border-color: var(
+    --color-primary
+  ); /* Change border color instead of background */
+  color: var(--color-primary); /* Change text color */
+}
+
+.pagination .disabled {
+  color: var(--color-text-secondary);
+  cursor: not-allowed;
+}
+
+.pagination .arrow {
+  font-size: 1.5rem;
+  color: var(--color-text-secondary);
+}
+
+.pagination .active {
+  border: 2px solid var(--color-primary); /* Add primary-colored border */
+  border-radius: 50%;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .sidebar {
@@ -894,13 +966,13 @@ input:checked + .slider:before {
   .charts-container {
     grid-template-columns: 1fr;
   }
-}
 
-@media (max-width: 768px) {
   .stats-cards {
     grid-template-columns: 1fr;
   }
+}
 
+@media (max-width: 768px) {
   .header {
     flex-direction: column;
     height: auto;
@@ -915,4 +987,62 @@ input:checked + .slider:before {
   .settings-grid {
     grid-template-columns: 1fr;
   }
+
+  .data-table table {
+    font-size: 0.9rem;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 10px;
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .sidebar {
+    position: absolute;
+    left: -250px;
+    transition: left 0.3s ease;
+    z-index: 2000;
+  }
+
+  .sidebar.active {
+    left: 0;
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+
+  .sidebar-toggle {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2100;
+  }
+}
+
+/* Offer Row Hover Effect */
+.offer-row:hover {
+  background-color: #28313d;
+  transition: background-color 0.3s ease;
+}
+
+.company-row:hover {
+  background-color: #28313d;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
 }
