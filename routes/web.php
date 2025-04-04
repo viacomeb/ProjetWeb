@@ -65,7 +65,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/applications', [AdminController::class, 'applications'])->name('applications');
         Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
 
-        // Companies management&
+        // Companies management
         Route::get('/companies', [AdminController::class, 'companies'])->name('companies');
         Route::post('/companies/store', [CompaniesController::class, 'store'])->name('companies.store');
         Route::put('/companies/update/{id}', [CompaniesController::class, 'update'])->name('companies.update');
@@ -82,6 +82,9 @@ Route::middleware(['auth'])->group(function () {
         // Pilot management
         Route::get('/pilots', [AdminController::class, 'pilots'])->name('pilots');
         Route::post('/pilots/store', [AdminController::class, 'storePilot'])->name('pilots.store');
+        Route::get('/pilots/{id}', [AdminController::class, 'editPilot'])->name('pilots.edit');
+        Route::put('/pilots/update/{id}', [AdminController::class, 'updatePilot'])->name('pilots.update');
+        Route::delete('/pilots/destroy/{id}', [AdminController::class, 'destroyPilot'])->name('pilots.destroy');
     });
 
     Route::middleware([RoleMiddleware::class . ':pilot'])->prefix('pilots')->name('pilots.')->group(function () {

@@ -1,6 +1,56 @@
 document.addEventListener('DOMContentLoaded', function () {
   console.log('Script chargé : student_dashboard.js');
 
+  // Gestion du menu burger
+  const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+  const sidebar = document.querySelector('.sidebar');
+  const body = document.body;
+
+  // Fonction pour réinitialiser le menu burger
+  function resetMenuBurger() {
+    if (mobileMenuBtn) {
+      mobileMenuBtn.classList.remove('active');
+    }
+    if (sidebar) {
+      sidebar.classList.remove('active');
+    }
+    if (body) {
+      body.style.overflow = '';
+    }
+  }
+
+  if (mobileMenuBtn && sidebar) {
+    mobileMenuBtn.addEventListener('click', function () {
+      this.classList.toggle('active');
+      sidebar.classList.toggle('active');
+      body.style.overflow = sidebar.classList.contains('active')
+        ? 'hidden'
+        : '';
+    });
+
+    // Fermer le menu en cliquant en dehors
+    document.addEventListener('click', function (event) {
+      if (
+        sidebar.classList.contains('active') &&
+        !sidebar.contains(event.target) &&
+        !mobileMenuBtn.contains(event.target)
+      ) {
+        resetMenuBurger();
+      }
+    });
+
+    // Fermer le menu en cliquant sur un lien
+    const navLinks = document.querySelectorAll('.nav-links a');
+    navLinks.forEach((link) => {
+      link.addEventListener('click', function () {
+        resetMenuBurger();
+      });
+    });
+
+    // Réinitialiser le menu lors du changement de page
+    window.addEventListener('beforeunload', resetMenuBurger);
+  }
+
   const starRating = document.querySelector('.star-rating');
   const ratingValue = document.getElementById('ratingValue'); // Déclarez `ratingValue` ici
 

@@ -61,6 +61,11 @@
         <main class="main-content">
             <!-- Header -->
             <header class="header">
+                <button class="mobile-menu-btn" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
                 <div class="search-bar">
                     <i class="fas fa-search"></i>
                     <input type="text" placeholder="Rechercher une offre..." />

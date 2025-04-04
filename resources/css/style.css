@@ -93,22 +93,37 @@ body {
 }
 
 .mobile-menu-btn {
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: space-between;
-  width: 24px;
-  height: 20px;
+  width: 30px;
+  height: 24px;
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
+  z-index: 1000;
 }
 
 .mobile-menu-btn span {
+  display: block;
   width: 100%;
-  height: 2px;
+  height: 3px;
   background-color: var(--color-text);
-  transition: 0.3s;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-btn.active span:nth-child(1) {
+  transform: translateY(10px) rotate(45deg);
+}
+
+.mobile-menu-btn.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-menu-btn.active span:nth-child(3) {
+  transform: translateY(-10px) rotate(-45deg);
 }
 
 /* Button Styles */
@@ -469,6 +484,52 @@ th {
   border-radius: 50%;
 }
 
+/* Nav Links */
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-links.active {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--color-background);
+  padding: 80px 20px 20px;
+  z-index: 999;
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Mobile Auth Buttons */
+.mobile-auth-buttons {
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.mobile-auth-buttons .btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  text-align: center;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
 /* Media Queries */
 @media (min-width: 768px) {
   .nav-links {
@@ -504,5 +565,39 @@ th {
 
   .contact-grid {
     grid-template-columns: 1fr 1fr; /* Two-column layout for larger screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: flex;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .nav-link {
+    padding: 15px;
+    width: 100%;
+    text-align: center;
+    font-size: 1.2rem;
+  }
+
+  .auth-buttons {
+    display: none;
+  }
+
+  .mobile-auth-buttons {
+    display: flex;
+  }
+
+  .mobile-auth-buttons .btn {
+    width: 100%;
+    margin: 5px 0;
   }
 }
