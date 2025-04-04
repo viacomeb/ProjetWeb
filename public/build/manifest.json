@@ -1,0 +1,83 @@
+{
+  "_auto.C0VlNTRY.js": {
+    "file": "assets/auto.C0VlNTRY.js",
+    "name": "auto"
+  },
+  "resources/css/admin_dashboard.css": {
+    "file": "assets/admin_dashboard.Djnt0LF4.css",
+    "src": "resources/css/admin_dashboard.css",
+    "isEntry": true
+  },
+  "resources/css/dashboard.css": {
+    "file": "assets/dashboard.B2pY5y96.css",
+    "src": "resources/css/dashboard.css",
+    "isEntry": true
+  },
+  "resources/css/home.css": {
+    "file": "assets/home.B4v5Q7gr.css",
+    "src": "resources/css/home.css",
+    "isEntry": true
+  },
+  "resources/css/login.css": {
+    "file": "assets/login.CvK6N0uH.css",
+    "src": "resources/css/login.css",
+    "isEntry": true
+  },
+  "resources/css/pilot_dashboard.css": {
+    "file": "assets/pilot_dashboard.ZnPsGhrr.css",
+    "src": "resources/css/pilot_dashboard.css",
+    "isEntry": true
+  },
+  "resources/css/student_dashboard.css": {
+    "file": "assets/student_dashboard.CUQ3EyE2.css",
+    "src": "resources/css/student_dashboard.css",
+    "isEntry": true
+  },
+  "resources/css/style.css": {
+    "file": "assets/style.BblXmYtS.css",
+    "src": "resources/css/style.css",
+    "isEntry": true
+  },
+  "resources/js/admin_dashboard.js": {
+    "file": "assets/admin_dashboard.D5os0VrX.js",
+    "name": "admin_dashboard",
+    "src": "resources/js/admin_dashboard.js",
+    "isEntry": true,
+    "imports": [
+      "_auto.C0VlNTRY.js"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "assets/app.CY9nVdxY.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  },
+  "resources/js/auth.js": {
+    "file": "assets/auth.vYuva8nr.js",
+    "name": "auth",
+    "src": "resources/js/auth.js",
+    "isEntry": true
+  },
+  "resources/js/dashboard.js": {
+    "file": "assets/dashboard.oFb07fa1.js",
+    "name": "dashboard",
+    "src": "resources/js/dashboard.js",
+    "isEntry": true
+  },
+  "resources/js/pilot_dashboard.js": {
+    "file": "assets/pilot_dashboard.quUYIxy8.js",
+    "name": "pilot_dashboard",
+    "src": "resources/js/pilot_dashboard.js",
+    "isEntry": true,
+    "imports": [
+      "_auto.C0VlNTRY.js"
+    ]
+  },
+  "resources/js/student_dashboard.js": {
+    "file": "assets/student_dashboard.DnjJ6OkA.js",
+    "name": "student_dashboard",
+    "src": "resources/js/student_dashboard.js",
+    "isEntry": true
+  }
+}
