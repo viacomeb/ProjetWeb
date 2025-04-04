@@ -16,10 +16,7 @@
     },
     "dependencies": {
         "@vitejs/plugin-vue": "^5.2.3",
-        "analysis.js": "^1.1.0",
-        "chart": "^0.1.2",
         "chart.js": "^4.4.8",
-        "js": "^0.1.0",
         "vue": "^3.5.13"
     }
 }
