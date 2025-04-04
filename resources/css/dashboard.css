@@ -194,6 +194,36 @@ body {
   border-radius: 0.75rem;
 }
 
+/* Search bar */
+.relative {
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-secondary);
+  width: 20px;
+  height: 20px;
+}
+
+input {
+  width: 100%;
+  background-color: #374151;
+  padding: 0.5rem 1rem 0.5rem 2.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  color: white;
+  outline: none;
+}
+
+input:focus {
+  border-color: rgb(47, 0, 255); /* Vert pour fort */
+  box-shadow: 0 0 5px rgba(0, 26, 255, 0.6);
+}
+
 /* Notification dot */
 .notification-dot {
   position: absolute;
