@@ -16,7 +16,7 @@
         <!-- Sidebar -->
         <nav class="sidebar">
             <div class="logo">
-                <i class="fas fa-shield-alt"></i>
+                <img src="{{ asset('images/WorknGo_logo.png') }}" alt="WorknGo Logo" class="logo-img" style="width: 45px; height: auto;">
                 <span>Pilote Panel</span>
             </div>
             <ul class="nav-links">
@@ -66,8 +66,8 @@
                         <span class="badge">5</span>
                     </div>
                     <div class="profile">
-                        <img src="https://ui-avatars.com/api/?name=Admin" alt="Profile" />
-                        <span>Administrateur</span>
+                        <img src="https://ui-avatars.com/api/?name=Pilote" alt="Profile" />
+                        <span>Pilote</span>
                     </div>
                 </div>
             </header>

@@ -113,7 +113,7 @@ class OffersController extends Controller
             'salary' => 'nullable|numeric|min:0',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
-            'company_id' => 'required|exists:Companies,company_id',
+            'company_id' => 'required|exists:companies,company_id', // Fixed table name casing
         ]);
 
         // Set default values for view_count and is_active
@@ -122,7 +122,7 @@ class OffersController extends Controller
 
         Offer::create($validatedData);
 
-        return redirect()->route('admin.internships')->with('success', 'Offre créée avec succès.');
+        return response()->json(['success' => true, 'message' => 'Offre créée avec succès.']);
     }
 
     public function update(Request $request, $id)
@@ -133,13 +133,13 @@ class OffersController extends Controller
             'salary' => 'nullable|numeric|min:0',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
-            'company_id' => 'required|exists:Companies,company_id',
+            'company_id' => 'required|exists:companies,company_id', // Fixed table name casing
         ]);
 
         $offer = Offer::findOrFail($id);
         $offer->update($validatedData);
 
-        return redirect()->route('offers.list')->with('success', 'Offre mise à jour avec succès.');
+        return response()->json(['success' => true, 'message' => 'Offre mise à jour avec succès.']);
     }
 
     public function count()
@@ -163,9 +163,18 @@ class OffersController extends Controller
     public function edit($id)
     {
         try {
-            $offer = Offer::with(['company'])->findOrFail($id);
+            $offer = Offer::with('company')->findOrFail($id); // Ensure 'company' relationship is loaded
 
-            return response()->json($offer);
+            return response()->json([
+                'offer_id' => $offer->id,
+                'title' => $offer->title,
+                'description' => $offer->description,
+                'salary' => $offer->salary,
+                'start_date' => $offer->start_date,
+                'end_date' => $offer->end_date,
+                'company_id' => $offer->company->company_id ?? null,
+                'company_name' => $offer->company->company_name ?? 'Non spécifié',
+            ]);
         } catch (\Exception $e) {
             \Log::error('Error fetching offer data: ' . $e->getMessage());
             return response()->json(['error' => 'Failed to fetch offer data.'], 500);

@@ -433,6 +433,10 @@ body {
   position: relative;
 }
 
+.offer-card:hover {
+  cursor: pointer;
+}
+
 .offer-match {
   position: absolute;
   top: 1rem;
