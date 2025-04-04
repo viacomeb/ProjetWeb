@@ -2,10 +2,6 @@
 
 @section('title', ucfirst($page))
 
-@push('styles')
-    @vite(['file' => "resources/css/{$page}.css"])
-@endpush
-
 @section('content')
     <div class="container">
         <section class="about-section">

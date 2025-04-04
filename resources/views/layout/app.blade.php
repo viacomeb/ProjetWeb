@@ -28,22 +28,30 @@
 
             <!-- Navigation Links -->
             <div class="nav-links">
-                <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Accueil</a>
-                <a href="{{ route('about') }}" class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}">À propos</a>
-                <a href="{{ route('careers') }}" class="nav-link {{ request()->routeIs('careers') ? 'active' : '' }}">Carrières</a>
-                <a href="{{ route('contact') }}" class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a>
+                <a href="{{ route('home') }}"
+                    class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Accueil</a>
+                <a href="{{ route('companies.publiclist') }}"
+                    class="nav-link {{ request()->routeIs('companies.publiclist') ? 'active' : '' }}">Entreprises</a>
+                <a href="{{ route('offers.list') }}"
+                    class="nav-link {{ request()->routeIs('offers.list') ? 'active' : '' }}">Offres</a>
+                <a href="{{ route('careers') }}"
+                    class="nav-link {{ request()->routeIs('careers') ? 'active' : '' }}">Carrières</a>
+                <a href="{{ route('contact') }}"
+                    class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a>
 
                 <!-- Mobile Auth Buttons -->
                 <div class="mobile-auth-buttons">
                     @if (Auth::check())
-                    <form id="logoutForm" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-                    <a href="#" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();" class="btn btn-primary">
-                        Déconnexion
-                    </a>
+                        <form id="logoutForm" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                        <a href="#"
+                            onclick="event.preventDefault(); document.getElementById('logoutForm').submit();"
+                            class="btn btn-primary">
+                            Déconnexion
+                        </a>
                     @else
-                    <a href="{{ route('login') }}" class="btn btn-primary">Se connecter</a>
+                        <a href="{{ route('login') }}" class="btn btn-primary">Se connecter</a>
                     @endif
                 </div>
             </div>
@@ -51,14 +59,15 @@
             <!-- Desktop Auth Buttons -->
             <div class="auth-buttons">
                 @if (Auth::check())
-                <form id="logoutForm" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
-                <a href="#" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();" class="btn btn-primary">
-                    Déconnexion
-                </a>
+                    <form id="logoutForm" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();"
+                        class="btn btn-primary">
+                        Déconnexion
+                    </a>
                 @else
-                <a href="{{ route('login') }}" class="btn btn-primary">Se connecter</a>
+                    <a href="{{ route('login') }}" class="btn btn-primary">Se connecter</a>
                 @endif
             </div>
 
